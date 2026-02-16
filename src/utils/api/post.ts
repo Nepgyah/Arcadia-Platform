@@ -23,7 +23,7 @@ export const apiPOST = async <T>(url: string, body: any): Promise<T> => {
                 description: `${data.detail}`,
                 type: 'error'
             })
-            throw ''
+            throw 'Error occurred from the api'
         } else {
             return res.json();
         }
@@ -35,6 +35,6 @@ export const apiPOST = async <T>(url: string, body: any): Promise<T> => {
             description: 'Unable to make api call',
             type: 'error'
         })
-        throw ''
+        throw 'Error attempting to call api'
     }
 }
