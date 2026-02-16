@@ -1,5 +1,9 @@
+'use client';
+
 import SideNav from "@/components/navigation/sideNav"
 import TopNav from "@/components/navigation/topNav"
+import { mainboard, miruNav } from "@/utils/data/urls";
+import { usePathname } from "next/navigation"
 
 export default function Layout(
     {
@@ -8,11 +12,20 @@ export default function Layout(
         children : React.ReactNode
     }
 ) {
+
+    const pathname = usePathname()
+
+    const getNav = () : any => {
+        if (pathname.startsWith('/miru')) return miruNav
+        else return mainboard
+    }
+
+    const nav = getNav()
     return (
         <div id="main-layout">
             <TopNav />
             <div className="side-layout">
-                <SideNav />
+                <SideNav urlSet={nav} />
                 <div id="content">
                     {children}
                 </div>

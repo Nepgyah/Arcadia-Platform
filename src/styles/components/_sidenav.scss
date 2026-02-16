@@ -6,4 +6,10 @@
     height: calc(100dvh - 64px);
     padding: 1rem;
     border-right: 1px solid #33343a;
+
+    .links {
+        display: flex;
+        flex-direction: column;
+        row-gap: .5rem;
+    }
 }
