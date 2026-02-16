@@ -1,0 +1,9 @@
+.animation-hover {
+    transition: transform .25s ease-in-out;
+    
+    &--on-click {
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}

@@ -1,5 +1,7 @@
 import { Provider } from "@/components/ui/provider";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
+import '@/styles/_main.scss';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Provider>
+          <Toaster />
           {children}
         </Provider>
       </body>

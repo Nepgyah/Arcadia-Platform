@@ -1,0 +1,40 @@
+@forward 'components';
+@use './utils/variables' as *;
+// @forward 'layouts';
+@forward 'utils';
+
+@use "sass:map";
+
+html {
+    body {
+        background-color: map.get($colors, platform-base);
+        #main-layout {
+            .side-layout {
+                #side-nav {
+                    display: none;
+                }
+            }
+
+            #content {
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    html {
+        body {
+            #main-layout {
+                .side-layout {
+                    display: grid;
+                    grid-template-columns: 150px 1fr;
+
+                    #side-nav {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}

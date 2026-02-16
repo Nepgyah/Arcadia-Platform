@@ -1,0 +1,9 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+
+#side-nav {
+    background-color: map.get($colors, platform-dark);
+    height: calc(100dvh - 64px);
+    padding: 1rem;
+    border-right: 1px solid #33343a;
+}
