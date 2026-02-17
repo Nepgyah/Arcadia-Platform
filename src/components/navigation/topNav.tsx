@@ -5,12 +5,14 @@ import { Avatar, Button, Drawer, IconButton } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Hamburger } from "lucide-react";
 import { d2xAPI } from "@/utils/api/d2xAPI";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 export default function TopNav() {
     
     useEffect(() => {
         const fetchData = async () => {
             
             const res =  await d2xAPI.GET('auth/exchange/')
+            // await arcadiaAPI.GET('util/csrf/')
         }
 
         fetchData()
