@@ -1,3 +1,5 @@
+import '@/styles/pages/miru/_miru-layout.scss';
+
 export default function MiruLayout(
     {
         children

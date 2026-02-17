@@ -1,0 +1,147 @@
+@use '../../utils/variables' as *;
+@use "sass:map";
+
+#page-anime-details {
+    #hero {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        
+        div {
+            background-color: #1C1D21;
+
+            &:first-child {
+
+                #hero-image {
+                    height: 150px;
+                    width: 100%;
+                    object-fit: cover;
+                }
+
+                #hero-text {
+                    padding: 1rem;
+                    
+                    #title {
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                    }
+
+                    #summary {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 6;
+                        -webkit-box-orient: vertical;
+                    }
+                }
+
+                #summary {
+
+                }
+            }
+        }
+    }
+    .split-content {
+        .details {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        #overview-tab {
+            #overview-characters {
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    #page-anime-details {
+        .split-content {
+            .details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #page-anime-details {
+        #hero {
+            display: grid;
+            grid-template-columns: 4fr 3fr;
+            column-gap: 2rem;
+        }
+        .split-content {
+            #overview-tab {
+                #overview-characters {
+                    .container {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #page-anime-details {
+        .split-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            column-gap: 2rem;
+            .details {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    #page-anime-details {
+        #hero {
+            div {
+
+                &:first-child {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    height: 250px;
+
+                    #hero-image {
+                        order: 2;
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                    }
+
+                    #hero-text {
+                        order: 1;
+                    }
+
+                }
+            }
+        }
+        .split-content {
+            #overview-tab {
+                #overview-characters {
+                    .container {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        gap: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}

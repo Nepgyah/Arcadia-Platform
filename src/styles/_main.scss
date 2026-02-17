@@ -1,12 +1,19 @@
 @forward 'components';
 @use './utils/variables' as *;
-// @forward 'layouts';
+@forward 'layouts';
 @forward 'utils';
-
+@forward './base/reset';
+@forward './base/typography';
 @use "sass:map";
 
 html {
     body {
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+        }
         background-color: map.get($colors, platform-base);
         #main-layout {
             .side-layout {

@@ -1,0 +1,22 @@
+.flex {
+    display: flex;
+
+    &-column {
+        flex-direction: column;
+    }
+
+}
+
+.row-gap {
+    &-sm {
+        row-gap: .5rem;
+    }
+
+    &-md {
+        row-gap: 1rem;
+    }
+
+    &-lg {
+        row-gap: 1.5rem;
+    }
+}
