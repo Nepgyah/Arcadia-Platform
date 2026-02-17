@@ -27,6 +27,7 @@
                     }
 
                     #summary {
+                        font-size: .85rem;
                         text-overflow: ellipsis;
                         overflow: hidden;
                         display: -webkit-box;
@@ -49,6 +50,11 @@
             margin-bottom: 1rem;
         }
         #overview-tab {
+            #genres-franchise {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
             #overview-characters {
                 .container {
                     display: flex;
@@ -93,6 +99,19 @@
     }
 }
 
+@media only screen and (min-width: 900px) {
+    #page-anime-details {
+        .split-content {
+            #overview-tab {
+                #genres-franchise {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    column-gap: 1rem;
+                }
+            }
+        }
+    }
+}
 @media only screen and (min-width: 1200px) {
     #page-anime-details {
         .split-content {

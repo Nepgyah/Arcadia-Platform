@@ -8,13 +8,15 @@
 
 html {
     body {
+        height: auto;
+        background-color: map.get($colors, platform-base);
+        
         h1 {
             font-size: 2rem;
         }
         h2 {
             font-size: 1.5rem;
         }
-        background-color: map.get($colors, platform-base);
         #main-layout {
             .side-layout {
                 #side-nav {

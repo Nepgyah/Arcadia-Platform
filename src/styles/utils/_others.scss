@@ -1,3 +1,29 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+@use "sass:string";
+
+@each $name, $color in $colors {
+    .clr-#{$name} {
+        color: #{$color} !important
+    }
+
+    .bg-#{$name} {
+        background-color: #{$color} !important
+    }
+
+    .border-#{$name} {
+        border-color: #{$color} 
+    }
+}
+
+.card {
+    box-shadow: 0px 4px 4px rgba(#000000, .25);
+    overflow: hidden;
+}
+.shadow {
+    box-shadow: 0px 4px 4px rgba(#000000, .25);
+}
+
 .border-radius {
     &-sm { border-radius: 8px; }
     &-md { border-radius: 12px; }

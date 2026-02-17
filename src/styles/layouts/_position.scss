@@ -5,6 +5,13 @@
         flex-direction: column;
     }
 
+    &-wrap {
+        flex-wrap: wrap;
+    }
+
+    &-gap-sm {
+        gap: .5rem;
+    }
 }
 
 .row-gap {

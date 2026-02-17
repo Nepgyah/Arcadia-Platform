@@ -3,7 +3,8 @@
 
 #side-nav {
     background-color: map.get($colors, platform-dark);
-    height: calc(100dvh - 64px);
+    min-height: 100dvh;
+    height: 100%;
     padding: 1rem;
     border-right: 1px solid #33343a;
 

@@ -7,13 +7,17 @@ export async function GetAnime(id: string) {
         animeById(id:${id}) {
             id,
             title,
+            titleJa,
             score,
             users,
             summary,
             type,
+            status,
             rating,
-            titleJa,
             season,
+            genres {
+                name
+            }
         }
     }
     `
