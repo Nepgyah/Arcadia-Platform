@@ -54,6 +54,37 @@
                 display: flex;
                 flex-direction: column;
                 row-gap: 1rem;
+
+                #overview-franchise {
+                    .card {
+                        position: relative;
+                        border-radius: 12px;
+                        
+                        img {
+                            position: relative;
+                            height: 100%;
+                            z-index: 1;
+                        }
+    
+                        .mask {
+                            position: absolute;
+                            z-index: 2;
+                            background: linear-gradient(to top,#000000 0%, rgba(#000000, 25%) 50%);
+                            height: 100%;
+                            width: 100%;
+                            top: 0;
+                        }
+    
+                        p {
+                            position: absolute;
+                            z-index: 3;
+                            bottom: 1rem;
+                            right: 1rem;
+                            font-size: 1.5rem;
+                            font-weight: bold;
+                        }
+                    }
+                }
             }
             #overview-characters {
                 .container {

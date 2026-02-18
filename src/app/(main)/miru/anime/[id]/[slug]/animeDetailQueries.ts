@@ -30,7 +30,7 @@ export async function GetAnimeCharacters(id: string) {
     const query = 
     `
     query {
-        charactersByAnime(id:1) {
+        charactersByAnime(id:${id}) {
             character {
                 id,
                 firstName,
@@ -42,4 +42,18 @@ export async function GetAnimeCharacters(id: string) {
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.charactersByAnime
+}
+
+export async function GetAnimeFranchise(id: string) {
+    const query = 
+    `
+    query {
+        franchiseByAnime(id:${id}) {
+            id,
+            name
+        }
+    }
+    `
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.franchiseByAnime
 }

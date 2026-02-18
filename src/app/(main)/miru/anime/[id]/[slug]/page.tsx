@@ -1,5 +1,5 @@
 import { use } from "react"
-import { GetAnime, GetAnimeCharacters } from "./animeDetailQueries"
+import { GetAnime, GetAnimeCharacters, GetAnimeFranchise } from "./animeDetailQueries"
 
 import '@/styles/pages/miru/_anime-details.scss';
 import Header from "@/components/custom/header";
@@ -15,7 +15,9 @@ export default async function AnimeDetails(
 
     const { id } = await props.params
     const animePromise = GetAnime(id);
-    const charactersPromise = GetAnimeCharacters(id)
+    const charactersPromise = GetAnimeCharacters(id);
+    const franchisePromise = GetAnimeFranchise(id);
+
     return (
         <div id="page-anime-details" className="page-content">
             <Hero animePromise={animePromise}/>
@@ -30,7 +32,7 @@ export default async function AnimeDetails(
                     <div id="overview-tab" className="flex flex-column row-gap-md">
                         <div id="genres-franchise">
                             <OverviewGenres animePromise={animePromise} />
-                            <div>franchise</div>
+                            <OverviewFranchise franchisePromise={franchisePromise} />
                         </div>
                         <div id="overview-characters">
                             <Header text="Characters" />
@@ -129,9 +131,24 @@ function OverviewGenres({animePromise}:{animePromise:Promise<any>}) {
         </div>
     )
 }
+
+function OverviewFranchise({franchisePromise}:{franchisePromise : Promise<any>}) {
+    const franchise = use(franchisePromise)
+
+    return (
+        <div id="overview-franchise">
+            <Header text="Franchise"/>
+            <div className="card">
+                <img src={`/storage/franchise/${franchise.id}.jpg`} />
+                <div className="mask"></div>
+                <p>{franchise.name}</p>
+            </div>
+        </div>
+    )
+}
+
 function OverviewCharacters({charactersPromise}:{charactersPromise : Promise<any>}) {
     const characters = use(charactersPromise)
-    console.log(characters);
 
     return (
         <div className="container">
