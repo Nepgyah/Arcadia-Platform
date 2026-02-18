@@ -138,11 +138,16 @@ function OverviewFranchise({franchisePromise}:{franchisePromise : Promise<any>})
     return (
         <div id="overview-franchise">
             <Header text="Franchise"/>
-            <div className="card">
-                <img src={`/storage/franchise/${franchise.id}.jpg`} />
-                <div className="mask"></div>
-                <p>{franchise.name}</p>
-            </div>
+            {
+                franchise ?
+                    <div className="card">
+                        <img src={`/storage/franchise/${franchise.id}.jpg`} />
+                        <div className="mask"></div>
+                        <p>{franchise.name}</p>
+                    </div>
+                :
+                    <p>No Franchise found</p>
+            }
         </div>
     )
 }

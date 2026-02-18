@@ -1,34 +1,44 @@
-"use client";
+import Header from "@/components/custom/header";
+import { GetPopularAnime, GetRatedAnime } from "./miruHomeQueries"
+import { use } from "react";
+import SimpleMediaCard from "@/components/custom/simple-media-card";
 
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import { useEffect } from "react";
+import '@/styles/pages/miru/_home.scss';
 
-export default function MiruHome() {
+export default async function MiruHome() {
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const query = `
-            query {
-                animeById(id:1) {
-                title,
-                characters {
-                    character {
-                        firstName,
-                        lastName
-                    },
-                    role
-                    }
-                }
-            }
-            `
-            const res = await arcadiaAPI.GraphQL(query)
-            console.log(res)
-        }
-        fetchData()
-    }, [])
+    const popularAnimePromise = GetPopularAnime();
+    const highestRatedAnimePromise = GetRatedAnime();
+
     return (
-        <div>
-            Miru Home
+        <div id="page-miru-home">
+            <div id="anime-lists">
+                <div id="score">
+                    <Header text="Highest Rated" />
+                    <AnimeList animePromise={highestRatedAnimePromise} />
+                </div>
+                <div id="popular">
+                    <Header text="Most Popular" />
+                    <AnimeList animePromise={popularAnimePromise} />
+                </div>
+            </div>
+            <div id="friend-activity">
+                WIP
+            </div>
+        </div>
+    )
+}
+
+function AnimeList({animePromise}:{animePromise: Promise<any>}) {
+    const animes = use(animePromise)
+
+    return (
+        <div className="container">
+            {
+                animes.map((anime: any, idx: number) => (
+                    <SimpleMediaCard key={idx} app="miru" title={anime.title} id={anime.id} slug={anime.slug}/>
+                )) 
+            }
         </div>
     )
 }
