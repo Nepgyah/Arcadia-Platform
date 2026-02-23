@@ -1,0 +1,29 @@
+.flex {
+    display: flex;
+
+    &-column {
+        flex-direction: column;
+    }
+
+    &-wrap {
+        flex-wrap: wrap;
+    }
+
+    &-gap-sm {
+        gap: .5rem;
+    }
+}
+
+.row-gap {
+    &-sm {
+        row-gap: .5rem;
+    }
+
+    &-md {
+        row-gap: 1rem;
+    }
+
+    &-lg {
+        row-gap: 2rem;
+    }
+}

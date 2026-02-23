@@ -1,0 +1,60 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+
+#top-nav {
+    background-color: map.get($colors, platform-dark);
+    height: 80px;
+    border-bottom: 1px solid #33343a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    .icon {
+        order: 2;
+
+        img {
+            height: 48px;
+        }
+    }
+
+    .hamburger {
+        height: 100%;
+        order: 1;
+    }
+
+    .profile {
+        order: 3;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    #top-nav {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        padding: 0;
+        height: 64px;
+
+        .icon {
+            border-right: 1px solid #33343a;
+            order: 1;
+            padding: .5rem;
+
+            img {
+                height: auto;
+                display: flex;
+            }
+        }
+
+        .hamburger {
+            display: none;
+        }
+
+        .profile {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 2rem;
+        }
+    }
+}

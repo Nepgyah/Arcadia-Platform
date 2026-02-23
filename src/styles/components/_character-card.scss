@@ -1,0 +1,36 @@
+@use '../utils/variables' as *;
+@use 'sass:map';
+
+.character-card {
+    background-color: map.get($colors, platform-light);
+    display: grid;
+    grid-template-columns: 75px 1fr 75px ;
+    overflow: hidden;
+    
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .names {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        row-gap: 1rem;
+        font-size: .80rem;
+        
+        > div {
+            p {
+                &:last-child {
+                    opacity: 60%;
+                }
+            }
+        }
+        .voice-actor {
+            text-align: right;
+        }
+    }
+    .voice-actor-picture {
+
+    }
+}

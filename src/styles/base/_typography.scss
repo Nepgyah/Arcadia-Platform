@@ -1,0 +1,10 @@
+.bold {
+    font-weight: bold;
+}
+
+.hover-underline {
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}

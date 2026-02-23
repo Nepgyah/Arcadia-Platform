@@ -1,0 +1,53 @@
+@forward 'components';
+@use './utils/variables' as *;
+@forward 'layouts';
+@forward 'utils';
+@forward './base/reset';
+@forward './base/typography';
+@use "sass:map";
+
+html {
+    body {
+        height: auto;
+        background-color: map.get($colors, platform-base);
+        
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+        }
+        #main-layout {
+            .side-layout {
+                #side-nav {
+                    display: none;
+                }
+            }
+
+            #content {
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    html {
+        body {
+            #main-layout {
+                .side-layout {
+                    display: grid;
+                    grid-template-columns: 150px 1fr;
+
+                    #side-nav {
+                        display: block;
+                    }
+                }
+
+                #content {
+                    padding: 2rem;
+                }
+            }
+        }
+    }
+}

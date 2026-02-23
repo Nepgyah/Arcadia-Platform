@@ -1,0 +1,18 @@
+#page-miru-search {
+    display: flex;
+    flex-direction: column;
+
+    #results {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    #page-miru-search{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        column-gap: 2rem;
+    }
+}

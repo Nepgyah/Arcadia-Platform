@@ -1,0 +1,74 @@
+@use '../utils/variables' as *;
+@use 'sass:map';
+
+.simple-media {
+    width: 100%;
+
+    img {
+        height: 250px;
+        object-fit: cover;
+        margin-bottom: .5rem;
+    }
+
+    p {
+        font-size: 1.25rem;
+    }
+}
+
+.detail-media {
+    width: 350px;
+    background-color: map.get($colors, platform-dark);
+    
+    &__title, &__franchise {
+        padding: 12px;
+        text-align: center;
+    }
+
+    &__title {
+        background-color: map.get($colors, platform-light);
+    }
+    &__metrics {
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 12px;
+    }
+    &__main {
+        height: 250px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        img {
+            height: inherit;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .description {
+            font-size: 12px;
+            padding: .5rem;
+            overflow-y: scroll;
+            background-color: map.get($colors, platform-light);
+        }
+    }
+
+    &__franchise {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .simple-media {
+        width: 160px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .simple-media {
+        width: 220px;
+
+        img {
+            height: 300px;
+        }
+    }
+}

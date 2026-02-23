@@ -1,0 +1,16 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+
+#side-nav {
+    background-color: map.get($colors, platform-dark);
+    min-height: 100dvh;
+    height: 100%;
+    padding: 1rem;
+    border-right: 1px solid #33343a;
+
+    .links {
+        display: flex;
+        flex-direction: column;
+        row-gap: .5rem;
+    }
+}

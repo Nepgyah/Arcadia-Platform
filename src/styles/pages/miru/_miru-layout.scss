@@ -1,0 +1,11 @@
+@use '../../utils/variables' as *;
+@use "sass:map";
+
+#miru-layout {
+    .header {
+        border-color:  map.get($colors, miru-base);
+        &__box {
+            background-color: map.get($colors, miru-base);
+        }
+    }
+}
