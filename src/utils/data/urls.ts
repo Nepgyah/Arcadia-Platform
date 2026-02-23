@@ -4,11 +4,13 @@ export interface url {
 }
 
 export const mainboard: url[] = [
-    { title: 'Home', path: ''}
+    { title: 'Home', path: ''},
+    { title: 'Miru', path: '/miru'}
 ]
 
 export const miruNav: url[] = [
     { title: 'Miru Home', path: '/miru'},
-    { title: 'All Time', path: '/miru/all-time'},
-    { title: 'Most Popular', path: '/miru/popular'}
+    { title: 'Search', path: '/miru/search'},
+    { title: 'Most Popular', path: '/miru/popular'},
+    { title: 'All Time', path: '/miru/all-time'}
 ]

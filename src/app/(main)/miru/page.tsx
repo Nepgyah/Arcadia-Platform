@@ -12,7 +12,7 @@ export default async function MiruHome() {
 
     return (
         <div id="page-miru-home">
-            <div id="anime-lists">
+            <div id="anime-lists" className="flex flex-column row-gap-md">
                 <div id="score">
                     <Header text="Highest Rated" />
                     <AnimeList animePromise={highestRatedAnimePromise} />

@@ -1,3 +1,6 @@
+@use '../utils/variables' as *;
+@use 'sass:map';
+
 .simple-media {
     width: 100%;
 
@@ -9,6 +12,48 @@
 
     p {
         font-size: 1.25rem;
+    }
+}
+
+.detail-media {
+    width: 350px;
+    background-color: map.get($colors, platform-dark);
+    
+    &__title, &__franchise {
+        padding: 12px;
+        text-align: center;
+    }
+
+    &__title {
+        background-color: map.get($colors, platform-light);
+    }
+    &__metrics {
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 12px;
+    }
+    &__main {
+        height: 250px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        img {
+            height: inherit;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .description {
+            font-size: 12px;
+            padding: .5rem;
+            overflow-y: scroll;
+            background-color: map.get($colors, platform-light);
+        }
+    }
+
+    &__franchise {
+        font-size: 12px;
     }
 }
 
