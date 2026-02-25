@@ -8,4 +8,22 @@
             background-color: map.get($colors, miru-base);
         }
     }
+
+    .chakra-table__root {
+        .chakra-table__header {
+            .chakra-table__row {
+                background-color: map.get($colors, miru-base);
+
+                .chakra-table__columnHeader {
+                    color: map.get($colors, txt-dark);
+                }
+            }
+        }
+
+        .chakra-table__body {
+            .chakra-table__row {
+                background-color: map.get($colors, platform-card);
+            }
+        }
+    }
 }
