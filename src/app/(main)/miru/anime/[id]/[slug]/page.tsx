@@ -6,6 +6,7 @@ import Header from "@/components/custom/header";
 import InfoItem from "@/components/custom/info-item";
 import CharacterCard from "@/components/custom/character-card";
 import { Tag } from "@chakra-ui/react";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default async function AnimeDetails(
     props: {
@@ -53,9 +54,9 @@ function Hero(
     }
 ) {
     const anime = use(animePromise);
-    
     return (
         <div id="hero">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
             <div className="border-radius-md card">
                 <img id="hero-image" src={`/storage/miru/${anime.id}.jpg`} />
                 <div id="hero-text">

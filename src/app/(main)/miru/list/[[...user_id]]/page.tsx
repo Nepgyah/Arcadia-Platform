@@ -3,12 +3,13 @@
 import { useUserStore } from "@/app/store/store";
 import Date from "@/components/custom/date";
 import Header from "@/components/custom/header";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { Table } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SetBreadcrumbs } from "@/components/navigation/setBreadcrumbs";
+
 export default function Page() {
     const user = useUserStore((state) => state.user)
     const params = useParams<{ user_id: string}>()
@@ -16,9 +17,8 @@ export default function Page() {
     const [completedList, setCompletedList] = useState([])
     const [planToList, setPlanToList] = useState([])
     const [onHoldList, setOnHoldList] = useState([])
-    
-    SetBreadcrumbs(['Home', 'Miru', 'Anime', 'List'])
-    
+
+
     useEffect(() => {
         async function FetchAnimeList() {
             const query = 
@@ -84,6 +84,7 @@ export default function Page() {
 
     return (
         <div id="page-miru-animelist" className="page-content">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist']} />
             <div>
                 <Header text="Watching"/>
                 <AnimeList list={watchlist} />

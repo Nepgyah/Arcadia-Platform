@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import '@/styles/pages/miru/_rankings.scss';
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default function Page() {
     
@@ -73,6 +74,7 @@ export default function Page() {
 
     return (
         <div id="page-miru-rankings">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Popular']} />
             <div>
                 <Pagination.Root count={totalCount} pageSize={10} defaultPage={1} maxW="240px">
                     <ButtonGroup variant="ghost" size="sm" w="full">

@@ -1,6 +1,7 @@
 'use client';
 
 import DetailMediaCard from "@/components/custom/detail-media-card";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -71,6 +72,7 @@ export default function Page() {
 
     return (
         <div id="page-miru-rankings">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'All-Time']} />
             <div>
                 <Pagination.Root count={totalCount} pageSize={10} defaultPage={1} maxW="240px">
                     <ButtonGroup variant="ghost" size="sm" w="full">

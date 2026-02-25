@@ -9,6 +9,7 @@ import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSel
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default function Page() {
 
@@ -103,6 +104,7 @@ export default function Page() {
 
     return (
         <div id="page-miru-search">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Search']} />
             <div id="controls" className="flex flex-column row-gap-md">
                 <div id="filters" className="flex flex-column row-gap-md">
                     <Header text="Filters" />
