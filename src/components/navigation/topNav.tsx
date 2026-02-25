@@ -1,27 +1,52 @@
 'use client';
 
-
 import { Avatar, Button, Drawer, IconButton } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Hamburger } from "lucide-react";
 import { d2xAPI } from "@/utils/api/d2xAPI";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { toaster } from "../ui/toaster";
+import Link from "next/link";
+
 export default function TopNav() {
     
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState<any>(null)
     useEffect(() => {
-        const fetchData = async () => {
-            
-            const res =  await d2xAPI.GET('auth/exchange/')
-            // await arcadiaAPI.GET('util/csrf/')
+        const getCSRF = async () => {
+            // const res =  await d2xAPI.GET('auth/exchange/')
+            await arcadiaAPI.GET('util/csrf/')
         }
 
-        fetchData()
-    })
+        const getUser = async () => {
+            arcadiaAPI.GET<any>("users/")
+            .then((res) => {
+                setIsLoggedIn(true)
+                setUser(res.user)
+                console.log(res.user)
+            })
+        }
+        getCSRF()
+        getUser()
+    }, [])
+    
+    const handleDemoLogIn = () => {
+        arcadiaAPI.POST("users/demo/login/", {})
+        .then(() => {
+            setIsLoggedIn(true)
+            toaster.create({
+                description: 'Demo Login Successful',
+                type: 'success'
+            })
+        })
+    }
 
     return (
         <div id="top-nav">
             <div className="icon">
-                <img src="/logos/logo_white.svg" alt="" />
+                <Link href={'/'}>
+                    <img src="/logos/logo_white.svg" alt="" />
+                </Link>
             </div>
             <div className="hamburger">
                 <Drawer.Root placement={'start'}>
@@ -44,21 +69,38 @@ export default function TopNav() {
                 <Drawer.Root>
                     <Drawer.Trigger asChild>
                         <Avatar.Root>
-                            <Avatar.Image src={'/sad.jpeg'} />
+                            {
+                                user ?
+                                    <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
+                                :
+                                    <Avatar.Image src={'/sad.jpeg'} />
+                            }
                         </Avatar.Root>
                     </Drawer.Trigger>
                     <Drawer.Positioner>
                         <Drawer.Content>
                             <Drawer.Header>
-                                <p>My Profile</p>
                                 <Avatar.Root>
-                                    <Avatar.Image src={'/sad.jpeg'} />
+                                    {
+                                        user ?
+                                            <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
+                                        :
+                                            <Avatar.Image src={'/sad.jpeg'} />
+                                    }
                                 </Avatar.Root>
+                                <p>{user ? user.username : ''}</p>
                             </Drawer.Header>
-                            <Drawer.Body></Drawer.Body>
-                            <Drawer.Footer>
+                            <Drawer.Body>
+                                {
+                                    !isLoggedIn &&
+                                        <Button onClick={() => handleDemoLogIn()}>
+                                            Login as Demo User
+                                        </Button>
+                                }
+                            </Drawer.Body>
+                            {/* <Drawer.Footer>
                                 Logout
-                            </Drawer.Footer>
+                            </Drawer.Footer> */}
                         </Drawer.Content>
                     </Drawer.Positioner>
                 </Drawer.Root>
