@@ -41,12 +41,30 @@ export default function TopNav() {
         })
     }
 
+import { Avatar, Button, Drawer, IconButton } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { Hamburger } from "lucide-react";
+import { d2xAPI } from "@/utils/api/d2xAPI";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+export default function TopNav() {
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            
+            const res =  await d2xAPI.GET('auth/exchange/')
+            // await arcadiaAPI.GET('util/csrf/')
+        }
+
+        fetchData()
+    })
+
     return (
         <div id="top-nav">
             <div className="icon">
                 <Link href={'/'}>
                     <img src="/logos/logo_white.svg" alt="" />
                 </Link>
+                <img src="/logos/logo_white.svg" alt="" />
             </div>
             <div className="hamburger">
                 <Drawer.Root placement={'start'}>
@@ -75,6 +93,7 @@ export default function TopNav() {
                                 :
                                     <Avatar.Image src={'/sad.jpeg'} />
                             }
+                            <Avatar.Image src={'/sad.jpeg'} />
                         </Avatar.Root>
                     </Drawer.Trigger>
                     <Drawer.Positioner>
@@ -101,6 +120,15 @@ export default function TopNav() {
                             {/* <Drawer.Footer>
                                 Logout
                             </Drawer.Footer> */}
+                                <p>My Profile</p>
+                                <Avatar.Root>
+                                    <Avatar.Image src={'/sad.jpeg'} />
+                                </Avatar.Root>
+                            </Drawer.Header>
+                            <Drawer.Body></Drawer.Body>
+                            <Drawer.Footer>
+                                Logout
+                            </Drawer.Footer>
                         </Drawer.Content>
                     </Drawer.Positioner>
                 </Drawer.Root>
