@@ -1,5 +1,6 @@
 'use client';
 
+import Breadcrumbs from "@/components/navigation/breadcrumbs";
 import SideNav from "@/components/navigation/sideNav"
 import TopNav from "@/components/navigation/topNav"
 import { mainboard, miruNav } from "@/utils/data/urls";
@@ -27,6 +28,7 @@ export default function Layout(
             <div className="side-layout">
                 <SideNav urlSet={nav} />
                 <div id="content">
+                    <Breadcrumbs />
                     {children}
                 </div>
             </div>
