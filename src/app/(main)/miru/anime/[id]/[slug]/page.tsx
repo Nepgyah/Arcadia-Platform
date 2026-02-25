@@ -7,6 +7,8 @@ import InfoItem from "@/components/custom/info-item";
 import CharacterCard from "@/components/custom/character-card";
 import { Tag } from "@chakra-ui/react";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { Anime } from "@/types/miru";
+import { Franchise } from "@/types/base";
 
 export default async function AnimeDetails(
     props: {
@@ -50,7 +52,7 @@ function Hero(
     {
         animePromise
     } : {
-        animePromise : Promise<any>
+        animePromise : Promise<Anime>
     }
 ) {
     const anime = use(animePromise);
@@ -71,7 +73,7 @@ function Hero(
     )
 }
 
-function Misc({animePromise}:{animePromise : Promise<any>}) {
+function Misc({animePromise}:{animePromise : Promise<Anime>}) {
     const anime = use(animePromise);
 
     return (
@@ -86,7 +88,7 @@ function Misc({animePromise}:{animePromise : Promise<any>}) {
     )
 }
 
-function Production({animePromise}:{animePromise : Promise<any>}) {
+function Production({animePromise}:{animePromise : Promise<Anime>}) {
     const anime = use(animePromise);
 
     return (
@@ -100,7 +102,7 @@ function Production({animePromise}:{animePromise : Promise<any>}) {
     )
 }
 
-function Sources({animePromise}:{animePromise : Promise<any>}) {
+function Sources({animePromise}:{animePromise : Promise<Anime>}) {
     const anime = use(animePromise);
 
     return (
@@ -133,7 +135,7 @@ function OverviewGenres({animePromise}:{animePromise:Promise<any>}) {
     )
 }
 
-function OverviewFranchise({franchisePromise}:{franchisePromise : Promise<any>}) {
+function OverviewFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
     const franchise = use(franchisePromise)
 
     return (
