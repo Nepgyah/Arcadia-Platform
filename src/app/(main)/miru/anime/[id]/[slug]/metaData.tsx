@@ -5,7 +5,7 @@ import AnimeListInput from "./animeListInput";
 import Header from "@/components/custom/header";
 import InfoItem from "@/components/custom/info-item";
 
-export default function Details(
+export default function MetaData(
     { animePromise } : { animePromise: Promise<Anime>}
 ) {
     return (

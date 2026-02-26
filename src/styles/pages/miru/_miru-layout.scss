@@ -33,4 +33,8 @@
             color: map.get($colors, txt-dark);
         }
     }
+
+    .tab-button__icon {
+        background-color: map.get($colors, miru-base);
+    }
 }
