@@ -1,4 +1,11 @@
+import { Anime } from "@/types/miru"
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+
+interface AnimeDetailsQuery {
+    data: {
+        animeById: Anime
+    }
+}
 
 export async function GetAnime(id: string) {
     const query =
@@ -17,13 +24,32 @@ export async function GetAnime(id: string) {
             season,
             genres {
                 name
-            }
+            },
+            studio
+        }
+    }
+    `
+
+    const response = await arcadiaAPI.GraphQL<AnimeDetailsQuery>(query)
+    return response.data.animeById
+}
+
+export async function GetAnimeListEntry(userID: number, animeID: number) {
+    const query =
+    `
+    query {
+        getAnimeListEntry(userId: ${userID}, animeId: ${animeID}) {
+            status,
+            currentEpisode,
+            startWatchDate,
+            endWatchDate,
+            score
         }
     }
     `
 
     const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data.animeById
+    return response.data.getAnimeListEntry
 }
 
 export async function GetAnimeCharacters(id: string) {

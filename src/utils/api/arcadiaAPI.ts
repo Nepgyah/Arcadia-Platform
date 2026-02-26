@@ -1,5 +1,4 @@
-import { toaster } from "@/components/ui/toaster"
-import { json } from "stream/consumers";
+import { toaster } from "@/components/ui/toaster";
 
 class ArcadiaAPI {
     constructor() {}
@@ -106,7 +105,6 @@ class ArcadiaAPI {
                 return res.json();
             }
         } catch(error) {
-            console.log(error)
             toaster.create({
                 description: 'Unable to make api call',
                 type: 'error'

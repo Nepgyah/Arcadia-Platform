@@ -1,26 +1,31 @@
 'use client';
 
+import { useUserStore } from "@/app/store/store";
 import Date from "@/components/custom/date";
 import Header from "@/components/custom/header";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { Table } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+    const user = useUserStore((state) => state.user)
     const params = useParams<{ user_id: string}>()
     const [watchlist, setWatchlist] = useState<any []>([])
     const [completedList, setCompletedList] = useState([])
     const [planToList, setPlanToList] = useState([])
     const [onHoldList, setOnHoldList] = useState([])
 
+
     useEffect(() => {
         async function FetchAnimeList() {
             const query = 
             `
             query {
-                getAnimeList(userId: ${params.user_id}) {
+                getAnimeList(userId: ${user ? user.id : params.user_id}) {
                     watching {
                         anime {
                             id,
@@ -72,27 +77,38 @@ export default function Page() {
             setOnHoldList(results.data.getAnimeList.onHold)
         }
 
-        FetchAnimeList()
-    }, [])
+        if(user) {
+            FetchAnimeList()
+        }
+        
+    }, [user])
 
     return (
         <div id="page-miru-animelist" className="page-content">
-            <div>
-                <Header text="Watching"/>
-                <AnimeList list={watchlist} />
-            </div>
-            <div>
-                <Header text="Completed"/>
-                <AnimeList list={completedList} />
-            </div>
-            <div>
-                <Header text="Plan To"/>
-                <AnimeList list={planToList} />
-            </div>
-            <div>
-                <Header text="On Hold"/>
-                <AnimeList list={onHoldList} />
-            </div>
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist']} />
+            {
+                !user ?
+                    <p>Login to see you anilist!</p>
+                :
+                    <React.Fragment>
+                        <div>
+                            <Header text="Watching"/>
+                            <AnimeList list={watchlist} />
+                        </div>
+                        <div>
+                            <Header text="Completed"/>
+                            <AnimeList list={completedList} />
+                        </div>
+                        <div>
+                            <Header text="Plan To"/>
+                            <AnimeList list={planToList} />
+                        </div>
+                        <div>
+                            <Header text="On Hold"/>
+                            <AnimeList list={onHoldList} />
+                        </div>
+                    </React.Fragment>
+            }
         </div>
     )
 }

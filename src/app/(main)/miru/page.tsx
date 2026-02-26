@@ -4,6 +4,7 @@ import { use } from "react";
 import SimpleMediaCard from "@/components/custom/simple-media-card";
 
 import '@/styles/pages/miru/_home.scss';
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default async function MiruHome() {
 
@@ -12,6 +13,7 @@ export default async function MiruHome() {
 
     return (
         <div id="page-miru-home">
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Home']} />
             <div id="anime-lists" className="flex flex-column row-gap-md">
                 <div id="score">
                     <Header text="Highest Rated" />

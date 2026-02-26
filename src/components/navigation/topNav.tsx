@@ -1,17 +1,20 @@
 'use client';
 
+import Link from "next/link";
 import { Avatar, Button, Drawer, IconButton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Hamburger } from "lucide-react";
 import { d2xAPI } from "@/utils/api/d2xAPI";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { toaster } from "../ui/toaster";
-import Link from "next/link";
+import { useUserStore } from "@/app/store/store";
 
 export default function TopNav() {
-    
+    const user = useUserStore((state) => state.user)
+    const setUser = useUserStore((state) => state.setUser)
+
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState<any>(null)
+    // const [user, setUser] = useState<any>(null)
     useEffect(() => {
         const getCSRF = async () => {
             // const res =  await d2xAPI.GET('auth/exchange/')
@@ -23,7 +26,6 @@ export default function TopNav() {
             .then((res) => {
                 setIsLoggedIn(true)
                 setUser(res.user)
-                console.log(res.user)
             })
         }
         getCSRF()
