@@ -24,7 +24,8 @@ export async function GetAnime(id: string) {
             season,
             genres {
                 name
-            }
+            },
+            studio
         }
     }
     `

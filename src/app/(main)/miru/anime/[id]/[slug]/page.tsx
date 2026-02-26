@@ -52,7 +52,7 @@ function Hero(
                 </div>
             </div>
             <div className="p-a-md card">
-                <p>Episodes</p>
+                <p>WIP</p>
             </div>
         </div>
     )

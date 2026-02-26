@@ -6,5 +6,6 @@ export interface Anime extends Media {
     status: string,
     type: string,
     rating: string,
-    genres: string[]
+    genres: string[],
+    studio: string
 }

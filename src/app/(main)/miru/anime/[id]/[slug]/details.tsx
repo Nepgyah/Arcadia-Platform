@@ -13,7 +13,7 @@ export default function Details(
             <AnimeListInput animePromise={animePromise} />
             <Misc animePromise={animePromise} />
             <Production animePromise={animePromise} />
-            <Sources animePromise={animePromise} />
+            {/* <Sources animePromise={animePromise} /> */}
         </div>
     )
 }
@@ -41,8 +41,7 @@ function Production({animePromise}:{animePromise : Promise<Anime>}) {
         <div>
             <Header text="Production" />
             <div className="flex-column">
-                <InfoItem label='Season' value={anime.season} />
-                <InfoItem label='Rating' value={anime.rating} />
+                <InfoItem label='Studio' value={anime.studio} />
             </div>
         </div>
     )
