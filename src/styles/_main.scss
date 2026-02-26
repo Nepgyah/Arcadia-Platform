@@ -24,9 +24,11 @@ html {
 
                 #content {
                     padding: 1rem;
-                    max-width: 1600px;
-                    margin: 0 auto;
-
+                    
+                    #content-wrapper {
+                        max-width: 1440px;
+                        margin: 0 auto;
+                    }
                     .chakra-breadcrumb__root {
                         margin-bottom: 2rem;
                     }
@@ -57,6 +59,21 @@ html {
                     }
                 }
 
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    html {
+        body {
+            #main-layout {
+
+                #second-layout {
+                    #content {
+        
+                    }
+                }
             }
         }
     }

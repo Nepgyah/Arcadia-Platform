@@ -28,8 +28,10 @@ export default function Layout(
             <div id="second-layout">
                 <SideNav urlSet={nav} />
                 <div id="content">
-                    <Breadcrumbs />
-                    {children}
+                    <div id="content-wrapper">
+                        <Breadcrumbs />
+                        {children}
+                    </div>
                 </div>
             </div>
         </div>

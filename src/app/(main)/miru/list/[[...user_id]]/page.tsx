@@ -8,6 +8,7 @@ import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { Table } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -85,22 +86,29 @@ export default function Page() {
     return (
         <div id="page-miru-animelist" className="page-content">
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist']} />
-            <div>
-                <Header text="Watching"/>
-                <AnimeList list={watchlist} />
-            </div>
-            <div>
-                <Header text="Completed"/>
-                <AnimeList list={completedList} />
-            </div>
-            <div>
-                <Header text="Plan To"/>
-                <AnimeList list={planToList} />
-            </div>
-            <div>
-                <Header text="On Hold"/>
-                <AnimeList list={onHoldList} />
-            </div>
+            {
+                !user ?
+                    <p>Login to see you anilist!</p>
+                :
+                    <React.Fragment>
+                        <div>
+                            <Header text="Watching"/>
+                            <AnimeList list={watchlist} />
+                        </div>
+                        <div>
+                            <Header text="Completed"/>
+                            <AnimeList list={completedList} />
+                        </div>
+                        <div>
+                            <Header text="Plan To"/>
+                            <AnimeList list={planToList} />
+                        </div>
+                        <div>
+                            <Header text="On Hold"/>
+                            <AnimeList list={onHoldList} />
+                        </div>
+                    </React.Fragment>
+            }
         </div>
     )
 }
