@@ -6,7 +6,7 @@ import { Anime } from "@/types/miru";
 import { Tag } from "@chakra-ui/react";
 import { use } from "react";
 
-export default function Overview(
+export default function OverviewTab(
     {
         animePromise, charactersPromise, franchisePromise
     } : {
@@ -73,7 +73,7 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
     const characters = use(charactersPromise)
 
     return (
-        <div className="container">
+        <div className="character-container">
             {
                 characters.map((character: any, idx: number) => {
                     if(idx <= 6) {

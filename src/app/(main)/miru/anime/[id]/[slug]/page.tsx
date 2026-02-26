@@ -2,12 +2,15 @@ import { use } from "react"
 
 import { GetAnime, GetAnimeCharacters, GetAnimeFranchise } from "./animeDetailQueries"
 import { Anime } from "@/types/miru";
-import Overview from "./overview";
-import Details from "./details";
+import Overview from "./overviewTab";
+
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_anime-details.scss';
 import TabWrapper from "./animeTabWrapper";
+import MetaData from "./metaData";
+import OverviewTab from "./overviewTab";
+import CharactersTab from "./charactersTab";
 
 export default async function AnimeDetails(
     props: {
@@ -24,12 +27,10 @@ export default async function AnimeDetails(
         <div id="page-anime-details" className="page-content">
             <Hero animePromise={animePromise}/>
             <div className="split-content">
-                <Details animePromise={animePromise} />
+                <MetaData animePromise={animePromise} />
                 <TabWrapper>
-                    <Overview animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
-                    <div>
-                        charactesr
-                    </div>
+                    <OverviewTab animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
+                    <CharactersTab charactersPromise={charactersPromise} />
                 </TabWrapper>
                 <div>
                     {/* Tab Section Here */}
