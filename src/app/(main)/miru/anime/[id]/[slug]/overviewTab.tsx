@@ -76,7 +76,7 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
         <div className="character-container">
             {
                 characters.map((character: any, idx: number) => {
-                    if(idx <= 6) {
+                    if(idx < 6) {
                         return <CharacterCard character={character} key={idx} />
                     }
                 })
