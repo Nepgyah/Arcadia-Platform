@@ -60,7 +60,12 @@ export async function GetAnimeCharacters(id: string) {
             character {
                 id,
                 firstName,
-                lastName
+                lastName,
+                voiceActor {
+                    id,
+                    firstName,
+                    lastName
+                }
             },
             role
         }
