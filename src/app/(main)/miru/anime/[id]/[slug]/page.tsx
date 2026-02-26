@@ -1,5 +1,5 @@
 import { use } from "react"
-import { GetAnime, GetAnimeCharacters, GetAnimeFranchise } from "./animeDetailQueries"
+import { GetAnime, GetAnimeCharacters, GetAnimeFranchise, GetAnimeListEntry } from "./animeDetailQueries"
 
 import '@/styles/pages/miru/_anime-details.scss';
 import Header from "@/components/custom/header";
@@ -9,6 +9,7 @@ import { Tag } from "@chakra-ui/react";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { Anime } from "@/types/miru";
 import { Franchise } from "@/types/base";
+import AnimeListInput from "./animeListInput";
 
 export default async function AnimeDetails(
     props: {
@@ -26,6 +27,7 @@ export default async function AnimeDetails(
             <Hero animePromise={animePromise}/>
             <div className="split-content">
                 <div className="details">
+                    <AnimeListInput animePromise={animePromise} />
                     <Misc animePromise={animePromise} />
                     <Production animePromise={animePromise} />
                     <Sources animePromise={animePromise} />

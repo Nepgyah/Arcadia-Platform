@@ -2,8 +2,7 @@
 @use './utils/variables' as *;
 @forward 'layouts';
 @forward 'utils';
-@forward './base/reset';
-@forward './base/typography';
+@forward 'base';
 @use "sass:map";
 
 html {
@@ -22,14 +21,18 @@ html {
                 #side-nav {
                     display: none;
                 }
+
+                #content {
+                    padding: 1rem;
+                    max-width: 1400px;
+                    margin: auto;
+
+                    .chakra-breadcrumb__root {
+                        margin-bottom: 2rem;
+                    }
+                }
             }
 
-            .chakra-breadcrumb__root {
-                margin-bottom: 2rem;
-            }
-            #content {
-                padding: 1rem;
-            }
         }
     }
 }
@@ -38,6 +41,8 @@ html {
     html {
         body {
             #main-layout {
+                position: relative;
+
                 .side-layout {
                     display: grid;
                     grid-template-columns: 150px 1fr;
@@ -45,11 +50,13 @@ html {
                     #side-nav {
                         display: block;
                     }
+
+                    #content {
+                        position: relative;
+                        padding: 2rem;
+                    }
                 }
 
-                #content {
-                    padding: 2rem;
-                }
             }
         }
     }

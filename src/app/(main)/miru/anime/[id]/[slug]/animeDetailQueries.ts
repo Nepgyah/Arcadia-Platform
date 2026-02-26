@@ -33,6 +33,23 @@ export async function GetAnime(id: string) {
     return response.data.animeById
 }
 
+export async function GetAnimeListEntry(userID: number, animeID: number) {
+    const query =
+    `
+    query {
+        getAnimeListEntry(userId: 1, animeId: 1) {
+        status,
+        currentEpisode,
+        startWatchDate,
+        endWatchDate
+        }
+    }
+    `
+
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.getAnimeListEntry
+}
+
 export async function GetAnimeCharacters(id: string) {
     const query = 
     `

@@ -26,4 +26,11 @@
             }
         }
     }
+
+    .chakra-button {
+        &.btn-primary {
+            background-color: map.get($colors, miru-base);
+            color: map.get($colors, txt-dark);
+        }
+    }
 }

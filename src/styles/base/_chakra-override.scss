@@ -1,0 +1,12 @@
+@use '../utils/variables' as *;
+@use 'sass:map';
+
+.chakra-native-select__root {
+    .chakra-native-select__field {
+        background-color: map.get($colors, platform-card);
+    }
+}
+
+.chakra-popover__trigger {
+    background-color: map.get($colors, platform-card);
+}
