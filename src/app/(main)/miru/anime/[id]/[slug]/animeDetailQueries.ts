@@ -37,11 +37,11 @@ export async function GetAnimeListEntry(userID: number, animeID: number) {
     const query =
     `
     query {
-        getAnimeListEntry(userId: 1, animeId: 1) {
-        status,
-        currentEpisode,
-        startWatchDate,
-        endWatchDate
+        getAnimeListEntry(userId: ${userID}, animeId: ${animeID}) {
+            status,
+            currentEpisode,
+            startWatchDate,
+            endWatchDate
         }
     }
     `

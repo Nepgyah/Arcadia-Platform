@@ -9,6 +9,7 @@ import { GetAnimeListEntry } from "./animeDetailQueries";
 import { useUserStore } from "@/app/store/store";
 import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
+import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./animeListMutations";
 
 
 export default function AnimeListInput(
@@ -20,27 +21,47 @@ export default function AnimeListInput(
 ) {
     const user = useUserStore((state) => state.user)
     const anime = use(animePromise)
+    const [isAnimeAlreadyListed, setIsAnimeAlreadyListed] = useState(false);
     const [status, setStatus] = useState<number>(-1)
     const [score, setScore] = useState<number>(5)
-    const [startWatchDate, setStartWatchDate] = useState(new Date());
-    const [endWatchDate, setEndWatchDate] = useState(new Date())
+    const [startWatchDate, setStartWatchDate] = useState<Date>();
+    const [endWatchDate, setEndWatchDate] = useState<Date>()
 
     useEffect(() => {
         if (user && anime) {
+            setIsAnimeAlreadyListed(true)
             GetAnimeListEntry(user.id, anime.id)
             .then((res) => {
                 setStatus(res.status)
+                setScore(res.score)
+                setStartWatchDate(res.startWatchDate)
+                setEndWatchDate(res.endWatchDate)
             })
         }
     }, [user])
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        console.log('Submit')
+        const tempStartDate = startWatchDate ? String(startWatchDate.toISOString().split("T")[0]) : null
+        const tempEndDate = endWatchDate ? String(endWatchDate.toISOString().split("T")[0]) : null
+        const details = {
+            score: score,
+            currentEpisode: 0,
+            startWatchDate: tempStartDate,
+            endWatchDate: tempEndDate
+        }
+        if (isAnimeAlreadyListed) {
+            UpdateNewAnimeListEntry(user.id, anime.id, status, details)
+        } else {
+            CreateNewAnimeListEntry(user.id, anime.id, status, details)
+        }
     }
 
     const handleReset = () => {
-        
+        setScore(-1)
+        setStatus(-1)
+        setStartWatchDate(undefined)
+        setEndWatchDate(undefined)
     }
     return (
         <div id="anime-list-control">
@@ -67,16 +88,16 @@ export default function AnimeListInput(
                         <NativeSelect.Root>
                             <NativeSelect.Field value={score} onChange={(e) => setScore(Number(e.target.value))}>
                                 <option value={-1} disabled>Select Score</option>
-                                <option value={1}>Actual Trash</option>
-                                <option value={2}>Appaling</option>
-                                <option value={3}>Very Bad</option>
-                                <option value={4}>Bad</option>
-                                <option value={5}>Mid</option>
-                                <option value={6}>Good</option>
-                                <option value={7}>Very Good</option>
-                                <option value={8}>Great</option>
-                                <option value={9}>Amazing</option>
-                                <option value={10}>Cinema</option>
+                                <option value={1}>1 - Actual Trash</option>
+                                <option value={2}>2 - Appaling</option>
+                                <option value={3}>3 - Very Bad</option>
+                                <option value={4}>4 - Watchable Trash</option>
+                                <option value={5}>5 - Mid</option>
+                                <option value={6}>6 - Good Trash</option>
+                                <option value={7}>7 - Actually Good</option>
+                                <option value={8}>8 - Great</option>
+                                <option value={9}>9 - Amazing</option>
+                                <option value={10}>10 - Cinema</option>
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>
@@ -99,8 +120,12 @@ export default function AnimeListInput(
                         </Field.Root>
                     </div>
                     <div id="actions">
-                        <Button type="submit" variant={'subtle'} className="btn-primary">Submit</Button>
-                        <Button variant={'outline'} className="bnt-secondary">Reset</Button>
+                        <Button type="submit" variant={'subtle'} className="btn-primary">
+                            {
+                                isAnimeAlreadyListed ? "Update" : "Add"
+                            }
+                        </Button>
+                        <Button variant={'outline'} className="bnt-secondary" onClick={() => handleReset()}>Reset</Button>
                     </div>
                 </form>
             }
