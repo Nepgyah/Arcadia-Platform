@@ -7,6 +7,7 @@ import Details from "./details";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_anime-details.scss';
+import TabWrapper from "./animeTabWrapper";
 
 export default async function AnimeDetails(
     props: {
@@ -24,9 +25,14 @@ export default async function AnimeDetails(
             <Hero animePromise={animePromise}/>
             <div className="split-content">
                 <Details animePromise={animePromise} />
+                <TabWrapper>
+                    <Overview animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
+                    <div>
+                        charactesr
+                    </div>
+                </TabWrapper>
                 <div>
                     {/* Tab Section Here */}
-                    <Overview animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
                 </div>
             </div>
         </div>

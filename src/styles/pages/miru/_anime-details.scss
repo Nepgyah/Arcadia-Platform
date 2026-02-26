@@ -68,6 +68,12 @@
                 }
             }
         }
+
+        #tab-container {
+            display: flex;
+            justify-content: center;
+            column-gap: 2rem;
+        }
         #overview-tab {
             #genres-franchise {
                 display: flex;
