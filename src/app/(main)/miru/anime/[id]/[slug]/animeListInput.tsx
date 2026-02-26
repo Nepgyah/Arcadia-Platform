@@ -1,13 +1,15 @@
 'use client';
 
-import { useUserStore } from "@/app/store/store";
-import Header from "@/components/custom/header";
-import { Anime } from "@/types/miru";
-import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import React, { use, useEffect, useState } from "react";
-import { GetAnimeListEntry } from "./animeDetailQueries";
 
+import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
+
+import { GetAnimeListEntry } from "./animeDetailQueries";
+import { useUserStore } from "@/app/store/store";
+import { Anime } from "@/types/miru";
+import Header from "@/components/custom/header";
+
 
 export default function AnimeListInput(
     {
@@ -29,8 +31,6 @@ export default function AnimeListInput(
             .then((res) => {
                 setStatus(res.status)
             })
-        } else {
-            console.log('NAW')
         }
     }, [user])
 
@@ -40,7 +40,7 @@ export default function AnimeListInput(
     }
 
     const handleReset = () => {
-
+        
     }
     return (
         <div id="anime-list-control">
