@@ -25,7 +25,7 @@ export default function Layout(
     return (
         <div id="main-layout">
             <TopNav />
-            <div className="side-layout">
+            <div id="second-layout">
                 <SideNav urlSet={nav} />
                 <div id="content">
                     <Breadcrumbs />
