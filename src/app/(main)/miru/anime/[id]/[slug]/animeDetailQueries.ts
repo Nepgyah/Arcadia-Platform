@@ -41,7 +41,8 @@ export async function GetAnimeListEntry(userID: number, animeID: number) {
             status,
             currentEpisode,
             startWatchDate,
-            endWatchDate
+            endWatchDate,
+            score
         }
     }
     `

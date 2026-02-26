@@ -6,7 +6,7 @@ export async function CreateNewAnimeListEntry(
     animeID: number,
     status: number,
     details: {
-        score: number,
+        score: number | null,
         currentEpisode: number,
         startWatchDate: string | null,
         endWatchDate: string | null
@@ -50,7 +50,7 @@ export async function UpdateNewAnimeListEntry(
     animeID: number,
     status: number,
     details: {
-        score: number,
+        score: number | null,
         currentEpisode: number,
         startWatchDate: string | null,
         endWatchDate: string | null

@@ -23,7 +23,7 @@ export default function AnimeListInput(
     const anime = use(animePromise)
     const [isAnimeAlreadyListed, setIsAnimeAlreadyListed] = useState(false);
     const [status, setStatus] = useState<number>(-1)
-    const [score, setScore] = useState<number>(5)
+    const [score, setScore] = useState<number>(-1)
     const [startWatchDate, setStartWatchDate] = useState<Date>();
     const [endWatchDate, setEndWatchDate] = useState<Date>()
 
@@ -32,23 +32,27 @@ export default function AnimeListInput(
             setIsAnimeAlreadyListed(true)
             GetAnimeListEntry(user.id, anime.id)
             .then((res) => {
-                setStatus(res.status)
-                setScore(res.score)
-                setStartWatchDate(res.startWatchDate)
-                setEndWatchDate(res.endWatchDate)
+                if (res != null) {
+                    console.log('Setting input')
+                    console.log(res)
+                    setIsAnimeAlreadyListed(true)
+                    setStatus(res.status)
+                    setStartWatchDate(res.startWatchDate)
+                    setEndWatchDate(res.endWatchDate)
+                }
             })
         }
     }, [user])
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        const tempStartDate = startWatchDate ? String(startWatchDate.toISOString().split("T")[0]) : null
-        const tempEndDate = endWatchDate ? String(endWatchDate.toISOString().split("T")[0]) : null
+        // const tempStartDate = startWatchDate ? String(startWatchDate.toISOString().split("T")[0]) : null
+        // const tempEndDate = endWatchDate ? String(endWatchDate.toISOString().split("T")[0]) : null
         const details = {
-            score: score,
+            score: score == -1 ? null : score,
             currentEpisode: 0,
-            startWatchDate: tempStartDate,
-            endWatchDate: tempEndDate
+            startWatchDate: null,
+            endWatchDate: null
         }
         if (isAnimeAlreadyListed) {
             UpdateNewAnimeListEntry(user.id, anime.id, status, details)
@@ -57,12 +61,6 @@ export default function AnimeListInput(
         }
     }
 
-    const handleReset = () => {
-        setScore(-1)
-        setStatus(-1)
-        setStartWatchDate(undefined)
-        setEndWatchDate(undefined)
-    }
     return (
         <div id="anime-list-control">
             <Header text="List Control" />
@@ -101,7 +99,7 @@ export default function AnimeListInput(
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>
-                    <div id="watch-dates">
+                    {/* <div id="watch-dates">
                         <Field.Root>
                             <Field.Label>Start Watch Date</Field.Label>
                             <SingleDatepicker
@@ -118,14 +116,13 @@ export default function AnimeListInput(
                                 onDateChange={setEndWatchDate}
                             />
                         </Field.Root>
-                    </div>
+                    </div> */}
                     <div id="actions">
                         <Button type="submit" variant={'subtle'} className="btn-primary">
                             {
                                 isAnimeAlreadyListed ? "Update" : "Add"
                             }
                         </Button>
-                        <Button variant={'outline'} className="bnt-secondary" onClick={() => handleReset()}>Reset</Button>
                     </div>
                 </form>
             }
