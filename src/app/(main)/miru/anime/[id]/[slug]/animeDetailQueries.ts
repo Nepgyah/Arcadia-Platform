@@ -25,7 +25,23 @@ export async function GetAnime(id: string) {
             genres {
                 name
             },
-            studio
+            studio,
+            prevAnime{
+                anime {
+                    id,
+                    title,
+                    slug
+                },
+                relationType
+            },
+            nextAnime {
+                anime {
+                    id,
+                    title,
+                    slug
+                },
+                relationType
+            }
         }
     }
     `

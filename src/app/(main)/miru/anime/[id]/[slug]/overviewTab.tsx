@@ -1,5 +1,6 @@
 import CharacterCard from "@/components/custom/character-card";
 import Header from "@/components/custom/header";
+import RelationMedia from "@/components/media/relation-media";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
@@ -24,6 +25,9 @@ export default function OverviewTab(
             <div id="overview-characters">
                 <Header text="Characters" />
                 <Characters charactersPromise={charactersPromise} />
+            </div>
+            <div id="relationships">
+                <Relationships animePromise={animePromise} />
             </div>
         </div>
     )
@@ -81,6 +85,44 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
                     }
                 })
             }
+        </div>
+    )
+}
+
+function Relationships({animePromise}:{animePromise: Promise<any>}) {
+    const anime = use(animePromise);
+
+    return (
+        <div>
+            <Header text="Anime Flow" />
+            <div id="main-flow">
+                <div id="prequel">
+                    {
+                        anime.prevAnime ?
+                            <RelationMedia 
+                                media={anime.prevAnime.anime} 
+                                app="miru" 
+                                relation="Prequel"
+                                link={`/miru/anime/${anime.prevAnime.anime.id}/${anime.prevAnime.anime.slug}`}
+                            />
+                        :
+                            <p>No Prequel Found</p>
+                    }
+                </div>
+                <div id="sequel">
+                    {
+                        anime.nextAnime ?
+                            <RelationMedia 
+                                media={anime.nextAnime.anime} 
+                                app="miru" 
+                                relation="Sequel"
+                                link={`/miru/anime/${anime.nextAnime.anime.id}/${anime.nextAnime.anime.slug}`}
+                            />
+                        :
+                            <p>No Prequel Found</p>
+                    }
+                </div>
+            </div>
         </div>
     )
 }
