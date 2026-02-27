@@ -29,12 +29,10 @@ export default function AnimeListInput(
 
     useEffect(() => {
         if (user && anime) {
-            setIsAnimeAlreadyListed(true)
             GetAnimeListEntry(user.id, anime.id)
             .then((res) => {
                 if (res != null) {
-                    console.log('Setting input')
-                    console.log(res)
+                    setIsAnimeAlreadyListed(true)
                     setIsAnimeAlreadyListed(true)
                     setStatus(res.status)
                     setStartWatchDate(res.startWatchDate)

@@ -2,7 +2,7 @@ export interface Franchise {
     id: number,
     name: string,
     slug: string,
-    socials: any
+    socials: Socials
 }
 
 export interface Media {
@@ -15,4 +15,17 @@ export interface Media {
     created_at: string,
     updated_at: string,
     franchise: Franchise
+}
+
+export interface Social {
+    handle: string,
+    link: string
+}
+
+export interface Socials {
+    instagram : Social,
+    reddit: Social,
+    youtube: Social,
+    twitter: Social,
+    website: Social
 }

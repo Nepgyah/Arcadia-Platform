@@ -9,11 +9,11 @@ export default function CharacterCard({character}:{character : any}) {
                     <p>{character.role}</p>
                 </div>
                 <div className="voice-actor">
-                    <p>Voice Actor</p>
-                    <p>Role</p>
+                    <p>{character.character.voiceActor.firstName} {character.character.voiceActor.lastName}</p>
+                    <p>Japanese</p>
                 </div>
             </div>
-            <img className="voice-actor-picture" src="/" alt="" />
+            <img className="voice-actor-picture" src={`/storage/voice-actors/${character.character.voiceActor.id}.jpg`} alt=""/>
         </div>
     )
 }

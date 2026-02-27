@@ -25,7 +25,23 @@ export async function GetAnime(id: string) {
             genres {
                 name
             },
-            studio
+            studio,
+            prevAnime{
+                anime {
+                    id,
+                    title,
+                    slug
+                },
+                relationType
+            },
+            nextAnime {
+                anime {
+                    id,
+                    title,
+                    slug
+                },
+                relationType
+            }
         }
     }
     `
@@ -60,7 +76,12 @@ export async function GetAnimeCharacters(id: string) {
             character {
                 id,
                 firstName,
-                lastName
+                lastName,
+                voiceActor {
+                    id,
+                    firstName,
+                    lastName
+                }
             },
             role
         }
@@ -76,7 +97,8 @@ export async function GetAnimeFranchise(id: string) {
     query {
         franchiseByAnime(id:${id}) {
             id,
-            name
+            name,
+            socials
         }
     }
     `
