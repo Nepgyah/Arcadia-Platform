@@ -27,7 +27,7 @@ export default async function AnimeDetails(
         <div id="page-anime-details" className="page-content">
             <Hero animePromise={animePromise}/>
             <div className="split-content">
-                <MetaData animePromise={animePromise} />
+                <MetaData animePromise={animePromise} franchisePromise={franchisePromise} />
                 <TabWrapper>
                     <OverviewTab animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
                     <CharactersTab charactersPromise={charactersPromise} />

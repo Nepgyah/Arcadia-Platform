@@ -4,13 +4,22 @@ import { Anime } from "@/types/miru";
 import AnimeListInput from "./animeListInput";
 import Header from "@/components/custom/header";
 import InfoItem from "@/components/custom/info-item";
+import { Franchise } from "@/types/base";
+import SocialsList from "@/components/custom/socials";
 
 export default function MetaData(
-    { animePromise } : { animePromise: Promise<Anime>}
+    { 
+        animePromise,
+        franchisePromise
+    } : { 
+        animePromise: Promise<Anime>,
+        franchisePromise: Promise<Franchise>
+    }
 ) {
     return (
         <div className="details">
             <AnimeListInput animePromise={animePromise} />
+            <SocialMedia franchisePromise={franchisePromise}/>
             <Misc animePromise={animePromise} />
             <Production animePromise={animePromise} />
             {/* <Sources animePromise={animePromise} /> */}
@@ -59,4 +68,16 @@ function Sources({animePromise}:{animePromise : Promise<Anime>}) {
             </div>
         </div>
     )
+}
+
+function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
+    const franchise = use(franchisePromise)
+
+    if (franchise.socials) {
+        return (
+            <SocialsList socials={franchise.socials} />
+        )
+    } else {
+        return null
+    }
 }

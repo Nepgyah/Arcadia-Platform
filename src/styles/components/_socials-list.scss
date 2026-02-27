@@ -1,0 +1,60 @@
+@use '../utils/variables' as *;
+@use 'sass:map';
+
+.socials-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    .social {
+        background-color: map.get($colors, platform-light);
+        display: flex;
+        column-gap: .5rem;
+        overflow: hidden;
+
+        &--youtube {
+            .social__icon {
+                background-color: #D00000;
+            }
+        }
+
+        &--twitter {
+            .social__icon {
+                background-color: #26A7DE;
+            }
+        }
+
+        &--website {
+            .social__icon {
+                background-color: #8134AF;
+            }
+        }
+
+        &--instagram {
+            .social__icon {
+                background-color: #DD2A7B;
+            }
+        }
+
+        &--reddit {
+            .social__icon {
+                background-color: #DF4E00;
+            }
+        }
+
+        &__icon {
+            height: 46px;
+            width: 46px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__handle {
+            font-size: .85rem;
+            padding-right: .25rem;
+            display: flex;
+            align-items: center;
+        }
+    }
+}

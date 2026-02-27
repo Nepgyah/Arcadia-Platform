@@ -97,7 +97,8 @@ export async function GetAnimeFranchise(id: string) {
     query {
         franchiseByAnime(id:${id}) {
             id,
-            name
+            name,
+            socials
         }
     }
     `
