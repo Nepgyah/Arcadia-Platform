@@ -1,5 +1,5 @@
 import { Social, Socials } from "@/types/base"
-import Header from "./header"
+import Header from "../../custom/header"
 import React from "react"
 import Link from "next/link"
 export default function SocialsList(
@@ -10,16 +10,13 @@ export default function SocialsList(
     }
 ) {
     return (
-        <React.Fragment>
-            <Header text="Socials" />
-            <div className="socials-list">
-                { socials.website && <SocialRow social={socials.website} type="website" /> }
-                { socials.youtube && <SocialRow social={socials.youtube} type="youtube" /> }
-                { socials.twitter && <SocialRow social={socials.twitter} type="twitter" /> }
-                { socials.reddit && <SocialRow social={socials.reddit} type="reddit" /> }
-                { socials.instagram && <SocialRow social={socials.instagram} type="instagram" /> }
-            </div>
-        </React.Fragment>
+        <div className="socials-list">
+            { socials.website && <SocialRow social={socials.website} type="website" /> }
+            { socials.youtube && <SocialRow social={socials.youtube} type="youtube" /> }
+            { socials.twitter && <SocialRow social={socials.twitter} type="twitter" /> }
+            { socials.reddit && <SocialRow social={socials.reddit} type="reddit" /> }
+            { socials.instagram && <SocialRow social={socials.instagram} type="instagram" /> }
+        </div>
     )
 }
 

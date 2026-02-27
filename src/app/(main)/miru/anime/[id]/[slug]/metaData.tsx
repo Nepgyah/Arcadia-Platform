@@ -1,11 +1,13 @@
-import { use } from "react";
+import { Suspense, use } from "react";
 
 import { Anime } from "@/types/miru";
 import AnimeListInput from "./animeListInput";
 import Header from "@/components/custom/header";
-import InfoItem from "@/components/custom/info-item";
+import InfoItem from "@/components/custom/info-item/info-item";
 import { Franchise } from "@/types/base";
-import SocialsList from "@/components/custom/socials";
+import SocialsList from "@/components/media/socials/socials";
+import SocialsSkeleton from "@/components/media/socials/skeleton";
+import { SkeletonText } from "@chakra-ui/react";
 
 export default function MetaData(
     { 
@@ -18,11 +20,25 @@ export default function MetaData(
 ) {
     return (
         <div className="details">
-            <AnimeListInput animePromise={animePromise} />
-            <SocialMedia franchisePromise={franchisePromise}/>
-            <Misc animePromise={animePromise} />
-            <Production animePromise={animePromise} />
-            {/* <Sources animePromise={animePromise} /> */}
+            {/* <AnimeListInput animePromise={animePromise} /> */}
+            <div>
+                <Header text="Socials" />
+                <Suspense fallback={<SocialsSkeleton />}>
+                    <SocialMedia franchisePromise={franchisePromise}/>
+                </Suspense>
+            </div>
+            <div>
+                <Header text="Misc" />
+                <Suspense fallback={<SkeletonText noOfLines={3} />}>
+                    <Misc animePromise={animePromise} />
+                </Suspense>
+            </div>
+            <div>
+                <Header text="Production" />
+                <Suspense fallback={<SkeletonText noOfLines={3} />}>
+                <Production animePromise={animePromise} />
+                </Suspense>
+            </div>
         </div>
     )
 }
@@ -32,13 +48,10 @@ function Misc({animePromise}:{animePromise : Promise<Anime>}) {
     const anime = use(animePromise);
 
     return (
-        <div>
-            <Header text="Misc" />
-            <div className="flex-column">
-                <InfoItem label='Status' value={anime.status} />
-                <InfoItem label='Season' value={anime.season} />
-                <InfoItem label='Rating' value={anime.rating} />
-            </div>
+        <div className="flex-column">
+            <InfoItem label='Status' value={anime.status} />
+            <InfoItem label='Season' value={anime.season} />
+            <InfoItem label='Rating' value={anime.rating} />
         </div>
     )
 }
@@ -47,11 +60,8 @@ function Production({animePromise}:{animePromise : Promise<Anime>}) {
     const anime = use(animePromise);
 
     return (
-        <div>
-            <Header text="Production" />
-            <div className="flex-column">
-                <InfoItem label='Studio' value={anime.studio} />
-            </div>
+        <div className="flex-column">
+            <InfoItem label='Studio' value={anime.studio} />
         </div>
     )
 }

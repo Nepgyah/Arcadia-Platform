@@ -1,4 +1,4 @@
-import { use } from "react"
+import { Suspense, use } from "react"
 
 import { GetAnime, GetAnimeCharacters, GetAnimeFranchise } from "./animeDetailQueries"
 import { Anime } from "@/types/miru";
@@ -11,6 +11,8 @@ import TabWrapper from "./animeTabWrapper";
 import MetaData from "./metaData";
 import OverviewTab from "./overviewTab";
 import CharactersTab from "./charactersTab";
+import { Skeleton } from "@chakra-ui/react";
+import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 
 export default async function AnimeDetails(
     props: {
@@ -25,16 +27,17 @@ export default async function AnimeDetails(
 
     return (
         <div id="page-anime-details" className="page-content">
-            <Hero animePromise={animePromise}/>
+            <Suspense fallback={<HeroSkeleton />}>
+                <Hero animePromise={animePromise}/>
+            </Suspense>
             <div className="split-content">
                 <MetaData animePromise={animePromise} franchisePromise={franchisePromise} />
                 <TabWrapper>
                     <OverviewTab animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
-                    <CharactersTab charactersPromise={charactersPromise} />
+                    <Suspense fallback={<CharacterCardSkeleton />} >
+                        <CharactersTab charactersPromise={charactersPromise} />
+                    </Suspense>
                 </TabWrapper>
-                <div>
-                    {/* Tab Section Here */}
-                </div>
             </div>
         </div>
     )
@@ -61,6 +64,15 @@ function Hero(
             <div className="p-a-md card">
                 <p>WIP</p>
             </div>
+        </div>
+    )
+}
+
+function HeroSkeleton() {
+    return (
+        <div id="hero">
+            <Skeleton height={250} width={'100%'}/>
+            <Skeleton height={250} width={'100%'}/>
         </div>
     )
 }

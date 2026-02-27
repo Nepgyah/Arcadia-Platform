@@ -1,11 +1,11 @@
-import CharacterCard from "@/components/custom/character-card";
+import CharacterCard from "@/components/media/characters/character-card";
 import Header from "@/components/custom/header";
 import RelationMedia from "@/components/media/relation-media";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
-import { Tag } from "@chakra-ui/react";
-import { use } from "react";
+import { Skeleton, Tag } from "@chakra-ui/react";
+import { Suspense, use } from "react";
+import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 
 export default function OverviewTab(
     {
@@ -19,15 +19,24 @@ export default function OverviewTab(
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise">
-                <Genres animePromise={animePromise} />
-                <AnimeFranchise franchisePromise={franchisePromise} />
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <Genres animePromise={animePromise} />
+                </Suspense>
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <AnimeFranchise franchisePromise={franchisePromise} />
+                </Suspense>
             </div>
             <div id="overview-characters">
                 <Header text="Characters" />
-                <Characters charactersPromise={charactersPromise} />
+                <Suspense fallback={<CharacterCardSkeleton />}>
+                    <Characters charactersPromise={charactersPromise} />
+                </Suspense>
             </div>
             <div id="relationships">
-                <Relationships animePromise={animePromise} />
+                <Header text="Anime Flow" />
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <Relationships animePromise={animePromise} />
+                </Suspense>
             </div>
         </div>
     )
@@ -94,7 +103,6 @@ function Relationships({animePromise}:{animePromise: Promise<any>}) {
 
     return (
         <div>
-            <Header text="Anime Flow" />
             <div id="main-flow">
                 <div id="prequel">
                     {
