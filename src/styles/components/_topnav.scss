@@ -10,6 +10,25 @@
     align-items: center;
     padding: 1rem;
 
+    .mobile-links {
+        display: block;
+
+        .chakra-drawer__header {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .chakra-drawer__body {
+            a {
+                width: 100%;
+                padding: 1rem;
+                &:hover {
+                     background-color: map.get($colors, platform-dark);
+                }
+            }
+        }
+    }
+
     .icon {
         order: 2;
 
@@ -35,6 +54,9 @@
         padding: 0;
         height: 64px;
 
+        .mobile-links {
+            display: none;
+        }
         .icon {
             border-right: 1px solid #33343a;
             order: 1;
