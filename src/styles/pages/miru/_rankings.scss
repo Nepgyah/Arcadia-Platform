@@ -5,3 +5,29 @@
         gap: 2rem;
     }
 }
+
+@media only screen and (min-width: 900px) {
+    #page-miru-rankings {
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #page-miru-rankings {
+        .container {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    #page-miru-rankings {
+        .container {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+}

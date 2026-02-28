@@ -1,16 +1,20 @@
 'use client';
 
-import DetailMediaCard from "@/components/custom/detail-media-card";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import React from "react";
+import { useEffect, useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+
+import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 
 import '@/styles/pages/miru/_rankings.scss';
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default function Page() {
     
+    const [loading, setLoading] = useState(true)
     const [animes, setAnimes] = useState([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
@@ -57,6 +61,9 @@ export default function Page() {
         `
 
         const response = await arcadiaAPI.GraphQL<any>(query)
+        if (loading) {
+            setLoading(false)
+        }
         setAnimes(response.data.searchAnime.animes)
         setTotalCount(response.data.searchAnime.total)
     }
@@ -94,23 +101,38 @@ export default function Page() {
             </div>
             <div className="container">
                 {
-                    animes.length != 0 ?
-                        animes.map((anime: any, idx: number) => (
-                            <DetailMediaCard
-                                key={idx}
-                                href={`/miru/anime/${anime.id}/${anime.slug}`}
-                                title={anime.title}
-                                summary={anime.summary}
-                                users={anime.users}
-                                score={anime.score}
-                                src={`/storage/miru/${anime.id}.jpg`}
-                                franchise={anime.franchise}
-                            />
-                        ))
+                    loading ?
+                        <Skeleton />
                     :
-                        <></>
+                        animes.length != 0 ?
+                            animes.map((anime: any, idx: number) => (
+                                <DetailMediaCard
+                                    key={idx}
+                                    href={`/miru/anime/${anime.id}/${anime.slug}`}
+                                    title={anime.title}
+                                    summary={anime.summary}
+                                    users={anime.users}
+                                    score={anime.score}
+                                    src={`/storage/miru/${anime.id}.jpg`}
+                                    franchise={anime.franchise}
+                                />
+                            ))
+                        :
+                            <p>No Anime Found</p>
                 }
             </div>
         </div>
+    )
+}
+
+function Skeleton() {
+    return (
+        <React.Fragment>
+        {
+            Array.from({length: 5}).map((_, idx) => (
+                <DetailMediaCardSkeleton key={idx} />
+            ))
+        }
+        </React.Fragment>
     )
 }
