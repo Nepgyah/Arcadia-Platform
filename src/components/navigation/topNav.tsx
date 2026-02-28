@@ -1,17 +1,25 @@
 'use client';
 
 import Link from "next/link";
-import { Avatar, Button, Drawer, IconButton } from "@chakra-ui/react";
+import { Avatar, Button, Drawer, HStack, IconButton, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Hamburger } from "lucide-react";
+import { Hamburger, HamburgerIcon } from "lucide-react";
 import { d2xAPI } from "@/utils/api/d2xAPI";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { toaster } from "../ui/toaster";
 import { useUserStore } from "@/app/store/store";
+import { url } from "@/utils/data/urls";
 
-export default function TopNav() {
+export default function TopNav(
+    {
+        urlSet
+    } : {
+        urlSet: url[]
+    }
+) {
     const user = useUserStore((state) => state.user)
     const setUser = useUserStore((state) => state.setUser)
+    const [navOpen, setNavOpen] = useState<boolean>(false)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const [user, setUser] = useState<any>(null)
@@ -45,6 +53,31 @@ export default function TopNav() {
 
     return (
         <div id="top-nav">
+            <div className="mobile-links">
+                <Drawer.Root open={navOpen} onOpenChange={(e) => setNavOpen(e.open)} placement={'start'}>
+                    <Drawer.Trigger asChild>
+                        <Avatar.Root>
+                            <HamburgerIcon />
+                        </Avatar.Root>
+                    </Drawer.Trigger>
+                    <Drawer.Positioner>
+                        <Drawer.Content>
+                            <Drawer.Header>
+                                Links
+                            </Drawer.Header>
+                            <Drawer.Body>
+                                <VStack alignItems={'start'} rowGap={'1rem'}>
+                                    {
+                                        urlSet.map((url, idx) => (
+                                            <Link onClick={() => setNavOpen(false)} key={idx} href={url.path}>{url.title}</Link>
+                                        ))
+                                    }
+                                </VStack>
+                            </Drawer.Body>
+                        </Drawer.Content>
+                    </Drawer.Positioner>
+                </Drawer.Root>
+            </div>
             <div className="icon">
                 <Link href={'/'}>
                     <img src="/logos/logo_white.svg" alt="" />

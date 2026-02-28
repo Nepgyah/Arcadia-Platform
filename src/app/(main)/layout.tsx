@@ -24,7 +24,7 @@ export default function Layout(
     const nav = getNav()
     return (
         <div id="main-layout">
-            <TopNav />
+            <TopNav urlSet={nav} />
             <div id="second-layout">
                 <SideNav urlSet={nav} />
                 <div id="content">
