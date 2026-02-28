@@ -16,7 +16,7 @@ export default function DetailMediaCard(
     return (
         <div className="detail-media card">
             <div className="detail-media__title">
-                <Link href={href}>{title}</Link>
+                <Link href={href} className="hover-underline">{title}</Link>
             </div>
             <div className="detail-media__metrics">
                 <p>Users: {users}</p>

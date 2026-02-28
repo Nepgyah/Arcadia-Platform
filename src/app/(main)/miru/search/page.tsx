@@ -4,14 +4,18 @@ import Header from "@/components/custom/header";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { useEffect, useState } from "react";
 
-import DetailMediaCard from "@/components/custom/detail-media-card";
+import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
 import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import React from "react";
+import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 
 export default function Page() {
+
+    const [loading, setLoading] = useState(true)
 
     const [animes, setAnime] = useState<any[]>([]);
     const [mediaType, setMediaType] = useState(-1)
@@ -66,6 +70,9 @@ export default function Page() {
         }
         `
         const response = await arcadiaAPI.GraphQL<any>(query)
+        if (loading) {
+            setLoading(false)
+        }
         setAnime(response.data.searchAnime.animes)
         setTotalCount(response.data.searchAnime.total)
     }
@@ -181,39 +188,39 @@ export default function Page() {
                 </div>
                 <div id="results">
                     {
-                        animes.length > 0 ?
-                            animes.map((anime: any, idx: number) => (
-                                <DetailMediaCard
-                                    key={idx}
-                                    href={`/miru/anime/${anime.id}/${anime.slug}`}
-                                    title={anime.title}
-                                    summary={anime.summary}
-                                    users={anime.users}
-                                    score={anime.score}
-                                    src={`/storage/miru/${anime.id}.jpg`}
-                                    franchise={anime.franchise}
-                                />
-                            ))
+                        loading ?
+                            <Skeleton />
                         :
-                            <></>
+                            animes.length != 0 ?
+                                animes.map((anime: any, idx: number) => (
+                                    <DetailMediaCard
+                                        key={idx}
+                                        href={`/miru/anime/${anime.id}/${anime.slug}`}
+                                        title={anime.title}
+                                        summary={anime.summary}
+                                        users={anime.users}
+                                        score={anime.score}
+                                        src={`/storage/miru/${anime.id}.jpg`}
+                                        franchise={anime.franchise}
+                                    />
+                                ))
+                            :
+                                <p>No Anime Found</p>
                     }
                 </div>
-
             </div>
         </div>
     )
 }
 
-const sortCategoryOptions = createListCollection({
-    items: [
-        { label: 'Score', value: 'score'},
-        { label: 'Users', value: 'users'},
-    ]
-})
-
-const sortDirectionOptions = createListCollection({
-    items: [
-        { label: 'Ascending', value: 'asc'},
-        { label: 'Descending', value: 'desc'},
-    ]
-})
+function Skeleton() {
+    return (
+        <React.Fragment>
+        {
+            Array.from({length: 5}).map((_, idx) => (
+                <DetailMediaCardSkeleton key={idx} />
+            ))
+        }
+        </React.Fragment>
+    )
+}

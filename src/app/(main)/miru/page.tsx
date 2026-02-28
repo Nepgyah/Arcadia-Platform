@@ -1,10 +1,12 @@
+import { Suspense, use } from "react";
+
 import Header from "@/components/custom/header";
 import { GetPopularAnime, GetRatedAnime } from "./miruHomeQueries"
-import { use } from "react";
-import SimpleMediaCard from "@/components/custom/simple-media-card";
+import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
 
 import '@/styles/pages/miru/_home.scss';
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 export default async function MiruHome() {
 
@@ -17,11 +19,15 @@ export default async function MiruHome() {
             <div id="anime-lists" className="flex flex-column row-gap-md">
                 <div id="score">
                     <Header text="Highest Rated" />
-                    <AnimeList animePromise={highestRatedAnimePromise} />
+                    <Suspense fallback={<AnimeListSkeleton />}>
+                        <AnimeList animePromise={highestRatedAnimePromise} />
+                    </Suspense>
                 </div>
                 <div id="popular">
                     <Header text="Most Popular" />
-                    <AnimeList animePromise={popularAnimePromise} />
+                    <Suspense fallback={<AnimeListSkeleton />}>
+                        <AnimeList animePromise={popularAnimePromise} />
+                    </Suspense>
                 </div>
             </div>
             <div id="friend-activity">
@@ -41,6 +47,18 @@ function AnimeList({animePromise}:{animePromise: Promise<any>}) {
                     <SimpleMediaCard key={idx} app="miru" title={anime.title} id={anime.id} slug={anime.slug}/>
                 )) 
             }
+        </div>
+    )
+}
+
+function AnimeListSkeleton() {
+    return (
+        <div className="container">
+        {
+            Array.from({length: 5}).map((_, idx) => (
+                <SimpleMediaCardSkeleton key={idx} />
+            ))
+        }
         </div>
     )
 }
