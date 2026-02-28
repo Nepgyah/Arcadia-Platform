@@ -1,5 +1,4 @@
 import { toaster } from "@/components/ui/toaster"
-import { json } from "stream/consumers";
 
 class D2XAPI {
     constructor() {}
@@ -21,10 +20,6 @@ class D2XAPI {
             // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                toaster.create({
-                    description: `${data.detail}`,
-                    type: 'error'
-                })
                 throw ''
             } else {
                 return res.json();
@@ -32,11 +27,6 @@ class D2XAPI {
         
         // Catch errors trying to call the api
         } catch (error) {
-            console.log(error)
-            toaster.create({
-                description: 'Unable to make api call',
-                type: 'error'
-            })
             throw ''
         }
     }
@@ -70,10 +60,6 @@ class D2XAPI {
             }
         } catch(error) {
             console.log(error)
-            toaster.create({
-                description: 'Unable to make api call',
-                type: 'error'
-            })
             throw 'Error attempting to call api'
         }
     }

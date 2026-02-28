@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Suspense, use } from "react";
 
 import Header from "@/components/custom/header";

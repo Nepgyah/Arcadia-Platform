@@ -1,8 +1,9 @@
+export const revalidate = 60;
+
 import { Suspense, use } from "react"
 
 import { GetAnime, GetAnimeCharacters, GetAnimeFranchise } from "./animeDetailQueries"
 import { Anime } from "@/types/miru";
-import Overview from "./overviewTab";
 
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 

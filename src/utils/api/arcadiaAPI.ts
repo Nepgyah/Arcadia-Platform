@@ -20,10 +20,6 @@ class ArcadiaAPI {
             // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                toaster.create({
-                    description: `${data.detail}`,
-                    type: 'error'
-                })
                 throw 'Error on the server'
             } else {
                 return res.json();
@@ -31,11 +27,6 @@ class ArcadiaAPI {
         
         // Catch errors trying to call the api
         } catch (error) {
-            console.log('Here', error)
-            toaster.create({
-                description: 'Unable to make api call',
-                type: 'error'
-            })
             throw 'Error handling api'
         }
     }
@@ -60,20 +51,11 @@ class ArcadiaAPI {
             // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                toaster.create({
-                    description: `${data.detail}`,
-                    type: 'error'
-                })
                 throw 'Error occurred from the api'
             } else {
                 return res.json();
             }
         } catch(error) {
-            console.log(error)
-            toaster.create({
-                description: 'Unable to make api call',
-                type: 'error'
-            })
             throw 'Error attempting to call api'
         }
     }
@@ -96,19 +78,11 @@ class ArcadiaAPI {
         // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                toaster.create({
-                    description: `${data.detail}`,
-                    type: 'error'
-                })
                 throw 'Error occurred from the api'
             } else {
                 return res.json();
             }
         } catch(error) {
-            toaster.create({
-                description: 'Unable to make api call',
-                type: 'error'
-            })
             throw 'Error attempting to call api'
         }
     }
