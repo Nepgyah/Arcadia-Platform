@@ -18,14 +18,17 @@ export default function Page() {
     const [completedList, setCompletedList] = useState([])
     const [planToList, setPlanToList] = useState([])
     const [onHoldList, setOnHoldList] = useState([])
-
+    const [username, setUserName] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
+
         async function FetchAnimeList() {
             const query = 
             `
             query {
-                getAnimeList(userId: ${user ? user.id : params.user_id}) {
+                getAnimeList(userId: ${params.user_id ? params.user_id: user.id}) {
+                    username,
                     watching {
                         anime {
                             id,
@@ -75,6 +78,8 @@ export default function Page() {
             setCompletedList(results.data.getAnimeList.completed)
             setPlanToList(results.data.getAnimeList.planTo)
             setOnHoldList(results.data.getAnimeList.onHold)
+            setUserName(results.data.getAnimeList.username)
+            setLoading(false)
         }
 
         if(user) {
@@ -85,29 +90,33 @@ export default function Page() {
 
     return (
         <div id="page-miru-animelist" className="page-content">
-            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist']} />
+            
             {
-                !user ?
-                    <p>Login to see you anilist!</p>
+                loading ?
+                <p>Loading</p>
                 :
-                    <React.Fragment>
-                        <div>
-                            <Header text="Watching"/>
-                            <AnimeList list={watchlist} />
-                        </div>
-                        <div>
-                            <Header text="Completed"/>
-                            <AnimeList list={completedList} />
-                        </div>
-                        <div>
-                            <Header text="Plan To"/>
-                            <AnimeList list={planToList} />
-                        </div>
-                        <div>
-                            <Header text="On Hold"/>
-                            <AnimeList list={onHoldList} />
-                        </div>
-                    </React.Fragment>
+                    !user ?
+                        <p>Login to see you anilist</p>
+                    :
+                        <React.Fragment>
+                            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist', `${username}'s Anilist`]} />
+                            <div>
+                                <Header text="Watching"/>
+                                <AnimeList list={watchlist} />
+                            </div>
+                            <div>
+                                <Header text="Completed"/>
+                                <AnimeList list={completedList} />
+                            </div>
+                            <div>
+                                <Header text="Plan To"/>
+                                <AnimeList list={planToList} />
+                            </div>
+                            <div>
+                                <Header text="On Hold"/>
+                                <AnimeList list={onHoldList} />
+                            </div>
+                        </React.Fragment>
             }
         </div>
     )
