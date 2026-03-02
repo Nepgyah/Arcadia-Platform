@@ -48,7 +48,6 @@ export async function GetAnime(id: string) {
     `
 
     const response = await arcadiaAPI.GraphQL<AnimeDetailsQuery>(query)
-    await sleep(3)
     return response.data.animeById
 }
 
