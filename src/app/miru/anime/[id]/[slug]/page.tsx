@@ -8,12 +8,14 @@ import { Anime } from "@/types/miru";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_anime-details.scss';
-import TabWrapper from "./animeTabWrapper";
 import MetaData from "./metaData";
 import OverviewTab from "./overviewTab";
 import CharactersTab from "./charactersTab";
 import { Skeleton } from "@chakra-ui/react";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
+import TabWrapper from "./animeTabWrapper";
+import { notFound } from "next/navigation";
+import { sleep } from "@/utils/testing/wait";
 
 export default async function AnimeDetails(
     props: {
@@ -22,19 +24,20 @@ export default async function AnimeDetails(
 ) {
 
     const { id } = await props.params
-    const animePromise = GetAnime(id);
     const charactersPromise = GetAnimeCharacters(id);
     const franchisePromise = GetAnimeFranchise(id);
 
+    const anime = await GetAnime(id);
+
+    if (!anime) notFound();
+
     return (
         <div id="page-anime-details" className="page-content">
-            <Suspense fallback={<HeroSkeleton />}>
-                <Hero animePromise={animePromise}/>
-            </Suspense>
+            <Hero anime={anime}/>
             <div className="split-content">
-                <MetaData animePromise={animePromise} franchisePromise={franchisePromise} />
+                <MetaData anime={anime} franchisePromise={franchisePromise} />
                 <TabWrapper>
-                    <OverviewTab animePromise={animePromise} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
+                    <OverviewTab anime={anime} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
                     <Suspense fallback={<CharacterCardSkeleton />} >
                         <CharactersTab charactersPromise={charactersPromise} />
                     </Suspense>
@@ -46,12 +49,11 @@ export default async function AnimeDetails(
 
 function Hero(
     {
-        animePromise
+        anime
     } : {
-        animePromise : Promise<Anime>
+        anime : Anime
     }
 ) {
-    const anime = use(animePromise);
     return (
         <div id="hero">
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
@@ -69,11 +71,3 @@ function Hero(
     )
 }
 
-function HeroSkeleton() {
-    return (
-        <div id="hero">
-            <Skeleton height={250} width={'100%'}/>
-            <Skeleton height={250} width={'100%'}/>
-        </div>
-    )
-}

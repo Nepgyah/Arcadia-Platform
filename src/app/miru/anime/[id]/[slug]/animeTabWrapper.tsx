@@ -1,7 +1,7 @@
 'use client';
 
 import TabButton from "@/components/custom/tabButton";
-import { Children, useState } from "react";
+import React, { Children, useState } from "react";
 
 export default function TabWrapper({children}:{children: React.ReactNode}) {
 
@@ -18,6 +18,6 @@ export default function TabWrapper({children}:{children: React.ReactNode}) {
                     {child}
                 </div>
             ))}
-        </div>    
+        </div>
     )
 }

@@ -4,7 +4,7 @@ export interface url {
 }
 
 export const mainboard: url[] = [
-    { title: 'Home', path: ''},
+    { title: 'Home', path: '/'},
     { title: 'Miru', path: '/miru'}
 ]
 

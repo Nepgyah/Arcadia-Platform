@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { notFound, redirect, useParams } from "next/navigation";
 
 import { Table, Tabs } from "@chakra-ui/react";
 import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react";
@@ -80,6 +80,9 @@ export default function Page() {
             `
 
             const results = await arcadiaAPI.GraphQL<any>(query)
+            if (!results.data.getAnimeList) {
+                redirect('/not-found')
+            }
             setWatchlist(results.data.getAnimeList.watching)
             setCompletedList(results.data.getAnimeList.completed)
             setPlanToList(results.data.getAnimeList.planTo)
@@ -97,7 +100,7 @@ export default function Page() {
                 {
                     loading ?
                         Array.from({length: 4}).map((_, idx) => (
-                            <StatCardSkeleton />
+                            <StatCardSkeleton key={idx} />
                         ))
                     :
                         <>
@@ -187,7 +190,7 @@ function AnimeList({list}:{list: any[]}) {
                         list ?
                             list.length != 0 ?
                                 list.map((entry: any, idx: number) => (
-                                    <Table.Row>
+                                    <Table.Row key={idx}>
                                         <Table.Cell>
                                             {idx + 1}
                                         </Table.Cell>

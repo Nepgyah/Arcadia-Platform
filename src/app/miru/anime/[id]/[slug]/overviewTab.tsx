@@ -9,9 +9,9 @@ import CharacterCardSkeleton from "@/components/media/characters/characterCardSk
 
 export default function OverviewTab(
     {
-        animePromise, charactersPromise, franchisePromise
+        anime, charactersPromise, franchisePromise
     } : {
-        animePromise: Promise<Anime>,
+        anime: Anime,
         charactersPromise: Promise<any[]>,
         franchisePromise: Promise<Franchise>
     }
@@ -19,9 +19,7 @@ export default function OverviewTab(
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise">
-                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                    <Genres animePromise={animePromise} />
-                </Suspense>
+                <Genres anime={anime} />
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <AnimeFranchise franchisePromise={franchisePromise} />
                 </Suspense>
@@ -35,7 +33,7 @@ export default function OverviewTab(
             <div id="relationships">
                 <Header text="Anime Flow" />
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                    <Relationships animePromise={animePromise} />
+                    <Relationships anime={anime} />
                 </Suspense>
             </div>
         </div>
@@ -43,8 +41,7 @@ export default function OverviewTab(
 }
 
 // Overview sections
-function Genres({animePromise}:{animePromise:Promise<any>}) {
-    const anime = use(animePromise);
+function Genres({anime}:{anime : Anime}) {
 
     return (
         <div id="overview-genres">
@@ -98,8 +95,7 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
     )
 }
 
-function Relationships({animePromise}:{animePromise: Promise<any>}) {
-    const anime = use(animePromise);
+function Relationships({anime}:{anime : Anime}) {
 
     return (
         <div>

@@ -7,8 +7,8 @@ export default function StatCard() {
         <SkeletonCircle size={'48px'}/>
       </div>
       <div className="stat-card__text">
-        <p className="stat-card__value bold"><Skeleton width={'36px'} height={'36px'} /></p>
-        <p className="stat-card__label clr-txt-fadded"><SkeletonText noOfLines={1}/></p>
+        <Skeleton width={'36px'} height={'36px'} />
+        <SkeletonText noOfLines={1}/>
       </div>
     </div>
   );

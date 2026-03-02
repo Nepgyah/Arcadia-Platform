@@ -46,7 +46,7 @@ function AnimeList({animePromise}:{animePromise: Promise<any>}) {
         <div className="container">
             {
                 animes.map((anime: any, idx: number) => (
-                    <SimpleMediaCard key={idx} app="miru" title={anime.title} id={anime.id} slug={anime.slug}/>
+                    <SimpleMediaCard key={idx} app="miru" title={anime.title} id={anime.id} href={`miru/anime/${anime.id}/${anime.slug}`}/>
                 )) 
             }
         </div>

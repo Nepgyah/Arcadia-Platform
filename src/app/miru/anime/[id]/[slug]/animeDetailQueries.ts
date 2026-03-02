@@ -1,5 +1,6 @@
 import { Anime } from "@/types/miru"
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { sleep } from "@/utils/testing/wait"
 
 interface AnimeDetailsQuery {
     data: {
