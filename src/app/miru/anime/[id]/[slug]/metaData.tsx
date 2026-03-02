@@ -1,7 +1,7 @@
 import { Suspense, use } from "react";
 
 import { Anime } from "@/types/miru";
-import AnimeListInput from "./animeListInput";
+import AnimeListInput from "../../../../(main)/miru/anime/[id]/[slug]/animeListInput";
 import Header from "@/components/custom/header";
 import InfoItem from "@/components/custom/info-item/info-item";
 import { Franchise } from "@/types/base";

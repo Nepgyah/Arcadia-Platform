@@ -2,6 +2,7 @@ import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import '@/styles/_main.scss';
+import WrapperUI from "./wrapperUI";
 
 export const metadata: Metadata = {
     title: 'Arcadia',
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body>
         <Provider>
           <Toaster />
-          {children}
+          <WrapperUI>
+            {children}
+          </WrapperUI>
         </Provider>
       </body>
     </html>

@@ -97,7 +97,7 @@ export default function Page() {
                 {
                     loading ?
                         Array.from({length: 4}).map((_, idx) => (
-                            <StatCardSkeleton />
+                            <StatCardSkeleton key={idx} />
                         ))
                     :
                         <>
@@ -187,7 +187,7 @@ function AnimeList({list}:{list: any[]}) {
                         list ?
                             list.length != 0 ?
                                 list.map((entry: any, idx: number) => (
-                                    <Table.Row>
+                                    <Table.Row key={idx}>
                                         <Table.Cell>
                                             {idx + 1}
                                         </Table.Cell>

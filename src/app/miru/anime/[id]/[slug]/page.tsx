@@ -8,12 +8,12 @@ import { Anime } from "@/types/miru";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_anime-details.scss';
-import TabWrapper from "./animeTabWrapper";
 import MetaData from "./metaData";
 import OverviewTab from "./overviewTab";
 import CharactersTab from "./charactersTab";
 import { Skeleton } from "@chakra-ui/react";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
+import TabWrapper from "./animeTabWrapper";
 
 export default async function AnimeDetails(
     props: {
