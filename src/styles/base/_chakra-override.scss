@@ -10,3 +10,11 @@
 .chakra-popover__trigger {
     background-color: map.get($colors, platform-card);
 }
+
+.chakra-tabs__root {
+    .chakra-tabs__list {
+        .chakra-tabs__indicator, .chakra-tabs__trigger[aria-selected='true'] {
+            background-color: map.get($colors, platform-card);
+        }
+    }
+}
