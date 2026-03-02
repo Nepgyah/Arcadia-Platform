@@ -12,6 +12,11 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { useUserStore } from "@/app/store/store";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
+import StatCard from "@/components/custom/stat-card/statCard";
+
+import '@/styles/pages/miru/_anilist.scss';
+import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
+
 export default function Page() {
     const user = useUserStore((state) => state.user)
     const params = useParams<{ user_id: string}>()
@@ -83,14 +88,42 @@ export default function Page() {
             setLoading(false)
         }
 
-        if(user) {
-            FetchAnimeList()
-        }
-        
+        FetchAnimeList()
     }, [user])
 
     return (
         <div id="page-miru-animelist" className="page-content">
+            <div id="anilist-stats">
+                {
+                    loading ?
+                        Array.from({length: 4}).map((_, idx) => (
+                            <StatCardSkeleton />
+                        ))
+                    :
+                        <>
+                            <StatCard 
+                                icon={Binoculars} 
+                                label="Watching"
+                                value={watchlist.length}
+                            />
+                            <StatCard 
+                                icon={CheckCheck} 
+                                label="Completed"
+                                value={completedList.length}
+                            />
+                            <StatCard 
+                                icon={CalendarClock} 
+                                label="Plan To"
+                                value={planToList.length}
+                            />
+                            <StatCard 
+                                icon={SquarePause} 
+                                label="On Hold"
+                                value={onHoldList.length}
+                            />
+                        </>
+                }
+            </div>
             <Tabs.Root defaultValue='watching'>
                 <Tabs.List>
                     <Tabs.Trigger value="watching">
@@ -115,24 +148,21 @@ export default function Page() {
                     loading ?
                         <p>Loading</p>
                     :
-                        !user ?
-                            <p>Login to see your anilist</p>
-                        :
-                            <React.Fragment>
-                                <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist', `${username}'s Anilist`]} />
-                                <Tabs.Content value="watching">
-                                    <AnimeList list={watchlist} />
-                                </Tabs.Content>
-                                <Tabs.Content value="completed">
-                                    <AnimeList list={completedList} />
-                                </Tabs.Content>
-                                <Tabs.Content value="planTo">
-                                    <AnimeList list={planToList} />
-                                </Tabs.Content>
-                                <Tabs.Content value="onHold">
-                                    <AnimeList list={onHoldList} />
-                                </Tabs.Content>
-                            </React.Fragment>
+                        <React.Fragment>
+                            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist', `${username}'s Anilist`]} />
+                            <Tabs.Content value="watching">
+                                <AnimeList list={watchlist} />
+                            </Tabs.Content>
+                            <Tabs.Content value="completed">
+                                <AnimeList list={completedList} />
+                            </Tabs.Content>
+                            <Tabs.Content value="planTo">
+                                <AnimeList list={planToList} />
+                            </Tabs.Content>
+                            <Tabs.Content value="onHold">
+                                <AnimeList list={onHoldList} />
+                            </Tabs.Content>
+                        </React.Fragment>
                 }
             </Tabs.Root>
         </div>
