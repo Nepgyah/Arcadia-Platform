@@ -81,6 +81,6 @@ function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
             <SocialsList socials={franchise.socials} />
         )
     } else {
-        return null
+        return <p className="clr-txt-fadded">No socials found</p>
     }
 }
