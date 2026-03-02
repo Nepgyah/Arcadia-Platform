@@ -1,5 +1,6 @@
 import { Anime } from "@/types/miru"
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { sleep } from "@/utils/testing/wait"
 
 interface AnimeDetailsQuery {
     data: {
@@ -47,6 +48,7 @@ export async function GetAnime(id: string) {
     `
 
     const response = await arcadiaAPI.GraphQL<AnimeDetailsQuery>(query)
+    await sleep(3)
     return response.data.animeById
 }
 

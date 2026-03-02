@@ -1,7 +1,6 @@
 import { Suspense, use } from "react";
 
 import { Anime } from "@/types/miru";
-import AnimeListInput from "../../../../(main)/miru/anime/[id]/[slug]/animeListInput";
 import Header from "@/components/custom/header";
 import InfoItem from "@/components/custom/info-item/info-item";
 import { Franchise } from "@/types/base";
@@ -11,10 +10,10 @@ import { SkeletonText } from "@chakra-ui/react";
 
 export default function MetaData(
     { 
-        animePromise,
+        anime,
         franchisePromise
     } : { 
-        animePromise: Promise<Anime>,
+        anime: Anime
         franchisePromise: Promise<Franchise>
     }
 ) {
@@ -29,23 +28,18 @@ export default function MetaData(
             </div>
             <div>
                 <Header text="Misc" />
-                <Suspense fallback={<SkeletonText noOfLines={3} />}>
-                    <Misc animePromise={animePromise} />
-                </Suspense>
+                <Misc anime={anime} />
             </div>
             <div>
                 <Header text="Production" />
-                <Suspense fallback={<SkeletonText noOfLines={3} />}>
-                <Production animePromise={animePromise} />
-                </Suspense>
+                <Production anime={anime} />
             </div>
         </div>
     )
 }
 
 
-function Misc({animePromise}:{animePromise : Promise<Anime>}) {
-    const anime = use(animePromise);
+function Misc({anime}:{anime : Anime}) {
 
     return (
         <div className="flex-column">
@@ -56,8 +50,7 @@ function Misc({animePromise}:{animePromise : Promise<Anime>}) {
     )
 }
 
-function Production({animePromise}:{animePromise : Promise<Anime>}) {
-    const anime = use(animePromise);
+function Production({anime}:{anime : Anime}) {
 
     return (
         <div className="flex-column">

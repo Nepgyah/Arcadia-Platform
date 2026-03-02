@@ -7,5 +7,11 @@ export interface Anime extends Media {
     type: string,
     rating: string,
     genres: string[],
-    studio: string
+    studio: string,
+    prevAnime: {
+        anime: Anime
+    }
+    nextAnime: {
+        anime: Anime
+    }
 }
