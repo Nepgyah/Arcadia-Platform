@@ -1,15 +1,16 @@
 'use client';
 
-import { useUserStore } from "@/app/store/store";
-import Date from "@/components/custom/date";
-import Header from "@/components/custom/header";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import { Table } from "@chakra-ui/react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import React from "react";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+
+import { Table, Tabs } from "@chakra-ui/react";
+import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react";
+import Date from "@/components/custom/date";
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { useUserStore } from "@/app/store/store";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 export default function Page() {
     const user = useUserStore((state) => state.user)
@@ -90,77 +91,98 @@ export default function Page() {
 
     return (
         <div id="page-miru-animelist" className="page-content">
-            
-            {
-                loading ?
-                <p>Loading</p>
-                :
-                    !user ?
-                        <p>Login to see you anilist</p>
+            <Tabs.Root defaultValue='watching'>
+                <Tabs.List>
+                    <Tabs.Trigger value="watching">
+                        <Binoculars />
+                        Watching
+                    </Tabs.Trigger>
+                    <Tabs.Trigger value="completed">
+                        <CheckCheck />
+                        Completed
+                    </Tabs.Trigger>
+                    <Tabs.Trigger value="planTo">
+                        <CalendarClock />
+                        Plan To
+                    </Tabs.Trigger>
+                    <Tabs.Trigger value="onHold">
+                        <SquarePause />
+                        On Hold
+                    </Tabs.Trigger>
+                    <Tabs.Indicator />
+                </Tabs.List>
+                {
+                    loading ?
+                        <p>Loading</p>
                     :
-                        <React.Fragment>
-                            <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist', `${username}'s Anilist`]} />
-                            <div>
-                                <Header text="Watching"/>
-                                <AnimeList list={watchlist} />
-                            </div>
-                            <div>
-                                <Header text="Completed"/>
-                                <AnimeList list={completedList} />
-                            </div>
-                            <div>
-                                <Header text="Plan To"/>
-                                <AnimeList list={planToList} />
-                            </div>
-                            <div>
-                                <Header text="On Hold"/>
-                                <AnimeList list={onHoldList} />
-                            </div>
-                        </React.Fragment>
-            }
+                        !user ?
+                            <p>Login to see your anilist</p>
+                        :
+                            <React.Fragment>
+                                <SetBreadcrumbs breadcrumbs={['Miru', 'Anilist', `${username}'s Anilist`]} />
+                                <Tabs.Content value="watching">
+                                    <AnimeList list={watchlist} />
+                                </Tabs.Content>
+                                <Tabs.Content value="completed">
+                                    <AnimeList list={completedList} />
+                                </Tabs.Content>
+                                <Tabs.Content value="planTo">
+                                    <AnimeList list={planToList} />
+                                </Tabs.Content>
+                                <Tabs.Content value="onHold">
+                                    <AnimeList list={onHoldList} />
+                                </Tabs.Content>
+                            </React.Fragment>
+                }
+            </Tabs.Root>
         </div>
     )
 }
 
 function AnimeList({list}:{list: any[]}) {
     return (
-        <Table.Root size={"lg"} className="arcadia-table">
-            <Table.Header>
-                <Table.Row>
-                    <Table.ColumnHeader width={'50%'}>Title</Table.ColumnHeader>
-                    <Table.ColumnHeader>Score</Table.ColumnHeader>
-                    <Table.ColumnHeader>Start Date</Table.ColumnHeader>
-                    <Table.ColumnHeader>End Date</Table.ColumnHeader>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {
-                    list ?
-                        list.length != 0 ?
-                            list.map((entry: any, idx: number) => (
+        <Table.ScrollArea>
+            <Table.Root size={"lg"} className="arcadia-table">
+                <Table.Header>
+                    <Table.Row>
+                        <Table.ColumnHeader>#</Table.ColumnHeader>
+                        <Table.ColumnHeader width={'50%'}>Title</Table.ColumnHeader>
+                        <Table.ColumnHeader>Score</Table.ColumnHeader>
+                        <Table.ColumnHeader>Start Date</Table.ColumnHeader>
+                        <Table.ColumnHeader>End Date</Table.ColumnHeader>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {
+                        list ?
+                            list.length != 0 ?
+                                list.map((entry: any, idx: number) => (
+                                    <Table.Row>
+                                        <Table.Cell>
+                                            {idx + 1}
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            <Link href={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`} className="hover-underline">
+                                                {entry.anime.title}
+                                            </Link>
+                                        </Table.Cell>
+                                        <Table.Cell>{entry.score ? entry.score : '--'}</Table.Cell>
+                                        <Table.Cell>{entry.startWatchDate ? <Date dateString={entry.startWatchDate}/>  : "--"}</Table.Cell>
+                                        <Table.Cell>{entry.endWatchDate ? <Date dateString={entry.endWatchDate}/>  : "--"}</Table.Cell>
+                                    </Table.Row>
+                                ))
+                            :
                                 <Table.Row>
-                                    <Table.Cell>
-                                        <Link href={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`} className="hover-underline">
-                                            {entry.anime.title}
-                                        </Link>
-                                    </Table.Cell>
-                                    <Table.Cell>{entry.score ? entry.score : '--'}</Table.Cell>
-                                    <Table.Cell>{entry.startWatchDate ? <Date dateString={entry.startWatchDate}/>  : "--"}</Table.Cell>
-                                    <Table.Cell>{entry.endWatchDate ? <Date dateString={entry.endWatchDate}/>  : "--"}</Table.Cell>
+                                    <Table.Cell colSpan={5}> No Anime Here!</Table.Cell>
                                 </Table.Row>
-                            ))
                         :
                             <Table.Row>
-                                <Table.Cell colSpan={5}> No Anime Here!</Table.Cell>
+                                <Table.Cell colSpan={5}>Loading</Table.Cell>
                             </Table.Row>
-                    :
-                        <Table.Row>
-                            <Table.Cell colSpan={5}>Loading</Table.Cell>
-                        </Table.Row>
-                }
-            </Table.Body>
-        </Table.Root>
-        
+                    }
+                </Table.Body>
+            </Table.Root>
+        </Table.ScrollArea>
 
     )
 }
