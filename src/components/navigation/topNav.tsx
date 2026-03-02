@@ -20,9 +20,8 @@ export default function TopNav(
     const user = useUserStore((state) => state.user)
     const setUser = useUserStore((state) => state.setUser)
     const [navOpen, setNavOpen] = useState<boolean>(false)
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [user, setUser] = useState<any>(null)
+
     useEffect(() => {
         const getCSRF = async () => {
             // const res =  await d2xAPI.GET('auth/exchange/')
@@ -34,6 +33,9 @@ export default function TopNav(
             .then((res) => {
                 setIsLoggedIn(true)
                 setUser(res.user)
+            })
+            .catch((error) => {
+                console.log(error)
             })
         }
         getCSRF()
