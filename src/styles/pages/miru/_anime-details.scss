@@ -37,6 +37,18 @@
                 }
             }
         }
+
+        #latest-episode {
+            > div {
+                display: flex;
+                align-items: flex-end;
+                
+                img {
+                    padding-top: 1rem;
+                    margin-right: 1rem;
+                }
+            }
+        }
     }
     .split-content {
         .details {
@@ -128,6 +140,12 @@
                 }
             }
         }
+
+        #episodes-tab {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+        }
     }
 }
 
@@ -143,10 +161,26 @@
     }
 }
 
+@media only screen and (min-width: 640px) {
+    #page-anime-details {
+        .split-content {
+            #episodes-tab {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                
+                .chakra-card__root {
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
 @media only screen and (min-width: 768px) {
     #page-anime-details {
         #hero {
             display: grid;
+            align-items: stretch;
             grid-template-columns: 4fr 3fr;
             column-gap: 2rem;
         }
@@ -216,6 +250,10 @@
                     }
                 }
             }
+
+            #episodes-tab {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
     }
 }
@@ -228,7 +266,6 @@
                 &:first-child {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
-                    height: 250px;
 
                     #hero-image {
                         order: 2;

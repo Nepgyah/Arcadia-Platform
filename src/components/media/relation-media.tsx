@@ -3,19 +3,20 @@ import Link from "next/link"
 
 export default function(
     {
-        media, app, relation, link
+        media, app, relation, link, src
     } : {
         media: Media,
         app: 'miru' | 'asobu' | 'yomu',
         link: string,
-        relation: string
+        relation: string,
+        src: string
     }
 ) {
 
     return (
         <div className="relation-media">
             <Link href={link}>
-                <img className="border-radius-md shadow animation-hover" src={`/storage/${app}/${media.id}.jpg`} alt="" />
+                <img className="border-radius-md shadow animation-hover" src={src} alt="" />
             </Link>
             <div>
                 <Link href={link} className="hover-underline">{media.title}</Link>

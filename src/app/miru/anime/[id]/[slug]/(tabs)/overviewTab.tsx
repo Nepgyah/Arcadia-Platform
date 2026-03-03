@@ -108,6 +108,7 @@ function Relationships({anime}:{anime : Anime}) {
                                 app="miru" 
                                 relation="Prequel"
                                 link={`/miru/anime/${anime.prevAnime.anime.id}/${anime.prevAnime.anime.slug}`}
+                                src={`/storage/miru/${anime.prevAnime.anime.id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>
@@ -121,6 +122,7 @@ function Relationships({anime}:{anime : Anime}) {
                                 app="miru" 
                                 relation="Sequel"
                                 link={`/miru/anime/${anime.nextAnime.anime.id}/${anime.nextAnime.anime.slug}`}
+                                src={`/storage/miru/${anime.nextAnime.anime.id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>

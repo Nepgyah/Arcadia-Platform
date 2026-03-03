@@ -5,11 +5,11 @@ import React, { use, useEffect, useState } from "react";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
-import { GetAnimeListEntry } from "./animeDetailQueries";
+import { GetAnimeListEntry } from "./(api)/animeDetailQueries";
 import { useUserStore } from "@/app/store/store";
 import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
-import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./animeListMutations";
+import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./(api)/animeListMutations";
 
 
 export default function AnimeListInput(

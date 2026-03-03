@@ -13,5 +13,13 @@ export interface Anime extends Media {
     }
     nextAnime: {
         anime: Anime
-    }
+    },
+    latestEpisode: AnimeEpisode
+}
+
+export interface AnimeEpisode {
+    id: number,
+    number: number,
+    title: string,
+    description: string
 }

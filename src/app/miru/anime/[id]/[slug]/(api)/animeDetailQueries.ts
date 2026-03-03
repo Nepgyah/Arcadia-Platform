@@ -42,6 +42,10 @@ export async function GetAnime(id: string) {
                     slug
                 },
                 relationType
+            },
+            latestEpisode {
+                id,
+                title
             }
         }
     }
@@ -105,4 +109,21 @@ export async function GetAnimeFranchise(id: string) {
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.franchiseByAnime
+}
+
+export async function GetAnimeEpisodes(id: string) {
+    const query =
+    `
+    query {
+        getAnimeEpisodes(animeId: ${id}) {
+            id,
+            title,
+            number,
+            description
+        }
+    }
+    `
+
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.getAnimeEpisodes
 }

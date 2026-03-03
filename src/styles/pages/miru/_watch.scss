@@ -1,0 +1,55 @@
+#page-miru-watch {
+    #screen {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+
+    #details { 
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+
+        #episodes {
+            .container {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    #page-miru-watch {
+        #details {
+            #episodes {
+                .container {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+
+                    .chakra-card__root {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (min-width: 1200px) {
+    #page-miru-watch {
+        #details {
+            display: grid;
+            grid-template-columns: 1.5fr 4fr;
+            column-gap: 2rem;
+
+            #episodes {
+                .container {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    gap: 1rem;
+                }
+            }
+        }
+    }
+}

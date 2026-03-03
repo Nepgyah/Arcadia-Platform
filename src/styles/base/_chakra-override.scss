@@ -18,3 +18,12 @@
         }
     }
 }
+
+.chakra-card__root {
+    background-color: map.get($colors, platform-light);
+    overflow: hidden;
+
+    &.selected {
+        background-color: map.get($colors, platform-card);
+    }
+}
