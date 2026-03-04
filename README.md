@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arcadia Platform
+Introducing the Arcadia Platform. The web app that helps users view and track anime, manga, games and music.
+<br><br>
+Visit Arcadia: https://arcadia-platform.vercel.app
 
-## Getting Started
+## How it works
+With the api hosted on a seperate Django server, this repo is designed to be the platform that users interact with. At full deployment, users will be able to seamlessly
+traverse between apps, doing there desired actions between games, anime, manga and more without having multipiple accounts/tabs/websites to do so.
 
-First, run the development server:
+## Features
+Please see [Features in the Arcadia API readme](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#features)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech
+Languages: Typescript, SCSS, HTML
+Frameworks: Next.js
+State Management: [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction)
+UI: [Chakra UI](https://chakra-ui.com)
+Deployment: [Vercel](https://vercel.com/home)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Future Plans
+1: If the arcadia apps become collectively big, I plan to split them up into microservices which is already in place with django's app system<br>
+2. Create other apps/use cases
