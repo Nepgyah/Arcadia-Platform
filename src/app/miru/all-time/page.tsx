@@ -114,7 +114,7 @@ export default function Page() {
                                     summary={anime.summary}
                                     users={anime.users}
                                     score={anime.score}
-                                    src={`/storage/miru/${anime.id}.jpg`}
+                                    src={`/storage/miru/${anime.id}/cover.jpg`}
                                     franchise={anime.franchise}
                                 />
                             ))
