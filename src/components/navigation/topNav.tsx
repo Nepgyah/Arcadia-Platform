@@ -1,14 +1,15 @@
 'use client';
 
 import Link from "next/link";
-import { Avatar, Button, Drawer, HStack, IconButton, VStack } from "@chakra-ui/react";
+import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Hamburger, HamburgerIcon } from "lucide-react";
-import { d2xAPI } from "@/utils/api/d2xAPI";
+import { HamburgerIcon } from "lucide-react";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { toaster } from "../ui/toaster";
 import { useUserStore } from "@/app/store/store";
 import { url } from "@/utils/data/urls";
+import { redirect, RedirectType } from "next/navigation";
+import { Tooltip } from "../ui/tooltip";
 
 export default function TopNav(
     {
@@ -20,6 +21,7 @@ export default function TopNav(
     const user = useUserStore((state) => state.user)
     const setUser = useUserStore((state) => state.setUser)
     const [navOpen, setNavOpen] = useState<boolean>(false)
+    const [profileOpen, setProfileOpen] = useState<boolean>(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export default function TopNav(
         }
 
         const getUser = async () => {
-            arcadiaAPI.GET<any>("users/")
+            arcadiaAPI.GET<any>("user/")
             .then((res) => {
                 setIsLoggedIn(true)
                 setUser(res.user)
@@ -53,6 +55,13 @@ export default function TopNav(
         })
     }
 
+    const handleProfileOpen = (isOpen : boolean) => {
+        if (!user) {
+            redirect('/auth', RedirectType.push)
+        } else {
+            setProfileOpen(isOpen)
+        }
+    }
     return (
         <div id="top-nav">
             <div className="mobile-links">
@@ -86,16 +95,21 @@ export default function TopNav(
                 </Link>
             </div>
             <div className="profile">
-                <Drawer.Root>
-                    <Drawer.Trigger asChild>
-                        <Avatar.Root>
-                            {
-                                user ?
-                                    <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
-                                :
-                                    <Avatar.Image src={'/sad.jpeg'} />
-                            }
-                        </Avatar.Root>
+                <Drawer.Root open={profileOpen} onOpenChange={(e) => handleProfileOpen(e.open)}>
+                    <Drawer.Trigger asChild className="clickable">
+                        
+                            <Avatar.Root>
+                                {
+                                    user ?
+                                        <Tooltip content="View your account">
+                                            <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
+                                        </Tooltip>
+                                    :
+                                        <Tooltip content="Login">
+                                            <Avatar.Image src={'/storage/preset-profile-pics/not-logged.jpg'} />
+                                        </Tooltip>
+                                }
+                            </Avatar.Root>
                     </Drawer.Trigger>
                     <Drawer.Positioner>
                         <Drawer.Content>
@@ -111,15 +125,12 @@ export default function TopNav(
                                 <p>{user ? user.username : ''}</p>
                             </Drawer.Header>
                             <Drawer.Body>
-                                {
-                                    !isLoggedIn &&
-                                        <Button onClick={() => handleDemoLogIn()}>
-                                            Login as Demo User
-                                        </Button>
-                                }
+
                             </Drawer.Body>
                             <Drawer.Footer>
-                                Logout
+                                {  
+                                    user && <Button>Logout</Button>
+                                }
                             </Drawer.Footer>
                         </Drawer.Content>
                     </Drawer.Positioner>
