@@ -1,36 +1,26 @@
-'use server';
+'use server'
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers'
 
-class Oauth {
-    constructor () {}
+export async function setOauthState(state: string) {
+    const cookieStore = await cookies()
 
-    async setOauthState(state: string) {
-        const cookieStore = await cookies()
-    
-        console.log('Setting cookies')
-        cookieStore.set(
-            'oauth_state', state, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 60 * 10
-            }
-        )
-    }
-
-    async verifyOauthState(inputState: string) {
-        const cookieStore = await cookies()
-        console.log('Verifying cookies')
-        const cookieState = cookieStore.get('oauth_state')
-        if(cookieState) {
-            console.log(cookieState)
-            console.log(inputState)
-            if(String(cookieState) == inputState) {
-                return true
-            } 
-        }
-        return false
-    }
+    cookieStore.set('oauth_state', state, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 60 * 30,
+        path: '/',
+    })
 }
 
-export const oauth = new Oauth()
+export async function verifyOauthState(urlState: string){
+
+    const cookieStore = await cookies()
+    const cookieState = cookieStore.get('oauth_state')
+    
+    if (cookieState && cookieState.value === urlState) {
+        // cookieStore.delete('oauth_state')
+        return true
+    }
+    return false
+}

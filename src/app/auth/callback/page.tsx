@@ -1,16 +1,58 @@
-'use client';
+'use client'
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { verifyOauthState } from '@/utils/actions/oauth'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-export default function Page() {
+export default function CallbackPage() {
     const searchParams = useSearchParams()
-    const [hasError, setHasError] = useState(false)
 
     useEffect(() => {
-        const auth_code = searchParams.get('auth_code')
-    }, [])
+        const auth_code = searchParams.get('auth_code') // 'code' is the standard OAuth key
+        const state = searchParams.get('state')    // This is what we check against the cookie
+
+        async function verify() {
+            if (state && auth_code) {
+                console.log(auth_code, state)
+                let stateMatch = await verifyOauthState(state)
+                if (stateMatch) {
+                    console.log('calling api')
+                    ExchangeAuthCode(auth_code)
+                }
+            }
+        }
+
+        verify()
+    }, [searchParams])
+
     return (
-        <h1>Verifying your credentials</h1>
+        <div>
+            <p>Verifying credentials</p>
+        </div>
     )
+}
+
+async function ExchangeAuthCode(authCode: string) {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}oauth/exchange/`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+                {
+                    auth_code: authCode,
+                }
+            )
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+        } else {
+            console.log('Error')
+        }
+    } catch {
+
+    }
 }
