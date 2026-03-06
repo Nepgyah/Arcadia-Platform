@@ -1,24 +1,54 @@
 'use client'
+export const dynamic = "force-dynamic";
 
-import { verifyOauthState } from '@/utils/actions/oauth'
-import { useSearchParams } from 'next/navigation'
+import Link from 'next/link';
 import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+
+import { deleteOauthState, verifyOauthState } from '@/utils/actions/oauth'
 
 export default function CallbackPage() {
     const searchParams = useSearchParams()
+    const [hasError, setHasError] = useState(false)
+    const auth_code = searchParams.get('auth_code') // 'code' is the standard OAuth key
+    const state = searchParams.get('state')    // This is what we check against the cookie
 
     useEffect(() => {
-        const auth_code = searchParams.get('auth_code') // 'code' is the standard OAuth key
-        const state = searchParams.get('state')    // This is what we check against the cookie
 
         async function verify() {
             if (state && auth_code) {
-                console.log(auth_code, state)
                 let stateMatch = await verifyOauthState(state)
                 if (stateMatch) {
-                    console.log('calling api')
-                    ExchangeAuthCode(auth_code)
+                    try {
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}oauth/exchange/`, {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(
+                                {
+                                    auth_code: auth_code,
+                                }
+                            )
+                        })
+
+                        if (response.ok) {
+                            window.location.href = '/';
+                        } else {
+                            setHasError(true)
+                        }
+                        await deleteOauthState()
+                    } catch (error)  {
+                        setHasError(true)
+                    } 
+                } else {
+                    // Error on checking state
+                    setHasError(true)
                 }
+            } else {
+                // Error on empty params
+                setHasError(true)
             }
         }
 
@@ -26,33 +56,13 @@ export default function CallbackPage() {
     }, [searchParams])
 
     return (
-        <div>
-            <p>Verifying credentials</p>
+        <div id='page-auth-callback'>
+            {
+                !hasError ?
+                    <p>Verifying</p>
+                :
+                    <p>An error has occured. Please start the process again <Link href='/auth'>Here</Link></p>
+            }
         </div>
     )
-}
-
-async function ExchangeAuthCode(authCode: string) {
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}oauth/exchange/`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                {
-                    auth_code: authCode,
-                }
-            )
-        })
-
-        if (response.ok) {
-            const data = await response.json()
-        } else {
-            console.log('Error')
-        }
-    } catch {
-
-    }
 }

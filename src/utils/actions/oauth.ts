@@ -19,8 +19,12 @@ export async function verifyOauthState(urlState: string){
     const cookieState = cookieStore.get('oauth_state')
     
     if (cookieState && cookieState.value === urlState) {
-        // cookieStore.delete('oauth_state')
         return true
     }
     return false
+}
+
+export async function deleteOauthState() {
+    const cookieStore = await cookies()
+    cookieStore.delete('oauth_state')
 }

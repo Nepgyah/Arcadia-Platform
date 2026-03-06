@@ -1,15 +1,17 @@
 'use client';
+export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { HamburgerIcon } from "lucide-react";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import { toaster } from "../ui/toaster";
-import { useUserStore } from "@/app/store/store";
-import { url } from "@/utils/data/urls";
 import { redirect, RedirectType } from "next/navigation";
-import { Tooltip } from "../ui/tooltip";
+
+import { HamburgerIcon } from "lucide-react";
+import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
+
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { useUserStore } from "@/app/store/store";
+import { handleGetUser, logoutUser } from "@/utils/actions/user";
+import { url } from "@/utils/data/urls";
 
 export default function TopNav(
     {
@@ -22,44 +24,41 @@ export default function TopNav(
     const setUser = useUserStore((state) => state.setUser)
     const [navOpen, setNavOpen] = useState<boolean>(false)
     const [profileOpen, setProfileOpen] = useState<boolean>(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         const getCSRF = async () => {
-            // const res =  await d2xAPI.GET('auth/exchange/')
             await arcadiaAPI.GET('util/csrf/')
         }
 
         const getUser = async () => {
-            arcadiaAPI.GET<any>("user/")
-            .then((res) => {
-                setIsLoggedIn(true)
-                setUser(res.user)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            let user = await handleGetUser()
+            if (user) {
+                setUser(user)
+            } else {
+                setUser(null)
+            }
         }
         getCSRF()
         getUser()
     }, [])
-    
-    const handleDemoLogIn = () => {
-        arcadiaAPI.POST("users/demo/login/", {})
-        .then(() => {
-            setIsLoggedIn(true)
-            toaster.create({
-                description: 'Demo Login Successful',
-                type: 'success'
-            })
-        })
-    }
 
     const handleProfileOpen = (isOpen : boolean) => {
         if (!user) {
             redirect('/auth', RedirectType.push)
         } else {
             setProfileOpen(isOpen)
+        }
+    }
+
+    const handleLogout = async () => {
+        setProfileOpen(false)
+
+        try {
+            await logoutUser()
+            setUser(null)
+            window.location.href = '/';
+        } catch (error) {
+            console.error("Logout failed", error);
         }
     }
     return (
@@ -97,18 +96,13 @@ export default function TopNav(
             <div className="profile">
                 <Drawer.Root open={profileOpen} onOpenChange={(e) => handleProfileOpen(e.open)}>
                     <Drawer.Trigger asChild className="clickable">
-                        
                             <Avatar.Root>
                                 {
-                                    user ?
-                                        <Tooltip content="View your account">
-                                            <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
-                                        </Tooltip>
+                                    user != null ?
+                                        <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
                                     :
-                                        <Tooltip content="Login">
-                                            <Avatar.Image src={'/storage/preset-profile-pics/not-logged.jpg'} />
-                                        </Tooltip>
-                                }
+                                         <Avatar.Image src={`/storage/preset-profile-pics/not-logged.jpg`} />
+                                }   
                             </Avatar.Root>
                     </Drawer.Trigger>
                     <Drawer.Positioner>
@@ -129,7 +123,7 @@ export default function TopNav(
                             </Drawer.Body>
                             <Drawer.Footer>
                                 {  
-                                    user && <Button>Logout</Button>
+                                    user && <Button onClick={() => handleLogout()}>Logout</Button>
                                 }
                             </Drawer.Footer>
                         </Drawer.Content>
