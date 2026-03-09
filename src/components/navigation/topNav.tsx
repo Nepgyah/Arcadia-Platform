@@ -1,13 +1,16 @@
 'use client';
+export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { Avatar, Button, Drawer, HStack, IconButton, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Hamburger, HamburgerIcon } from "lucide-react";
-import { d2xAPI } from "@/utils/api/d2xAPI";
+import { redirect, RedirectType } from "next/navigation";
+
+import { HamburgerIcon } from "lucide-react";
+import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
+
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import { toaster } from "../ui/toaster";
 import { useUserStore } from "@/app/store/store";
+import { handleGetUser, logoutUser } from "@/utils/actions/user";
 import { url } from "@/utils/data/urls";
 
 export default function TopNav(
@@ -20,39 +23,44 @@ export default function TopNav(
     const user = useUserStore((state) => state.user)
     const setUser = useUserStore((state) => state.setUser)
     const [navOpen, setNavOpen] = useState<boolean>(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [profileOpen, setProfileOpen] = useState<boolean>(false)
 
     useEffect(() => {
         const getCSRF = async () => {
-            // const res =  await d2xAPI.GET('auth/exchange/')
             await arcadiaAPI.GET('util/csrf/')
         }
 
         const getUser = async () => {
-            arcadiaAPI.GET<any>("users/")
-            .then((res) => {
-                setIsLoggedIn(true)
-                setUser(res.user)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            let user = await handleGetUser()
+            if (user) {
+                setUser(user)
+            } else {
+                setUser(null)
+            }
         }
         getCSRF()
         getUser()
     }, [])
-    
-    const handleDemoLogIn = () => {
-        arcadiaAPI.POST("users/demo/login/", {})
-        .then(() => {
-            setIsLoggedIn(true)
-            toaster.create({
-                description: 'Demo Login Successful',
-                type: 'success'
-            })
-        })
+
+    const handleProfileOpen = (isOpen : boolean) => {
+        if (!user) {
+            redirect('/auth', RedirectType.push)
+        } else {
+            setProfileOpen(isOpen)
+        }
     }
 
+    const handleLogout = async () => {
+        setProfileOpen(false)
+
+        try {
+            await logoutUser()
+            setUser(null)
+            window.location.href = '/';
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    }
     return (
         <div id="top-nav">
             <div className="mobile-links">
@@ -86,16 +94,16 @@ export default function TopNav(
                 </Link>
             </div>
             <div className="profile">
-                <Drawer.Root>
-                    <Drawer.Trigger asChild>
-                        <Avatar.Root>
-                            {
-                                user ?
-                                    <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
-                                :
-                                    <Avatar.Image src={'/sad.jpeg'} />
-                            }
-                        </Avatar.Root>
+                <Drawer.Root open={profileOpen} onOpenChange={(e) => handleProfileOpen(e.open)}>
+                    <Drawer.Trigger asChild className="clickable">
+                            <Avatar.Root>
+                                {
+                                    user != null ?
+                                        <Avatar.Image src={`/storage/preset-profile-pics/${user.picturePreset}.webp`} />
+                                    :
+                                         <Avatar.Image src={`/storage/preset-profile-pics/not-logged.jpg`} />
+                                }   
+                            </Avatar.Root>
                     </Drawer.Trigger>
                     <Drawer.Positioner>
                         <Drawer.Content>
@@ -111,15 +119,12 @@ export default function TopNav(
                                 <p>{user ? user.username : ''}</p>
                             </Drawer.Header>
                             <Drawer.Body>
-                                {
-                                    !isLoggedIn &&
-                                        <Button onClick={() => handleDemoLogIn()}>
-                                            Login as Demo User
-                                        </Button>
-                                }
+
                             </Drawer.Body>
                             <Drawer.Footer>
-                                Logout
+                                {  
+                                    user && <Button onClick={() => handleLogout()}>Logout</Button>
+                                }
                             </Drawer.Footer>
                         </Drawer.Content>
                     </Drawer.Positioner>
