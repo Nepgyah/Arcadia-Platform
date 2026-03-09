@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-import { deleteOauthState, verifyOauthState } from '@/utils/actions/oauth'
+import { deleteOauthState, finalizeLogin, verifyOauthState } from '@/utils/actions/oauth'
 
 function CallbackContent() {
     const searchParams = useSearchParams()
@@ -19,30 +19,14 @@ function CallbackContent() {
             if (state && auth_code) {
                 let stateMatch = await verifyOauthState(state)
                 if (stateMatch) {
-                    try {
-                        const response = await fetch(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}oauth/exchange/`, {
-                            method: 'POST',
-                            credentials: 'include',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(
-                                {
-                                    auth_code: auth_code,
-                                }
-                            )
-                        })
+                    const result = await finalizeLogin(auth_code)
 
-                        if (response.ok) {
-                            window.location.href = '/';
-                        } else {
-                            setHasError(true)
-                        }
-                        await deleteOauthState()
-                    } catch (error)  {
-                        console.log('Error on api')
+                    if (result.success) {
+                        window.location.href = '/';
+                    } else {
                         setHasError(true)
-                    } 
+                    }
+                    await deleteOauthState()
                 } else {
                     // Error on checking state
                     console.log('Mismatch states')
