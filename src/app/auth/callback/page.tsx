@@ -40,14 +40,17 @@ function CallbackContent() {
                         }
                         await deleteOauthState()
                     } catch (error)  {
+                        console.log('Error on api')
                         setHasError(true)
                     } 
                 } else {
                     // Error on checking state
+                    console.log('Mismatch states')
                     setHasError(true)
                 }
             } else {
                 // Error on empty params
+                console.log('No state and code')
                 setHasError(true)
             }
         }
