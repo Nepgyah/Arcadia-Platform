@@ -24,6 +24,46 @@ export async function verifyOauthState(urlState: string){
     return false
 }
 
+export async function finalizeLogin(auth_code : string) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}oauth/exchange/`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+            {
+                auth_code: auth_code,
+            }
+        )
+    })
+
+    if (!response.ok) return { success : false}
+
+    const data = await response.json()
+    const cookieStore = await cookies()
+
+    cookieStore.set({
+        name: data.access_token.key,
+        value: data.access_token.value, 
+        httpOnly: data.access_token.httponly,
+        secure: data.access_token.secure,
+        sameSite: data.access_token.samesite,
+        expires: new Date(data.access_token.expires),
+        path: data.access_token.path
+    })
+    cookieStore.set({
+        name: data.refresh_token.key,
+        value: data.refresh_token.value, 
+        httpOnly: data.refresh_token.httponly,
+        secure: data.refresh_token.secure,
+        sameSite: data.refresh_token.samesite,
+        expires: new Date(data.refresh_token.expires),
+        path: data.refresh_token.path
+    })
+
+    return { success: true }
+}
 export async function deleteOauthState() {
     const cookieStore = await cookies()
     cookieStore.delete('oauth_state')

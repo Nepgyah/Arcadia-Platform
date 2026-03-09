@@ -31,7 +31,9 @@ export default function TopNav(
         }
 
         const getUser = async () => {
+            console.log('Fetching user')
             let user = await handleGetUser()
+            console.log('User', user)
             if (user) {
                 setUser(user)
             } else {
