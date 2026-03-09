@@ -2,12 +2,12 @@
 export const dynamic = "force-dynamic";
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import { deleteOauthState, verifyOauthState } from '@/utils/actions/oauth'
 
-export default function CallbackPage() {
+function CallbackContent() {
     const searchParams = useSearchParams()
     const [hasError, setHasError] = useState(false)
     const auth_code = searchParams.get('auth_code') // 'code' is the standard OAuth key
@@ -64,5 +64,13 @@ export default function CallbackPage() {
                     <p>An error has occured. Please start the process again <Link href='/auth'>Here</Link></p>
             }
         </div>
+    )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<div>Loading</div>}>
+            <CallbackContent />
+        </Suspense>
     )
 }
