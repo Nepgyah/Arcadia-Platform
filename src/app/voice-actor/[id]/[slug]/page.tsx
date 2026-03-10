@@ -3,6 +3,7 @@ import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import "@/styles/pages/_voice-actor.scss";
 import CharacterCard from "@/components/media/characters/character-card";
+import SocialsList from "@/components/media/socials/socials";
 
 export default async function Page(
     props : {
@@ -16,7 +17,7 @@ export default async function Page(
         <div id="page-va-details" className="page-content default-schema">
             <div id="two-col">
                 <div id="va-metadata">
-                    <img className="card border-radius-sm" src={`/storage/voice-actors/${voiceActor.id}.jpg`} alt="" />
+                    <img id="va-photo" className="card border-radius-sm" src={`/storage/voice-actors/${voiceActor.id}.jpg`} alt="" />
                     <div>
                         <div id="name">
                             <p className="txt-lg">{voiceActor.firstName}</p>
@@ -24,7 +25,7 @@ export default async function Page(
                         </div>
                         <div id="socials">
                             <Header text="Socials" />
-
+                            <SocialsList socials={voiceActor.socials} />
                         </div>
                     </div>
                 </div>
@@ -88,7 +89,8 @@ async function FetchVoiceActor(id: string) {
                 slug,
                 firstName,
                 lastName,
-                bio
+                bio,
+                socials
             },
             characters {
             anime {

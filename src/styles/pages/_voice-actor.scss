@@ -2,8 +2,8 @@
 
     #two-col {
         #va-metadata {
-            img {
-                margin: auto;
+            #va-photo {
+                margin: 0 auto;
                 height: 300px;
                 width: 200px;
             }
@@ -18,6 +18,13 @@
                 display: flex;
                 flex-direction: column;
                 row-gap: 2rem;
+
+                #bio {
+                    p {
+                        max-height: 350px;
+                        overflow-y: scroll;
+                    }
+                }
             }
 
             #characters {
@@ -71,7 +78,7 @@
                 flex-direction: column;
                 row-gap: 1rem;
 
-                img {
+                #va-photo {
                     width: 100%;
                     object-fit: cover;
                     height: 350px;
