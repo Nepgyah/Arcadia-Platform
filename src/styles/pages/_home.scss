@@ -1,207 +1,101 @@
-@use "../base/variables" as *;
+@use '../utils/variables' as *;
+@use "sass:map";
 
 #page-home {
-    .hero {
-        .hero-text {
-            color: white;
-            width: fit-content;
-            padding: .5rem;
-            font-size: 5rem;
-            &:first-of-type {
-                background-color: #719EF3;
-            }
-
-            &:nth-child(2) {
-                margin-top: 2rem;
-                background-color: $secondary;
-            }
-        }
-
-        &__description {
-            padding: .5rem;
-            margin-top: 10rem;
-            background-color: rgba( white, .75);
-        }
-    }
-
-    #intro {
-        #intro-pink-circle {
-            left: -10%;
-            bottom: 0;
-        }
-        #d2x-spirit-image {
-            height: 350px;
-        }
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            row-gap: 4rem;
-        }
-        .content {
-            display: flex;
-            flex-direction: column;
-            row-gap: 3rem;
-        }
-    }
-
-    #sponsors {
-
-        h2 {
-            margin-bottom: 3rem;
-        }
-        .sponsor-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-
-            .sponsor {
-                height: 150px;
-                width: 150px;
-                border-radius: 1.5rem;
-                background-color: #4A86E6;
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 4px rgba( #000000, .25);
-                
-                img {
-                    height: 100%;
-                }
-            }
-        }
-    }
-    #products {
+    #greeting-image {
+        min-height: 200px;
+        max-height: 400px;
+        position: relative;
         
-        #products-diagonal-lines {
+        p {
+            position: absolute;
+            z-index: 3;
             right: 5%;
-            top: -1%;
+            bottom: 5%;
+            font-size: 2rem;
         }
 
-        #products-triangle-set {
-            bottom: 2%;
-            left: 2%;
-        }
-        h2 {
-            text-align: center;
+        .mask {
+            position: absolute;
+            z-index: 2;
+            background-color: rgba(#000000, .5);
+            width: 100%;
+            height: 100%;
         }
 
-        .content {
-            margin-top: 4rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            row-gap: 2rem;
+        img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            min-height: inherit;
+            max-height: inherit;
+            object-fit: cover;
+        }
+    }
 
-            .chakra-card__root {
-                border: none;
-                overflow: hidden;
-                box-shadow: 0 4px 4px rgba( #000000, .25);
-                transition: transform .25s ease-in-out;
-                &:hover {
-                    transform: scale(1.05);
+    #app-overview {
+        display: flex;
+        flex-direction: column;
+        row-gap: 2rem;
+
+        > div {
+
+        }
+        #miru {
+            .header {
+                border-color: map.get($colors, miru-base);
+
+                &__box {
+                    background-color: map.get($colors, miru-base);
                 }
+            }
+        }
+
+        #yomu {
+            .header {
+                border-color: map.get($colors, yomu-base);
+
+                &__box {
+                    background-color: map.get($colors, yomu-base);
+                }
+            }
+        }
+
+        #asobu {
+            .header {
+                border-color: map.get($colors, asobu-base);
+
+                &__box {
+                    background-color: map.get($colors, asobu-base);
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #page-home {
+        #app-overview {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+
+            .relation-media {
                 img {
-                    height: 250px;
+                    height: 150px;
                 }
-            }
-        }
-
-        #arcadia {
-            background-color: #59304D;
-            border-color: #59304D;
-        }
-
-        #d2x-games {
-            background-color: #4A86E6;
-            border-color: #4A86E6;
-            
-            .chakra-card__description {
-                color: #dfdfdf;
-            }
-        }
-
-        #tsunagu {
-            background-color: #FEC25C;
-            border-color: #FEC25C;
-            
-            color: #3E3E42;
-
-            .chakra-card__description {
-                color: #3E3E42;
-            }
-        }
-        #kumitateru {
-            background-color: #BD4648;
-            border-color: #BD4648;
-
-            .chakra-card__description {
-                color: #dfdfdf;
             }
         }
     }
 }
-
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 1200px) {
     #page-home {
-        #products {
-            .content {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-                align-items: stretch;
+        #app-overview {
+            grid-template-columns: repeat(3, 1fr);
 
-                .chakra-card__body {
-                    min-height: 125px;
-                }
-            }
-        }
-
-        #sponsors {
-
-            .sponsor-container {
-                display: flex;
-                flex-wrap: wrap;
-                .sponsor {
+            .relation-media {
+                img {
                     height: 200px;
-                    width: 200px;
-                }
-            }
-        }
-    }
-}
-@media only screen and (min-width: 900px) {
-    #page-home {
-        .hero {
-
-            &__description {
-                margin-top: 20rem;
-                width: 50%;
-                float: right;
-            }
-        }
-
-        #intro {
-            #d2x-spirit-image {
-                height: 650px;
-            }
-            .wrapper {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                column-gap: 3rem;
-            }
-        }
-        
-        #products {
-            .content {
-                .chakra-card__root {
-                    
-                    img {
-                        height: 350px;
-                    }
                 }
             }
         }

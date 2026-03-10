@@ -17,48 +17,33 @@ html {
             font-size: 1.5rem;
         }
         #main-layout {
-            #second-layout {
-                #side-nav {
-                    display: none;
-                }
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+
+            #side-nav {
+                display: none;
+            }
+
+            #inner-layout {
+                display: flex;
+                flex-direction: column;
 
                 #content {
+                    flex: 1;
+                    overflow-y: auto;
                     padding: 1rem;
-                    
+
                     #content-wrapper {
                         max-width: 1320px;
                         margin: 0 auto;
-                    }
-                    .chakra-breadcrumb__root {
-                        margin-bottom: 2rem;
-                    }
-                }
-            }
+                        width: 100%;
 
-        }
-    }
-}
-
-@media only screen and (min-width: 900px) {
-    html {
-        body {
-            #main-layout {
-                position: relative;
-
-                #second-layout {
-                    display: grid;
-                    grid-template-columns: 150px 1fr;
-
-                    #side-nav {
-                        display: block;
-                    }
-
-                    #content {
-                        position: relative;
-                        padding: 2rem;
+                        .chakra-breadcrumb__root {
+                            margin-bottom: 2rem;
+                        }
                     }
                 }
-
             }
         }
     }
@@ -68,11 +53,19 @@ html {
     html {
         body {
             #main-layout {
+                display: grid;
+                grid-template-columns: 150px 1fr;
+                grid-template-rows: 1fr;
 
-                #second-layout {
-                    #content {
-        
-                    }
+                #side-nav {
+                    display: block;
+                    height: 100vh;
+                }
+
+                #inner-layout {
+                    height: 100vh;
+                    display: flex;
+                    flex-direction: column;
                 }
             }
         }
