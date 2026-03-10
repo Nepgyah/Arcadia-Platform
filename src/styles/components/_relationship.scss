@@ -1,11 +1,16 @@
 .relation-media {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
 
     img {
-        width: 150px;
+        width: 100%;
         height: 200px;
         object-fit: cover;
         margin-right: 1rem;
+    }
+
+    > div {
+        padding-left: 1rem;
     }
 }
