@@ -89,10 +89,12 @@
 
         #tab-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            column-gap: 2rem;
+            gap: 2rem;
             margin-bottom: 2rem;
         }
+
         #overview-tab {
             #genres-franchise {
                 display: flex;
