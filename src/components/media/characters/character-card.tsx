@@ -9,7 +9,9 @@ export default function CharacterCard({character}:{character : any}) {
                     <p>{character.role}</p>
                 </div>
                 <div className="voice-actor">
-                    <p>{character.character.voiceActor.firstName} {character.character.voiceActor.lastName}</p>
+                    {/* <Link> */}
+                        <p>{character.character.voiceActor.firstName} {character.character.voiceActor.lastName}</p>
+                    {/* </Link> */}
                     <p>Japanese</p>
                 </div>
             </div>
