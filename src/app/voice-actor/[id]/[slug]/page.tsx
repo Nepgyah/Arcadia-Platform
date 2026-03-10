@@ -61,20 +61,6 @@ export default async function Page(
                                             rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
                                             rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
                                         />
-                                    // <div className="character-card border-radius-sm card">
-                                    //     <img className="character-picture" src={`/storage/characters/${entry.character.id}.jpg`} alt="" />
-                                    //     <div className="names p-a-sm">
-                                    //         <div className="character">
-                                    //             <p>{entry.character.firstName} {entry.character.lastName}</p>
-                                    //             <p>{entry.role}</p>
-                                    //         </div>
-                                    //         <div className="voice-actor">
-                                    //             <p>{entry.anime.title}</p>
-                                    //             <p></p>
-                                    //         </div>
-                                    //     </div>
-                                    //     <img className="voice-actor-picture" src={`/storage/miru/${entry.anime.id}/cover.jpg`} alt=""/>
-                                    // </div>
                                 ))
                             }
                         </div>
