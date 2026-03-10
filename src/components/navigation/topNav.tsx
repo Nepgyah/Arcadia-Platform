@@ -90,11 +90,6 @@ export default function TopNav(
                     </Drawer.Positioner>
                 </Drawer.Root>
             </div>
-            <div className="icon">
-                <Link href={'/'}>
-                    <img src="/logos/logo_white.svg" alt="" />
-                </Link>
-            </div>
             <div className="profile">
                 <Drawer.Root open={profileOpen} onOpenChange={(e) => handleProfileOpen(e.open)}>
                     <Drawer.Trigger asChild className="clickable">

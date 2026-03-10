@@ -17,9 +17,9 @@ export default function WrapperUI({children}:{children:React.ReactNode}) {
     const nav = getNav()
     return (
         <div id="main-layout">
-            <TopNav urlSet={nav} />
-            <div id="second-layout">
-                <SideNav urlSet={nav} />
+            <SideNav urlSet={nav} />
+            <div id="inner-layout">
+                <TopNav urlSet={nav} />
                 <div id="content">
                     <div id="content-wrapper">
                         <Breadcrumbs />
