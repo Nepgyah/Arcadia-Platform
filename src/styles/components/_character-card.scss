@@ -7,9 +7,28 @@
     grid-template-columns: 75px 1fr 75px ;
     overflow: hidden;
     
-    img {
+    .voice-actor-picture, .character-picture {
         height: 100%;
-        object-fit: cover;
+        position: relative;
+
+        .mask {
+            position: absolute;
+            z-index: 2;
+            height: 100%;
+            width: 100%;
+            transition: background-color .1s ease-in-out;
+
+            &.selected {
+                background-color: rgba(#000000, .5);
+            }
+        }
+
+        img {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 
     .names {
