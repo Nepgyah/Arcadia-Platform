@@ -25,7 +25,12 @@ export default async function Page(
                         </div>
                         <div id="socials">
                             <Header text="Socials" />
-                            <SocialsList socials={voiceActor.socials} />
+                            {
+                                voiceActor.socials ?
+                                    <SocialsList socials={voiceActor.socials} />
+                                :
+                                    <p>No socials found</p>
+                            }
                         </div>
                     </div>
                 </div>
