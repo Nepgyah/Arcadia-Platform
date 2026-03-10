@@ -37,6 +37,7 @@ export default async function Page(
                         </div>
                         <div id="statistics">
                             <Header text="Arcadia Stats" />
+                            <p>Work in Progress</p>
                         </div>
                     </div>
                     <div id="characters">
