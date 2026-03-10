@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Header from "@/components/custom/header";
 import RelationMedia from "@/components/media/relation-media";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
@@ -5,7 +7,6 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import '@/styles/pages/_home.scss';
 import { Media } from "@/types/base";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import React, { use } from "react";
 
 export default async function Home() {
     const animeList = await FetchAnime()
