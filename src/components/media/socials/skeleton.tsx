@@ -5,7 +5,7 @@ export default function SocialsSkeleton() {
         <div className="socials-list">
             {
                 Array.from({length: 3}).map((_, i) => (
-                    <Skeleton height={'46px'} width={'100%'}/>
+                    <Skeleton key={i} height={'46px'} width={'100%'}/>
                 ))
             }
         </div>
