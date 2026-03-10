@@ -1,7 +1,6 @@
 import { Social, Socials } from "@/types/base"
-import Header from "../../custom/header"
-import React from "react"
 import Link from "next/link"
+
 export default function SocialsList(
     {
         socials
