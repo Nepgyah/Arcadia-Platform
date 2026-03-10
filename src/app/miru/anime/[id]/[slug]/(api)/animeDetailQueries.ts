@@ -85,7 +85,8 @@ export async function GetAnimeCharacters(id: string) {
                 voiceActor {
                     id,
                     firstName,
-                    lastName
+                    lastName,
+                    slug
                 }
             },
             role

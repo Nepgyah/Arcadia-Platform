@@ -1,21 +1,41 @@
-export default function CharacterCard({character}:{character : any}) {
+import Link from "next/link";
 
+export default function CharacterCard(
+    {
+        lSideTitle, lSideNote, lSideLink, lSideSrc,
+        rSideTitle, rSideNote, rSideLink, rSideSrc,
+    } : {
+        lSideTitle: string, lSideNote: string, lSideLink: string | null, lSideSrc: string,
+        rSideTitle: string, rSideNote: string, rSideLink: string | null, rSideSrc: string
+}) {
     return (
         <div className="character-card border-radius-sm card">
-            <img className="character-picture" src={`/storage/characters/${character.character.id}.jpg`} alt="" />
+            <img className="character-picture" src={lSideSrc} alt="" />
             <div className="names p-a-sm">
                 <div className="character">
-                    <p>{character.character.firstName} {character.character.lastName}</p>
-                    <p>{character.role}</p>
+                    <p>{lSideTitle}</p>
+                    <p>{lSideNote}</p>
                 </div>
                 <div className="voice-actor">
-                    {/* <Link> */}
-                        <p>{character.character.voiceActor.firstName} {character.character.voiceActor.lastName}</p>
-                    {/* </Link> */}
+                    {
+                        rSideLink ?
+                            <Link className="clickable" prefetch={false} href={rSideLink}>
+                                <p className="hover-underline">{rSideTitle}</p>
+                            </Link>
+                        :
+                            <p className="hover-underline">{rSideTitle}</p>
+                    }
                     <p>Japanese</p>
                 </div>
             </div>
-            <img className="voice-actor-picture" src={`/storage/voice-actors/${character.character.voiceActor.id}.jpg`} alt=""/>
+            {
+                rSideLink ?
+                    <Link className="clickable" prefetch={false} href={rSideLink}>
+                        <img className="voice-actor-picture" src={rSideSrc} alt=""/>
+                    </Link>
+                :
+                    <img className="voice-actor-picture" src={rSideSrc} alt=""/>
+            }
         </div>
     )
 }

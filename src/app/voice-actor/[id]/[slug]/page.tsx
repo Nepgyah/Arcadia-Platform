@@ -2,6 +2,7 @@ import Header from "@/components/custom/header";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import "@/styles/pages/_voice-actor.scss";
+import CharacterCard from "@/components/media/characters/character-card";
 
 export default async function Page(
     props : {
@@ -42,20 +43,31 @@ export default async function Page(
                         <div className="container">
                             {
                                 characters.map((entry: any, idx: number) => (
-                                    <div className="character-card border-radius-sm card">
-                                        <img className="character-picture" src={`/storage/characters/${entry.character.id}.jpg`} alt="" />
-                                        <div className="names p-a-sm">
-                                            <div className="character">
-                                                <p>{entry.character.firstName} {entry.character.lastName}</p>
-                                                <p>{entry.role}</p>
-                                            </div>
-                                            <div className="voice-actor">
-                                                <p>{entry.anime.title}</p>
-                                                <p></p>
-                                            </div>
-                                        </div>
-                                        <img className="voice-actor-picture" src={`/storage/miru/${entry.anime.id}/cover.jpg`} alt=""/>
-                                    </div>
+                                    <CharacterCard 
+                                            key={idx} 
+                                            lSideTitle={`${entry.character.firstName} ${entry.character.lastName != null ? entry.character.lastName : ''}`}
+                                            lSideNote={entry.role}
+                                            lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
+                                            lSideLink={null}
+                                            rSideTitle={`${entry.anime.title}`}
+                                            rSideNote=""
+                                            rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
+                                            rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
+                                        />
+                                    // <div className="character-card border-radius-sm card">
+                                    //     <img className="character-picture" src={`/storage/characters/${entry.character.id}.jpg`} alt="" />
+                                    //     <div className="names p-a-sm">
+                                    //         <div className="character">
+                                    //             <p>{entry.character.firstName} {entry.character.lastName}</p>
+                                    //             <p>{entry.role}</p>
+                                    //         </div>
+                                    //         <div className="voice-actor">
+                                    //             <p>{entry.anime.title}</p>
+                                    //             <p></p>
+                                    //         </div>
+                                    //     </div>
+                                    //     <img className="voice-actor-picture" src={`/storage/miru/${entry.anime.id}/cover.jpg`} alt=""/>
+                                    // </div>
                                 ))
                             }
                         </div>
