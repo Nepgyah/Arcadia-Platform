@@ -1,19 +1,54 @@
-export default function CharacterCard({character}:{character : any}) {
+'use client';
 
+import Link from "next/link";
+import { useState } from "react";
+
+export default function CharacterCard(
+    {
+        lSideTitle, lSideNote, lSideLink, lSideSrc,
+        rSideTitle, rSideNote, rSideLink, rSideSrc,
+    } : {
+        lSideTitle: string, lSideNote: string, lSideLink: string | null, lSideSrc: string,
+        rSideTitle: string, rSideNote: string, rSideLink: string | null, rSideSrc: string
+}) {
+
+    const [sideSelected, setSideSelected] = useState<'left' | 'right' | null>(null)
+    
     return (
         <div className="character-card border-radius-sm card">
-            <img className="character-picture" src={`/storage/characters/${character.character.id}.jpg`} alt="" />
+            <div className="character-picture" onMouseEnter={() => setSideSelected('left')} onMouseLeave={() => setSideSelected(null)}>
+                <div className={`mask ${sideSelected == 'right' && 'selected'}`}></div>
+                <img src={lSideSrc} alt="" />
+            </div>
             <div className="names p-a-sm">
                 <div className="character">
-                    <p>{character.character.firstName} {character.character.lastName}</p>
-                    <p>{character.role}</p>
+                    <p>{lSideTitle}</p>
+                    <p>{lSideNote}</p>
                 </div>
                 <div className="voice-actor">
-                    <p>{character.character.voiceActor.firstName} {character.character.voiceActor.lastName}</p>
+                    {
+                        rSideLink ?
+                            <Link className="clickable" prefetch={false} href={rSideLink}>
+                                <p className="hover-underline" onMouseEnter={() => setSideSelected('right')} onMouseLeave={() => setSideSelected(null)}>{rSideTitle}</p>
+                            </Link>
+                        :
+                            <p className="hover-underline">{rSideTitle}</p>
+                    }
                     <p>Japanese</p>
                 </div>
             </div>
-            <img className="voice-actor-picture" src={`/storage/voice-actors/${character.character.voiceActor.id}.jpg`} alt=""/>
+
+            {
+                rSideLink ?
+                    <Link className="clickable" prefetch={false} href={rSideLink}>
+                        <div className="voice-actor-picture" onMouseEnter={() => setSideSelected('right')} onMouseLeave={() => setSideSelected(null)}>
+                            <div className={`mask ${sideSelected == 'left' && 'selected'}`}></div>
+                            <img src={rSideSrc} alt=""/>
+                        </div>
+                    </Link>
+                :
+                    <img className="voice-actor-picture" src={rSideSrc} alt=""/>
+            }
         </div>
     )
 }
