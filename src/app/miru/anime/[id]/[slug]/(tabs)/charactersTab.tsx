@@ -13,8 +13,18 @@ export default function CharactersTab(
     return (
         <div className="character-container">
             {
-                characters.map((character: any, idx: number) => 
-                    <CharacterCard character={character} key={idx} />
+                characters.map((entry: any, idx: number) => 
+                    <CharacterCard 
+                        key={idx} 
+                        lSideTitle={`${entry.character.firstName} ${entry.character.lastName}`}
+                        lSideNote={entry.role}
+                        lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
+                        lSideLink={null}
+                        rSideTitle={`${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}`}
+                        rSideNote="Japanese"
+                        rSideSrc={`/storage/voice-actors/${entry.character.voiceActor.id}.jpg`}
+                        rSideLink={`/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}`}
+                    />
                 )
             }
         </div>

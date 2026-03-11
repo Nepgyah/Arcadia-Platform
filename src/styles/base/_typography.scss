@@ -1,3 +1,7 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+@use "sass:string";
+
 .bold {
     font-weight: bold;
 }
@@ -6,5 +10,11 @@
     &:hover {
         cursor: pointer;
         text-decoration: underline;
+    }
+}
+
+@each $name, $size in $text-size {
+    .txt-#{$name} {
+        font-size: $size;
     }
 }

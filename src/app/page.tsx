@@ -4,12 +4,14 @@ import Header from "@/components/custom/header";
 import RelationMedia from "@/components/media/relation-media";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
-import '@/styles/pages/_home.scss';
 import { Media } from "@/types/base";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
+import '@/styles/pages/_home.scss';
+
 export default async function Home() {
     const animeList = await FetchAnime()
+
     return (
         <div id="page-home" className="page-content">
             <SetBreadcrumbs breadcrumbs={['Home']} />
@@ -20,6 +22,7 @@ export default async function Home() {
                     {
                         animeList.map((media: Media, idx: number) => (
                             <RelationMedia 
+                                key={idx}
                                 app='miru'
                                 media={media}
                                 src={`/storage/miru/${media.id}/cover.jpg`}
@@ -45,6 +48,7 @@ export default async function Home() {
 function GreetingImage() {
     const time = new Date().getHours()
     let message =""
+    
     if (time >= 0 && time < 12) {
         message = "今日もいい天気ですね"
     } else {
