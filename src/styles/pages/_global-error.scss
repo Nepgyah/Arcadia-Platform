@@ -1,0 +1,9 @@
+@use '../utils/variables' as *;
+@use "sass:map";
+
+html {
+    body {
+        color: white;
+        background-color: map.get($colors, platform-base);
+    }
+}
