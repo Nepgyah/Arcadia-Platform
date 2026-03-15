@@ -1,5 +1,6 @@
-@forward 'components';
 @use './utils/variables' as *;
+@forward './themes/chakra-override';
+@forward 'components';
 @forward 'layouts';
 @forward 'utils';
 @forward 'base';
