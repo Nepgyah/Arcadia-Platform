@@ -15,3 +15,7 @@ export const miruNav: url[] = [
     { title: 'Most Popular', path: '/miru/popular'},
     { title: 'All Time', path: '/miru/all-time'}
 ]
+
+export const asobuNav: url[] = [
+    { title: 'Asobu Home', path: '/asobu'},
+]

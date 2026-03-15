@@ -3,7 +3,7 @@
 import Breadcrumbs from "@/components/navigation/breadcrumbs";
 import SideNav from "@/components/navigation/sideNav"
 import TopNav from "@/components/navigation/topNav"
-import { mainboard, miruNav } from "@/utils/data/urls";
+import { asobuNav, mainboard, miruNav } from "@/utils/data/urls";
 import { usePathname } from "next/navigation"
 
 export default function WrapperUI({children}:{children:React.ReactNode}) {
@@ -11,6 +11,7 @@ export default function WrapperUI({children}:{children:React.ReactNode}) {
     
     const getNav = () : any => {
         if (pathname.startsWith('/miru')) return miruNav
+        if (pathname.startsWith('/asobu')) return asobuNav
         else return mainboard
     }
 
