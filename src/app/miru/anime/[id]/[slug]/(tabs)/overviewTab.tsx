@@ -1,10 +1,13 @@
-import CharacterCard from "@/components/media/characters/character-card";
-import Header from "@/components/custom/header";
-import RelationMedia from "@/components/media/relation-media";
+import { Suspense, use } from "react";
+
+import { Skeleton, Tag } from "@chakra-ui/react";
+
 import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
-import { Skeleton, Tag } from "@chakra-ui/react";
-import { Suspense, use } from "react";
+
+import Header from "@/components/custom/header";
+import CharacterCard from "@/components/media/characters/character-card";
+import RelationMedia from "@/components/media/relation-media";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 
 export default function OverviewTab(
@@ -18,7 +21,7 @@ export default function OverviewTab(
 ) {
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
-            <div id="genres-franchise">
+            <div id="genres-franchise" className="two-column">
                 <Genres anime={anime} />
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <AnimeFranchise franchisePromise={franchisePromise} />
@@ -30,7 +33,7 @@ export default function OverviewTab(
                     <Characters charactersPromise={charactersPromise} />
                 </Suspense>
             </div>
-            <div id="relationships">
+            <div id="relationships" >
                 <Header text="Anime Flow" />
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <Relationships anime={anime} />
@@ -63,7 +66,7 @@ function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise
     const franchise = use(franchisePromise)
 
     return (
-        <div id="overview-franchise">
+        <div id="franchise-section">
             <Header text="Franchise"/>
             {
                 franchise ?
@@ -109,7 +112,7 @@ function Relationships({anime}:{anime : Anime}) {
 
     return (
         <div>
-            <div id="main-flow">
+            <div className="two-column">
                 <div id="prequel">
                     {
                         anime.prevAnime ?
