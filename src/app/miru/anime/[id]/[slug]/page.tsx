@@ -33,9 +33,9 @@ export default async function Page(
     if (!anime) notFound();
 
     return (
-        <div id="page-anime-details" className="page-content">
+        <div id="page-anime-details" className="page-content media-detail">
             <Hero anime={anime}/>
-            <div className="split-content">
+            <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />
                 <TabWrapper>
                     <OverviewTab anime={anime} charactersPromise={charactersPromise} franchisePromise={franchisePromise} />
@@ -61,14 +61,14 @@ function Hero(
     return (
         <div id="hero">
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
-            <div className="border-radius-md card">
+            <div id="synopsis" className="border-radius-md card">
                 <img id="hero-image" src={`/storage/miru/${anime.id}/cover.jpg`} />
                 <div id="hero-text">
                     <p id="title" className="clr-miru-base">{anime.title}</p>
                     <p id="summary">{anime.summary}</p>
                 </div>
             </div>
-            <div id="latest-episode" className="p-a-md card">
+            <div id="latest" className="p-a-md border-radius-md card">
                 {
                     anime.latestEpisode ?
                         <>

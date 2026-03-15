@@ -18,7 +18,7 @@ export default function MetaData(
     }
 ) {
     return (
-        <div className="details">
+        <div id="metadata-column">
             {/* <AnimeListInput animePromise={animePromise} /> */}
             <div>
                 <Header text="Socials" />

@@ -1,4 +1,4 @@
-import '@/styles/pages/miru/_miru-layout.scss';
+import '@/styles/themes/_miru-theme.scss';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function MiruLayout(
     }
 ) {
     return (
-        <div id="miru-layout">
+        <div id="miru-theme">
             {children}
         </div>
     )
