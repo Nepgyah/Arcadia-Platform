@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { AsobuGame } from "@/types/asobu";
-import { FetchCharacters, FetchFranchise, FetchGame } from "./queries";
+import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame } from "./queries";
 
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
@@ -12,6 +12,7 @@ import Overviewtab from "./(tabs)/overview";
 import { Suspense } from "react";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 import CharactersTab from "./(tabs)/characters";
+import DLCTab from "./(tabs)/dlc";
 
 export default async function Page(
     props: {
@@ -22,6 +23,7 @@ export default async function Page(
     const { id, slug } = await props.params;
     const franchisePromise = FetchFranchise(id)
     const characterPromise = FetchCharacters(id)
+    const dlcPromise = FetchDLC(id)
     const game = await FetchGame(id);
 
     if (!game) notFound();
@@ -36,6 +38,9 @@ export default async function Page(
                     <Overviewtab game={game} franchisePromise={franchisePromise} characterPromise={characterPromise}/>
                     <Suspense fallback={<CharacterCardSkeleton />} >
                         <CharactersTab charactersPromise={characterPromise} />
+                    </Suspense>
+                    <Suspense fallback={<CharacterCardSkeleton />} >
+                        <DLCTab dlcPromise={dlcPromise} gameID={id}/>
                     </Suspense>
                 </TabWrapper>
             </div>

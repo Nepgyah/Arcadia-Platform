@@ -76,3 +76,18 @@ export async function FetchFranchise(id: string) {
     const response = await arcadiaAPI.GraphQL<any>(query);
     return response.data.franchiseByGame
 }
+
+export async function FetchDLC(id: string) {
+    const query =
+    `
+        query {
+            dlcByGame(gameId: ${id}) {
+                id,
+                title
+            }
+        }
+    `
+
+    const response = await arcadiaAPI.GraphQL<any>(query);
+    return response.data.dlcByGame
+}

@@ -43,7 +43,7 @@
             }
         }
 
-        #episodes-tab {
+        #dlc-tab {
             display: flex;
             flex-direction: column;
             row-gap: 1rem;
@@ -63,22 +63,17 @@
     }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 768px) {
     #page-game-details {
         #main-content {
-            #episodes-tab {
+            #dlc-tab {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 1rem;
-                
-                .chakra-card__root {
-                    height: 100%;
-                }
             }
         }
     }
 }
-
 @media only screen and (min-width: 1200px) {
     #page-game-details {
         #main-content {
