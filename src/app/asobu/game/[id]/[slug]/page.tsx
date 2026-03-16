@@ -51,7 +51,7 @@ export default async function Page(
 function Hero({game}:{game: AsobuGame}) {
     return (
         <div id="hero">
-            <SetBreadcrumbs breadcrumbs={['Asobu', 'Anime', `${game.title}`]} />
+            <SetBreadcrumbs breadcrumbs={['Asobu', 'Game', `${game.title}`]} />
             <div id="synopsis" className="border-radius-md card">
                 <img id="hero-image" src={`/storage/asobu/${game.id}/cover.jpg`} />
                 <div id="hero-text">

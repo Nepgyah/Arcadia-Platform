@@ -16,7 +16,7 @@ export default function CharactersTab(
                 characters.map((entry: any, idx: number) => 
                     <CharacterCard 
                         key={idx} 
-                        lSideTitle={`${entry.character.firstName} ${entry.character.lastName}`}
+                        lSideTitle={`${entry.character.firstName} ${entry.character.lastName ? entry.character.lastName : ''}`}
                         lSideNote={entry.role}
                         lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                         lSideLink={null}

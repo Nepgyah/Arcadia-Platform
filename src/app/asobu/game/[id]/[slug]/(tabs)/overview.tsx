@@ -81,7 +81,7 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
                     if(idx < 6) {
                         return <CharacterCard 
                                     key={idx} 
-                                    lSideTitle={`${entry.character.firstName} ${entry.character.lastName}`}
+                                    lSideTitle={`${entry.character.firstName} ${entry.character.lastName ? entry.character.lastName : ''}`}
                                     lSideNote={entry.role}
                                     lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                                     lSideLink={null}

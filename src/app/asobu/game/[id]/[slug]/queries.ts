@@ -45,9 +45,10 @@ export async function FetchCharacters(id: string) {
                 firstName,
                 lastName,
                 voiceActor {
-                id
-                firstName,
-                lastName
+                    id
+                    firstName,
+                    lastName,
+                    slug
                 },
             },
             role,
