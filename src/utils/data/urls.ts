@@ -5,7 +5,8 @@ export interface url {
 
 export const mainboard: url[] = [
     { title: 'Home', path: '/'},
-    { title: 'Miru', path: '/miru'}
+    { title: 'Miru', path: '/miru'},
+    { title: 'Asobu', path: '/asobu'}
 ]
 
 export const miruNav: url[] = [

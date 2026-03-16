@@ -1,5 +1,7 @@
 import { Metadata } from "next/types"
 
+import '@/styles/themes/_asobu-theme.scss';
+
 export const metadata: Metadata = {
     title: 'Arcadia - Asobu',
 }
