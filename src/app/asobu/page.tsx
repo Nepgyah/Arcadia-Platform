@@ -75,6 +75,7 @@ async function FetchTopGames() {
     query {
         gamesByCategory(category: "-score", count: 5) {
             id,
+            slug,
             title,
             score,
             users
