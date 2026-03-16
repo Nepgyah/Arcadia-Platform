@@ -60,7 +60,7 @@ export default async function Page(
                                                 lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                                                 lSideLink={null}
                                                 rSideTitle={`${entry.anime.title}`}
-                                                rSideNote=""
+                                                rSideNote="Anime"
                                                 rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
                                                 rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
                                             />
@@ -83,7 +83,7 @@ export default async function Page(
                                             lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                                             lSideLink={null}
                                             rSideTitle={`${entry.game.title}`}
-                                            rSideNote=""
+                                            rSideNote="Game"
                                             rSideSrc={`/storage/asobu/${entry.game.id}/cover.jpg`}
                                             rSideLink={`/asobu/game/${entry.game.id}/${entry.game.slug}`}
                                         />

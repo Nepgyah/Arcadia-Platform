@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { notFound } from "next/navigation";
 
 import { AsobuGame } from "@/types/asobu";
