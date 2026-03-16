@@ -20,10 +20,10 @@ export default function CharactersTab(
                         lSideNote={entry.role}
                         lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                         lSideLink={null}
-                        rSideTitle={`${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}`}
+                        rSideTitle={entry.character.voiceActor ? `${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}` : 'N/A'}
                         rSideNote="Japanese"
-                        rSideSrc={`/storage/voice-actors/${entry.character.voiceActor.id}.jpg`}
-                        rSideLink={`/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}`}
+                        rSideSrc={entry.character.voiceActor ? `/storage/voice-actors/${entry.character.voiceActor.id}.jpg` : '/'}
+                        rSideLink={entry.character.voiceActor ? `/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}` : null}
                     />
                 )
             }

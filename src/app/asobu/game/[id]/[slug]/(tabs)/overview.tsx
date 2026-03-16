@@ -1,4 +1,6 @@
 import Header from "@/components/custom/header"
+import CharacterCard from "@/components/media/characters/character-card"
+import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton"
 import { AsobuGame } from "@/types/asobu"
 import { Franchise } from "@/types/base"
 import { Skeleton, Tag } from "@chakra-ui/react"
@@ -19,6 +21,12 @@ export default function Overviewtab(
                 <Genres game={game} />
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <GameFranchise franchisePromise={franchisePromise} />
+                </Suspense>
+            </div>
+            <div id="overview-characters">
+                <Header text="Characters" />
+                <Suspense fallback={<CharacterCardSkeleton />}>
+                    <Characters charactersPromise={characterPromise} />
                 </Suspense>
             </div>
         </div>
@@ -58,6 +66,32 @@ function GameFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>
                     </div>
                 :
                     <p>No Franchise found</p>
+            }
+        </div>
+    )
+}
+
+function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
+    const characters = use(charactersPromise)
+
+    return (
+        <div className="character-container">
+            {
+                characters.map((entry: any, idx: number) => {
+                    if(idx < 6) {
+                        return <CharacterCard 
+                                    key={idx} 
+                                    lSideTitle={`${entry.character.firstName} ${entry.character.lastName}`}
+                                    lSideNote={entry.role}
+                                    lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
+                                    lSideLink={null}
+                                    rSideTitle={entry.character.voiceActor ? `${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}` : 'N/A'}
+                                    rSideNote="Japanese"
+                                    rSideSrc={entry.character.voiceActor ? `/storage/voice-actors/${entry.character.voiceActor.id}.jpg` : '/'}
+                                    rSideLink={entry.character.voiceActor ? `/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}` : null}
+                                />
+                    }
+                })
             }
         </div>
     )

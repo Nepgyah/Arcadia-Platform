@@ -1,4 +1,5 @@
 import Header from "@/components/custom/header";
+import InfoItem from "@/components/custom/info-item/info-item";
 import SocialsSkeleton from "@/components/media/socials/skeleton";
 import SocialsList from "@/components/media/socials/socials";
 import { AsobuGame } from "@/types/asobu";
@@ -21,6 +22,17 @@ export default function Metadata(
                     <SocialMedia franchisePromise={franchisePromise} />
                 </Suspense>
             </div>
+            <div>
+                <Header text="Release Dates" />
+                <Platforms game={game} />
+            </div>
+            <div>
+                <Header text="Ratings" />
+                <div className="flex-row row-gap-md">
+                    <InfoItem label="ESRB" value={game.esrbRating} />
+                    <InfoItem label="PEGI" value={game.pegiRating} />
+                </div>
+            </div>
         </div>
     )
 }
@@ -34,5 +46,30 @@ function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
         )
     } else {
         return <p className="clr-txt-fadded">No socials found</p>
+    }
+}
+
+function Platforms({game}:{game : AsobuGame}) {
+
+    if (game.platforms.length) {
+        return (
+            <div className="flex-row row-gap-md">
+                {
+                    game.platforms.map((node: any, idx: number) => (
+                        <InfoItem 
+                            key={idx}
+                            label={node.platform.name} 
+                            value={node.releaseDate} 
+                        />
+                    ))
+                }
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                No dates found
+            </div>
+        )
     }
 }

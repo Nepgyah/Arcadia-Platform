@@ -33,6 +33,7 @@ html {
                 #content {
                     flex: 1;
                     overflow-y: auto;
+                    scrollbar-gutter: stable;
                     padding: 1rem;
 
                     #content-wrapper {

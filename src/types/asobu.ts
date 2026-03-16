@@ -10,5 +10,6 @@ export interface AsobuGame extends Media {
     developers: any[],
     publishers: any[],
     characterRelations: [],
-    steam_id: number
+    steam_id: number,
+    platforms: any[]
 }

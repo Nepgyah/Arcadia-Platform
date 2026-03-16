@@ -8,6 +8,7 @@ export async function FetchGame(id: string) {
             id,
             title,
             slug,
+            summary,
             esrbRating,
             pegiRating,
             tags {
@@ -18,6 +19,12 @@ export async function FetchGame(id: string) {
             }
             publishers {
                 name
+            },
+            platforms {
+                platform {
+                    name
+                },
+                releaseDate
             }
         }
     }
