@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 export async function handleGetUser() {
     const cookieStore = await cookies()
     const refresh_token = cookieStore.get('refresh_token')
-    console.log('Refresh token', refresh_token)
     if (refresh_token) {
         const cookieString = cookieStore
         .getAll()

@@ -3,7 +3,26 @@
 
 html {
     body {
+        padding: 20px;
+        font-family: 'system-ui';
         color: white;
         background-color: map.get($colors, platform-base);
+        margin: auto;
+        text-align: center;
+        
+        #whoops {
+            height: auto;
+            max-width: 300px;
+            margin-bottom: 1rem;
+            border-bottom: 4px solid #C54B61;
+        }
+
+        a {
+            color: #C54B61;
+
+            &:visited {
+                color: white;
+            }
+        }
     }
 }

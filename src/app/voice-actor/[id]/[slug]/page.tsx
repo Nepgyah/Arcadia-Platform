@@ -13,7 +13,7 @@ export default async function Page(
     }
 ) {
     const { id, slug } = await props.params
-    const { voiceActor, characters } = await FetchVoiceActor(id)
+    const { voiceActor, relatedAnime, relatedGames } = await FetchVoiceActor(id)
 
     return (
         <div id="page-va-details" className="page-content default-schema">
@@ -47,23 +47,49 @@ export default async function Page(
                             <p>Work in Progress</p>
                         </div>
                     </div>
-                    <div id="characters">
-                        <Header text="Characters" />
+                    <div className="characters">
+                        <Header text="Anime Works" />
                         <div className="container">
                             {
-                                characters.map((entry: any, idx: number) => (
+                                relatedAnime.length ? 
+                                    relatedAnime.map((entry: any, idx: number) => (
+                                        <CharacterCard 
+                                                key={idx} 
+                                                lSideTitle={`${entry.character.firstName} ${entry.character.lastName != null ? entry.character.lastName : ''}`}
+                                                lSideNote={entry.role}
+                                                lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
+                                                lSideLink={null}
+                                                rSideTitle={`${entry.anime.title}`}
+                                                rSideNote="Anime"
+                                                rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
+                                                rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
+                                            />
+                                    ))
+                                :
+                                    <p>No related anime</p>
+                            }
+                        </div>
+                    </div>
+                    <div className="characters">
+                        <Header text="Game Works" />
+                        <div className="container">
+                            {
+                                relatedGames.length ? 
+                                    relatedGames.map((entry: any, idx: number) => (
                                     <CharacterCard 
                                             key={idx} 
                                             lSideTitle={`${entry.character.firstName} ${entry.character.lastName != null ? entry.character.lastName : ''}`}
                                             lSideNote={entry.role}
                                             lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
                                             lSideLink={null}
-                                            rSideTitle={`${entry.anime.title}`}
-                                            rSideNote=""
-                                            rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
-                                            rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
+                                            rSideTitle={`${entry.game.title}`}
+                                            rSideNote="Game"
+                                            rSideSrc={`/storage/asobu/${entry.game.id}/cover.jpg`}
+                                            rSideLink={`/asobu/game/${entry.game.id}/${entry.game.slug}`}
                                         />
                                 ))
+                                :
+                                    <p>No related games</p>
                             }
                         </div>
                     </div>
@@ -86,24 +112,40 @@ async function FetchVoiceActor(id: string) {
                 bio,
                 socials
             },
-            characters {
-            anime {
-                id,
-                slug,
-                title
+            relatedAnime {
+                anime {
+                    id,
+                    slug,
+                    title
+                },
+                character {
+                    id,
+                    slug,
+                    firstName,
+                    lastName
+                },
+                role
             },
-            character {
-                id,
-                slug,
-                firstName,
-                lastName
-            },
-            role
+            relatedGames {
+                role,
+                isPlayable,
+                game {
+                    id,
+                    slug,
+                    title
+                },
+                character {
+                    id,
+                    slug,
+                    firstName,
+                    lastName
+                }
             }
         }
     }
     `
 
     const response = await arcadiaAPI.GraphQL<any>(query)
+    console.log(response.data.voiceActorById.relatedGames)
     return response.data.voiceActorById
 }

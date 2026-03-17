@@ -1,22 +1,21 @@
 export const revalidate = 60;
 
 import { Suspense, use } from "react"
-
-import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
+import { notFound } from "next/navigation";
 import { Anime } from "@/types/miru";
 
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { Button, Link } from "@chakra-ui/react";
 
-import '@/styles/pages/miru/_anime-details.scss';
+import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
-import { Button, Link, Skeleton } from "@chakra-ui/react";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 import TabWrapper from "./(tabs)/animeTabWrapper";
-import { notFound } from "next/navigation";
-import { sleep } from "@/utils/testing/wait";
 import EpisodesTab from "./(tabs)/episodesTab";
+
+import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
+import '@/styles/pages/miru/_anime-details.scss';
 
 export default async function Page(
     props: {
@@ -60,7 +59,7 @@ function Hero(
 ) {
     return (
         <div id="hero">
-            <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Game', `${anime.title}`]} />
             <div id="synopsis" className="border-radius-md card">
                 <img id="hero-image" src={`/storage/miru/${anime.id}/cover.jpg`} />
                 <div id="hero-text">

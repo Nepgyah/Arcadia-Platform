@@ -34,7 +34,7 @@ export default function CharacterCard(
                         :
                             <p className="hover-underline">{rSideTitle}</p>
                     }
-                    <p>Japanese</p>
+                    <p>{rSideNote}</p>
                 </div>
             </div>
 
