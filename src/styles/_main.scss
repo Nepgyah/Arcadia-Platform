@@ -31,6 +31,7 @@ html {
                 flex-direction: column;
 
                 #content {
+                    background-color: map.get($colors, platform-base);
                     flex: 1;
                     overflow-y: auto;
                     scrollbar-gutter: stable;

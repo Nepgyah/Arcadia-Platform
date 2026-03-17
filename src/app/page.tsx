@@ -103,7 +103,7 @@ async function FetchGames() {
         gamesByCategory(category: "-score", count: 5) {
             id,
             title,
-            score
+            slug
         }
     }
     `
