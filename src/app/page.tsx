@@ -8,37 +8,55 @@ import { Media } from "@/types/base";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
+import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
+import LinkedHeader from "@/components/custom/linkedHeader";
 
 export default async function Home() {
     const animeList = await FetchAnime()
+    const gamesList = await FetchGames()
 
     return (
         <div id="page-home" className="page-content">
             <SetBreadcrumbs breadcrumbs={['Home']} />
             <GreetingImage />
             <div id="app-overview">
-                <div id="miru" className="flex flex-column row-gap-md">
-                    <Header text="Miru" />
-                    {
-                        animeList.map((media: Media, idx: number) => (
-                            <RelationMedia 
-                                key={idx}
-                                app='miru'
-                                media={media}
-                                src={`/storage/miru/${media.id}/cover.jpg`}
-                                link={`/miru/anime/${media.id}/${media.slug}`}
-                                relation=""
-                            />
-                        ))
-                    }
+                <div id="miru">
+                    <LinkedHeader text="Miru" href="/miru/all-time" linkText="See all" />
+                    <div className="container">
+                        {
+                            animeList.map((media: Media, idx: number) => (
+                                <SimpleMediaCard 
+                                    key={idx}
+                                    id={media.id}
+                                    app='miru'
+                                    title={media.title}
+                                    imagePath={`/storage/miru/${media.id}/cover.jpg`}
+                                    href={`miru/anime/${media.id}/${media.slug}`}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
-                <div id="yomu" className="flex flex-column row-gap-md">
+                <div id="yomu" >
                     <Header text="Yomu" />
                     <p>App under construction</p>
                 </div>
-                <div id="asobu" className="flex flex-column row-gap-md">
+                <div id="asobu">
                     <Header text="Asobu" />
-                    <p>App under construction</p>
+                    <div className="container">
+                        {
+                            gamesList.map((media: Media, idx: number) => (
+                                <SimpleMediaCard 
+                                    key={idx}
+                                    id={media.id}
+                                    app='asobu'
+                                    title={media.title}
+                                    imagePath={`/storage/asobu/${media.id}/cover.jpg`}
+                                    href={`asobu/game/${media.id}/${media.slug}`}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,4 +94,19 @@ async function FetchAnime() {
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.animeByCategory
+}
+
+async function FetchGames() {
+    const query = 
+    `
+    query {
+        gamesByCategory(category: "-score", count: 5) {
+            id,
+            title,
+            score
+        }
+    }
+    `
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.gamesByCategory
 }
