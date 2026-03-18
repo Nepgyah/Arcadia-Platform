@@ -7,7 +7,8 @@ export async function GetRatedAnime() {
         animeByCategory(category: "score", count: 5) {
             id,
             title,
-            slug
+            slug,
+            coverImgUrl
         }
     }
     `
@@ -23,7 +24,8 @@ export async function GetPopularAnime() {
         animeByCategory(category: "users", count: 5) {
             id,
             title,
-            slug
+            slug,
+            coverImgUrl
         }
     }
     `

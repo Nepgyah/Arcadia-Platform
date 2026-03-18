@@ -32,7 +32,19 @@ export default function MetaData(
             </div>
             <div>
                 <Header text="Production" />
-                <Production anime={anime} />
+                {
+                    anime.producer.map((producer: any) => (
+                        <p>{producer.name}</p>
+                    ))
+                }
+            </div>
+            <div>
+                <Header text="Studio" />
+                {
+                    anime.studio.map((studio: any) => (
+                        <p>{studio.name}</p>
+                    ))
+                }
             </div>
         </div>
     )
@@ -46,29 +58,7 @@ function Misc({anime}:{anime : Anime}) {
             <InfoItem label='Status' value={anime.status} />
             <InfoItem label='Season' value={anime.season} />
             <InfoItem label='Rating' value={anime.rating} />
-        </div>
-    )
-}
-
-function Production({anime}:{anime : Anime}) {
-
-    return (
-        <div className="flex-column">
-            <InfoItem label='Studio' value={anime.studio} />
-        </div>
-    )
-}
-
-function Sources({animePromise}:{animePromise : Promise<Anime>}) {
-    const anime = use(animePromise);
-
-    return (
-        <div>
-            <Header text="Sources" />
-            <div className="flex-column">
-                <InfoItem label='Season' value={anime.season} />
-                <InfoItem label='Rating' value={anime.rating} />
-            </div>
+            <InfoItem label='Episodes' value={anime.episodeCount ? String(anime.episodeCount) : null} />
         </div>
     )
 }
@@ -76,7 +66,7 @@ function Sources({animePromise}:{animePromise : Promise<Anime>}) {
 function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
     const franchise = use(franchisePromise)
 
-    if (franchise.socials) {
+    if (franchise?.socials) {
         return (
             <SocialsList socials={franchise.socials} />
         )

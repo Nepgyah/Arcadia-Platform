@@ -1,6 +1,5 @@
 import { Anime } from "@/types/miru"
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
-import { sleep } from "@/utils/testing/wait"
 
 interface AnimeDetailsQuery {
     data: {
@@ -12,10 +11,11 @@ export async function GetAnime(id: string) {
     const query =
     `
     query {
-        animeById(id:${id}) {
+        animeById(animeId: ${id}) {
             id,
             title,
-            titleJa,
+            bannerImgUrl,
+            coverImgUrl,
             score,
             users,
             summary,
@@ -23,30 +23,28 @@ export async function GetAnime(id: string) {
             status,
             rating,
             season,
+            episodeCount,
             genres {
                 name
             },
-            studio,
-            prevAnime{
-                anime {
-                    id,
-                    title,
-                    slug
-                },
-                relationType
-            },
-            nextAnime {
-                anime {
-                    id,
-                    title,
-                    slug
-                },
-                relationType
-            },
-            latestEpisode {
-                id,
-                title
+            producer {
+                name
             }
+            studio {
+              name
+            },
+            prequel {
+                id,
+              	title,
+              	slug,
+                coverImgUrl,
+            },
+            sequels {
+                id,
+                title,
+                slug,
+                coverImgUrl,
+            },
         }
     }
     `
@@ -77,7 +75,7 @@ export async function GetAnimeCharacters(id: string) {
     const query = 
     `
     query {
-        charactersByAnime(id:${id}) {
+        charactersByAnime(animeId:${id}) {
             character {
                 id,
                 firstName,

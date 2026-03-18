@@ -9,6 +9,7 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
 
 import '@/styles/pages/miru/_home.scss';
+import { Anime } from "@/types/miru";
 
 export default async function MiruHome() {
 
@@ -45,12 +46,12 @@ function AnimeList({animePromise}:{animePromise: Promise<any>}) {
     return (
         <div className="container">
             {
-                animes.map((anime: any, idx: number) => (
+                animes.map((anime: Anime, idx: number) => (
                     <SimpleMediaCard 
                         key={idx} app="miru" 
                         title={anime.title} 
                         id={anime.id} 
-                        imagePath={`/storage/miru/${anime.id}/cover.jpg`}
+                        imagePath={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
                         href={`miru/anime/${anime.id}/${anime.slug}`}
                     />
                 )) 

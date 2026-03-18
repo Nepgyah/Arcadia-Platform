@@ -2,19 +2,19 @@ import { Franchise, Media } from "./base";
 
 export interface Anime extends Media {
     titleJa: string,
+    bannerImgUrl: string,
+    coverImgUrl: string,
     season: string,
     status: string,
     type: string,
     rating: string,
     genres: string[],
-    studio: string,
-    prevAnime: {
-        anime: Anime
-    }
-    nextAnime: {
-        anime: Anime
-    },
-    latestEpisode: AnimeEpisode
+    studio: any[],
+    producer: any[]
+    prequel: Anime,
+    sequels: Anime[],
+    latestEpisode: AnimeEpisode,
+    episodeCount: number
 }
 
 export interface AnimeEpisode {

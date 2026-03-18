@@ -4,7 +4,7 @@ export async function FetchGame(id: string) {
     const query =
     `
     query {
-        gameById(id: ${id}) {
+        gameById(gameId: ${id}) {
             id,
             title,
             slug,
@@ -38,7 +38,7 @@ export async function FetchCharacters(id: string) {
     const query = 
     `
     query {
-        charactersByGame(id: ${id}) {
+        charactersByGame(gameId: ${id}) {
             id,
             character {
                 id,

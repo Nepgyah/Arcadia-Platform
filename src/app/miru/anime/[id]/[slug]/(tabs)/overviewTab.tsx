@@ -115,13 +115,13 @@ function Relationships({anime}:{anime : Anime}) {
             <div className="two-column">
                 <div id="prequel">
                     {
-                        anime.prevAnime ?
+                        anime.prequel ?
                             <RelationMedia 
-                                media={anime.prevAnime.anime} 
+                                media={anime.prequel} 
                                 app="miru" 
                                 relation="Prequel"
-                                link={`/miru/anime/${anime.prevAnime.anime.id}/${anime.prevAnime.anime.slug}`}
-                                src={`/storage/miru/${anime.prevAnime.anime.id}/cover.jpg`}
+                                link={`/miru/anime/${anime.prequel.id}/${anime.prequel.slug}`}
+                                src={anime.prequel.coverImgUrl ? anime.prequel.coverImgUrl : `/storage/miru/${anime.prequel.id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>
@@ -129,13 +129,13 @@ function Relationships({anime}:{anime : Anime}) {
                 </div>
                 <div id="sequel">
                     {
-                        anime.nextAnime ?
+                        anime.sequels.length > 0 ?
                             <RelationMedia 
-                                media={anime.nextAnime.anime} 
+                                media={anime.sequels[0]} 
                                 app="miru" 
                                 relation="Sequel"
-                                link={`/miru/anime/${anime.nextAnime.anime.id}/${anime.nextAnime.anime.slug}`}
-                                src={`/storage/miru/${anime.nextAnime.anime.id}/cover.jpg`}
+                                link={`/miru/anime/${anime.sequels[0].id}/${anime.sequels[0].slug}`}
+                                src={anime.sequels[0].coverImgUrl ? anime.sequels[0].coverImgUrl : `/storage/miru/${anime.sequels[0].id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>

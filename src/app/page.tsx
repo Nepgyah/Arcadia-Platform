@@ -10,6 +10,7 @@ import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import '@/styles/pages/_home.scss';
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import LinkedHeader from "@/components/custom/linkedHeader";
+import { Anime } from "@/types/miru";
 
 export default async function Home() {
     const animeList = await FetchAnime()
@@ -24,13 +25,13 @@ export default async function Home() {
                     <LinkedHeader text="Miru" href="/miru/all-time" linkText="See all" />
                     <div className="container">
                         {
-                            animeList.map((media: Media, idx: number) => (
+                            animeList.map((media: Anime, idx: number) => (
                                 <SimpleMediaCard 
                                     key={idx}
                                     id={media.id}
                                     app='miru'
                                     title={media.title}
-                                    imagePath={`/storage/miru/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImgUrl ? media.coverImgUrl : `/storage/miru/${media.id}/cover.jpg`}
                                     href={`miru/anime/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -88,7 +89,8 @@ async function FetchAnime() {
         animeByCategory(category: "score", count: 5) {
             id,
             title,
-            slug
+            slug,
+            coverImgUrl
         }
     }
     `

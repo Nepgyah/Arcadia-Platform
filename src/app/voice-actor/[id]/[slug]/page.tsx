@@ -103,7 +103,7 @@ async function FetchVoiceActor(id: string) {
     const query = 
     `
     query {
-        voiceActorById(id: ${id}) {
+        voiceActorById(vaId: ${id}) {
             voiceActor {
                 id,
                 slug,
