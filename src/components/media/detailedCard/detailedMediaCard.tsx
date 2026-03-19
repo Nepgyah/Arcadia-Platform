@@ -1,3 +1,4 @@
+import { Tooltip } from "@/components/ui/tooltip"
 import Link from "next/link"
 
 export default function DetailMediaCard(
@@ -16,7 +17,9 @@ export default function DetailMediaCard(
     return (
         <div className="detail-media card">
             <div className="detail-media__title">
-                <Link href={href} className="hover-underline">{title}</Link>
+                <Tooltip content={title}>
+                    <Link href={href} className="hover-underline">{title}</Link>
+                </Tooltip>
             </div>
             <div className="detail-media__metrics">
                 <p>Users: {users}</p>
@@ -24,8 +27,7 @@ export default function DetailMediaCard(
             </div>
             <div className="detail-media__main">
                 <img src={src} alt="" />
-                <div className="description">
-                    {summary}
+                <div className="description" dangerouslySetInnerHTML={{ __html: summary }}>
                 </div>
             </div>
             <div className="detail-media__franchise">

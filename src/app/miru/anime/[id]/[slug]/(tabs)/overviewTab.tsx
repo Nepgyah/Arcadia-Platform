@@ -147,6 +147,7 @@ function Relationships({anime}:{anime : Anime}) {
                                 {
                                     anime.sequels.map((anime: Anime, idx: number) => (
                                         <RelationMedia 
+                                            key={idx}
                                             media={anime} 
                                             app="miru" 
                                             relation="Sequel"

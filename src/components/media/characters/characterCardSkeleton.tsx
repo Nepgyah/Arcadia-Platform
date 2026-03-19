@@ -5,7 +5,7 @@ export default function CharacterCardSkeleton() {
         <div className="character-container">
             {
                 Array.from({length: 6}).map((_, i) => (
-                    <Skeleton height={'117px'} width={'100%'}/>
+                    <Skeleton key={i} height={'117px'} width={'100%'}/>
                 ))
             }
         </div>

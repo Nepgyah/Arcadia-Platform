@@ -12,6 +12,7 @@ import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMed
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
+import { Anime } from "@/types/miru";
 
 export default function Page() {
     
@@ -46,6 +47,7 @@ export default function Page() {
                     animes {
                         id,
                         title,
+                        coverImgUrl,
                         score,
                         users,
                         summary,
@@ -106,7 +108,7 @@ export default function Page() {
                         <Skeleton />
                     :
                         animes.length != 0 ?
-                            animes.map((anime: any, idx: number) => (
+                            animes.map((anime: Anime, idx: number) => (
                                 <DetailMediaCard
                                     key={idx}
                                     href={`/miru/anime/${anime.id}/${anime.slug}`}
@@ -114,7 +116,7 @@ export default function Page() {
                                     summary={anime.summary}
                                     users={anime.users}
                                     score={anime.score}
-                                    src={`/storage/miru/${anime.id}/cover.jpg`}
+                                    src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
                                     franchise={anime.franchise}
                                 />
                             ))
