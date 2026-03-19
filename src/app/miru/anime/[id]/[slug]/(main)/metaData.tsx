@@ -32,19 +32,23 @@ export default function MetaData(
             </div>
             <div>
                 <Header text="Production" />
+                <div className="flex flex-column row-gap-sm">
                 {
-                    anime.producer.map((producer: any) => (
-                        <p>{producer.name}</p>
+                    anime.producer.map((producer: any, idx: number) => (
+                        <p key={idx}>{producer.name}</p>
                     ))
                 }
+                </div>
             </div>
             <div>
                 <Header text="Studio" />
+                <div className="flex flex-column row-gap-sm">
                 {
-                    anime.studio.map((studio: any) => (
-                        <p>{studio.name}</p>
+                    anime.studio.map((studio: any, idx: number) => (
+                        <p key={idx}>{studio.name}</p>
                     ))
                 }
+                </div>
             </div>
         </div>
     )
@@ -54,11 +58,14 @@ export default function MetaData(
 function Misc({anime}:{anime : Anime}) {
 
     return (
-        <div className="flex-column">
+        <div className="flex flex-column row-gap-sm">
+            <InfoItem label="Type" value={anime.type} />
             <InfoItem label='Status' value={anime.status} />
             <InfoItem label='Season' value={anime.season} />
             <InfoItem label='Rating' value={anime.rating} />
             <InfoItem label='Episodes' value={anime.episodeCount ? String(anime.episodeCount) : null} />
+            <InfoItem label="Start Date" value={anime.airingStartDate} />
+            <InfoItem label="End Date" value={anime.airingEndDate} />
         </div>
     )
 }
