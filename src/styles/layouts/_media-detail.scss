@@ -31,12 +31,13 @@
                 }
 
                 #summary {
-                    min-height: 100px;
+                    min-height: 150px;
+                    max-height: 200px;
                     font-size: .85rem;
                     text-overflow: ellipsis;
                     overflow: hidden;
                     display: -webkit-box;
-                    -webkit-line-clamp: 6;
+                    -webkit-line-clamp: 8;
                     -webkit-box-orient: vertical;
                 }
             }

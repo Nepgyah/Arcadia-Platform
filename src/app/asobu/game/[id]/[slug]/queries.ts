@@ -44,11 +44,13 @@ export async function FetchCharacters(id: string) {
                 id,
                 firstName,
                 lastName,
+                coverImgUrl
                 voiceActor {
                     id
                     firstName,
                     lastName,
-                    slug
+                    slug,
+                    coverImgUrl
                 },
             },
             role,

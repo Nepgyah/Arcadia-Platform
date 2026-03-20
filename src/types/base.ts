@@ -18,7 +18,7 @@ export interface Media {
 }
 
 export interface Social {
-    handle: string,
+    url: string,
     link: string
 }
 

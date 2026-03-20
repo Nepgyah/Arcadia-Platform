@@ -28,13 +28,13 @@ function SocialRow(
     }
 ) {
     return (
-        <Link href={social.link} target="_blank">
+        <Link href={social.url} target="_blank">
             <div className={`social social--${type} shadow border-radius-sm animation-hover`}>
                 <div className="social__icon">
                     <img src={`/sns/${type}.png`} alt="" />
                 </div>
                 <div className="social__handle">
-                    <p>{social.handle}</p>
+                    <p>{social.url}</p>
                 </div>
             </div>
         </Link>
