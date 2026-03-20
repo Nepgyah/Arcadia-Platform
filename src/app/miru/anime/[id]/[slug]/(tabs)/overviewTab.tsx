@@ -90,17 +90,30 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
             {
                 characters.map((entry: any, idx: number) => {
                     if(idx < 6) {
-                        return <CharacterCard 
-                                    key={idx} 
-                                    lSideTitle={`${entry.character.firstName} ${entry.character.lastName != null ? entry.character.lastName : ''}`}
-                                    lSideNote={entry.role}
-                                    lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
-                                    lSideLink={null}
-                                    rSideTitle={`${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}`}
-                                    rSideNote="Japanese"
-                                    rSideSrc={`/storage/voice-actors/${entry.character.voiceActor.id}.jpg`}
-                                    rSideLink={`/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}`}
-                                />
+                        let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
+                        let rSideSrc = null
+    
+                        if (entry.character.voiceActor) {
+                            if (entry.character.voiceActor.coverImgUrl) {
+                                rSideSrc = entry.character.voiceActor.coverImgUrl
+                            } else {
+                                rSideSrc = `/storage/voice-actors/${entry.character.voiceActor.id}.jpg`
+                            }
+                        }
+                        
+                        return (
+                            <CharacterCard 
+                                key={idx} 
+                                lSideTitle={entry.character.fullName}
+                                lSideNote={entry.role}
+                                lSideSrc={lSideSrc}
+                                lSideLink={null}
+                                rSideTitle={entry.character.voiceActor ? `${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}` : 'N/A'}
+                                rSideNote="Japanese"
+                                rSideSrc={rSideSrc}
+                                rSideLink={entry.character.voiceActor ? `/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}` : null}
+                            />
+                        )
                     }
                 })
             }
@@ -130,16 +143,24 @@ function Relationships({anime}:{anime : Anime}) {
                 <div id="sequel">
                     {
                         anime.sequels.length > 0 ?
-                            <RelationMedia 
-                                media={anime.sequels[0]} 
-                                app="miru" 
-                                relation="Sequel"
-                                link={`/miru/anime/${anime.sequels[0].id}/${anime.sequels[0].slug}`}
-                                src={anime.sequels[0].coverImgUrl ? anime.sequels[0].coverImgUrl : `/storage/miru/${anime.sequels[0].id}/cover.jpg`}
-                            />
+                            <div className="flex flex-column row-gap-md">
+                                {
+                                    anime.sequels.map((anime: Anime, idx: number) => (
+                                        <RelationMedia 
+                                            key={idx}
+                                            media={anime} 
+                                            app="miru" 
+                                            relation="Sequel"
+                                            link={`/miru/anime/${anime.id}/${anime.slug}`}
+                                            src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
+                                        />
+                                    ))
+                                }
+                            </div>
                         :
-                            <p>No Prequel Found</p>
+                            <p>No Sequel Found</p>
                     }
+                    
                 </div>
             </div>
         </div>

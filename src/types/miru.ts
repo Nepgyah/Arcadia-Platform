@@ -14,7 +14,9 @@ export interface Anime extends Media {
     prequel: Anime,
     sequels: Anime[],
     latestEpisode: AnimeEpisode,
-    episodeCount: number
+    episodeCount: number,
+    airingStartDate: string,
+    airingEndDate: string
 }
 
 export interface AnimeEpisode {

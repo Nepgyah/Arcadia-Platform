@@ -24,6 +24,8 @@ export async function GetAnime(id: string) {
             rating,
             season,
             episodeCount,
+            airingStartDate,
+            airingEndDate,
             genres {
                 name
             },
@@ -78,13 +80,14 @@ export async function GetAnimeCharacters(id: string) {
         charactersByAnime(animeId:${id}) {
             character {
                 id,
-                firstName,
-                lastName,
+                fullName,
+                coverImgUrl,
                 voiceActor {
                     id,
                     firstName,
                     lastName,
-                    slug
+                    slug,
+                    coverImgUrl
                 }
             },
             role

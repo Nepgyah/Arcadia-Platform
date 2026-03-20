@@ -59,12 +59,12 @@ function Hero(
 ) {
     return (
         <div id="hero">
-            <SetBreadcrumbs breadcrumbs={['Miru', 'Game', `${anime.title}`]} />
+            <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
             <div id="synopsis" className="border-radius-md card">
                 <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} />
                 <div id="hero-text">
                     <p id="title" className="clr-miru-base">{anime.title}</p>
-                    <p id="summary">{anime.summary}</p>
+                    <p id="summary" dangerouslySetInnerHTML={{ __html: anime.summary }}></p>
                 </div>
             </div>
             <div id="latest" className="p-a-md border-radius-md card">

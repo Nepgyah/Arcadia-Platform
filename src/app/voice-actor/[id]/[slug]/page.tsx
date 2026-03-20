@@ -19,7 +19,7 @@ export default async function Page(
         <div id="page-va-details" className="page-content default-schema">
             <div id="two-col">
                 <div id="va-metadata">
-                    <img id="va-photo" className="card border-radius-sm" src={`/storage/voice-actors/${voiceActor.id}.jpg`} alt="" />
+                    <img id="va-photo" className="card border-radius-sm" src={voiceActor.coverImgUrl ? voiceActor.coverImgUrl : `/storage/voice-actors/${voiceActor.id}.jpg`} alt="" />
                     <div>
                         <div id="name">
                             <p className="txt-lg">{voiceActor.firstName}</p>
@@ -52,19 +52,24 @@ export default async function Page(
                         <div className="container">
                             {
                                 relatedAnime.length ? 
-                                    relatedAnime.map((entry: any, idx: number) => (
-                                        <CharacterCard 
-                                                key={idx} 
-                                                lSideTitle={`${entry.character.firstName} ${entry.character.lastName != null ? entry.character.lastName : ''}`}
-                                                lSideNote={entry.role}
-                                                lSideSrc={`/storage/characters/${entry.character.id}.jpg`}
-                                                lSideLink={null}
-                                                rSideTitle={`${entry.anime.title}`}
-                                                rSideNote="Anime"
-                                                rSideSrc={`/storage/miru/${entry.anime.id}/cover.jpg`}
-                                                rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
-                                            />
-                                    ))
+                                    relatedAnime.map((entry: any, idx: number) => {
+                                        let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
+                                        let rSideSrc = (entry.anime.coverImgUrl) ? entry.anime.coverImgUrl : `/storage/anime/${entry.anime.id}/cover.jpg`
+                                        return (
+                                            
+                                            <CharacterCard 
+                                                    key={idx} 
+                                                    lSideTitle={entry.character.fullName}
+                                                    lSideNote={entry.role}
+                                                    lSideSrc={lSideSrc}
+                                                    lSideLink={null}
+                                                    rSideTitle={`${entry.anime.title}`}
+                                                    rSideNote=""
+                                                    rSideSrc={rSideSrc}
+                                                    rSideLink={`/miru/anime/${entry.anime.id}/${entry.anime.slug}`}
+                                                />
+                                        )
+                                    })
                                 :
                                     <p>No related anime</p>
                             }
@@ -110,19 +115,21 @@ async function FetchVoiceActor(id: string) {
                 firstName,
                 lastName,
                 bio,
-                socials
+                socials,
+                coverImgUrl
             },
             relatedAnime {
                 anime {
                     id,
                     slug,
-                    title
+                    title,
+                    coverImgUrl
                 },
                 character {
                     id,
                     slug,
-                    firstName,
-                    lastName
+                    fullName,
+                    coverImgUrl
                 },
                 role
             },
@@ -132,13 +139,14 @@ async function FetchVoiceActor(id: string) {
                 game {
                     id,
                     slug,
-                    title
+                    title,
                 },
                 character {
                     id,
                     slug,
                     firstName,
-                    lastName
+                    lastName,
+                    coverImgUrl
                 }
             }
         }
@@ -146,6 +154,5 @@ async function FetchVoiceActor(id: string) {
     `
 
     const response = await arcadiaAPI.GraphQL<any>(query)
-    console.log(response.data.voiceActorById.relatedGames)
     return response.data.voiceActorById
 }
