@@ -18,8 +18,8 @@ export interface Media {
 }
 
 export interface Social {
-    url: string,
-    link: string
+    handle: string,
+    url: string
 }
 
 export interface Socials {

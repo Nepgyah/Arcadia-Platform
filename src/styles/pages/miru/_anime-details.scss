@@ -2,16 +2,30 @@
 @use "sass:map";
 
 #page-anime-details {
-    #hero {
 
-        #latest {
-            > div {
-                display: flex;
-                align-items: flex-end;
-                
-                img {
-                    padding-top: 1rem;
-                    margin-right: 1rem;
+    #ranks-news {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        margin-bottom: 2rem;
+        
+        #ranks {
+            #rank-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+
+                .rank {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: map.get($colors, platform-dark);
+                    height: 100px;
+
+                    svg, img {
+                        height: 48px;
+                    }
                 }
             }
         }
@@ -48,6 +62,22 @@
             flex-direction: column;
             row-gap: 1rem;
         }
+
+        #latest {
+            .video-card {
+                height: 300px;
+                img {
+                    max-height: 200px;
+                }
+            }
+        }
+
+        #summary {
+            #summary-text {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+        }
     }
 }
 
@@ -81,6 +111,13 @@
 
 @media only screen and (min-width: 1200px) {
     #page-anime-details {
+
+        #ranks-news {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         #main-content {
             display: grid;
             grid-template-columns: 1fr 4fr;

@@ -9,22 +9,26 @@ import Header from "@/components/custom/header";
 import CharacterCard from "@/components/media/characters/character-card";
 import RelationMedia from "@/components/media/relation-media";
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
+import VideoCard from "@/components/media/video/videoCard";
 
 export default function OverviewTab(
     {
-        anime, charactersPromise, franchisePromise
+        anime, charactersPromise, episodesPromise
     } : {
         anime: Anime,
         charactersPromise: Promise<any[]>,
-        franchisePromise: Promise<Franchise>
+        episodesPromise: Promise<any[]>
     }
 ) {
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise" className="two-column">
-                <Genres anime={anime} />
+                <div id="summary">
+                    <Header text="Synopsis" />
+                    <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
+                </div>
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                    <AnimeFranchise franchisePromise={franchisePromise} />
+                    <LatestEpisode episodesPromise={episodesPromise} animeID={anime.id} animeSlug={anime.slug} />
                 </Suspense>
             </div>
             <div id="overview-characters">
@@ -43,44 +47,6 @@ export default function OverviewTab(
     )
 }
 
-// Overview sections
-function Genres({anime}:{anime : Anime}) {
-
-    return (
-        <div id="overview-genres">
-            <Header text="Genres"/>
-            <div className="flex flex-wrap flex-gap-sm">
-                {
-                    anime.genres.map((genre: any, idx: number) => (
-                        <Tag.Root key={idx} size={'xl'} className="card bg-miru-base clr-txt-dark">
-                            <Tag.Label>{genre.name}</Tag.Label>
-                        </Tag.Root>
-                    ))
-                }
-            </div>
-        </div>
-    )
-}
-
-function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
-    return (
-        <div id="franchise-section">
-            <Header text="Franchise"/>
-            {
-                franchise ?
-                    <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} />
-                        <div className="mask"></div>
-                        <p>{franchise.name}</p>
-                    </div>
-                :
-                    <p>No Franchise found</p>
-            }
-        </div>
-    )
-}
 
 function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
     const characters = use(charactersPromise)
@@ -164,5 +130,35 @@ function Relationships({anime}:{anime : Anime}) {
                 </div>
             </div>
         </div>
+    )
+}
+
+function LatestEpisode({
+    episodesPromise,
+    animeID,
+    animeSlug
+} : {
+    episodesPromise : Promise<any[]>,
+    animeID : number,
+    animeSlug : string
+}) {
+    const episodes = use(episodesPromise)
+    let latestEpisode = (episodes.length) ? episodes[episodes.length - 1] : null;
+
+    return (
+        <div id="latest">
+            <Header text="Latest Episode" />
+            {
+                latestEpisode ?
+                    <VideoCard 
+                        src={latestEpisode.coverImgUrl ? latestEpisode.coverImgUrl : `/storage/miru/${animeID}/episodes/${latestEpisode.number}.jpg`} 
+                        href={`/miru/anime/${animeID}/${animeSlug}/watch/${latestEpisode.number}`}
+                        title={`Ep: ${latestEpisode.number} - ${latestEpisode.title}`} 
+                        subText=''                            
+                    />
+                :
+                    <p>Episodes not found</p>
+            }
+        </div>  
     )
 }

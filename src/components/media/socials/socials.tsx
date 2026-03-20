@@ -34,7 +34,7 @@ function SocialRow(
                     <img src={`/sns/${type}.png`} alt="" />
                 </div>
                 <div className="social__handle">
-                    <p>{social.url}</p>
+                    <p>{social.handle}</p>
                 </div>
             </div>
         </Link>

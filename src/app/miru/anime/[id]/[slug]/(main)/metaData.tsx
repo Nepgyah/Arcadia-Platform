@@ -31,6 +31,16 @@ export default function MetaData(
                 <Misc anime={anime} />
             </div>
             <div>
+                <Header text="Genres" />
+                <div className="flex flex-column row-gap-sm">
+                {
+                    anime.genres.map((genre: any, idx: number) => (
+                        <p key={idx}>{genre.name}</p>
+                    ))
+                }
+                </div>
+            </div>
+            <div>
                 <Header text="Production" />
                 <div className="flex flex-column row-gap-sm">
                 {
