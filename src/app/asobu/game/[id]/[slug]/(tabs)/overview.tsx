@@ -1,6 +1,7 @@
 import Header from "@/components/custom/header"
 import CharacterCard from "@/components/media/characters/character-card"
 import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton"
+import RelationMedia from "@/components/media/relation-media"
 import { AsobuGame } from "@/types/asobu"
 import { Franchise } from "@/types/base"
 import { Skeleton, Tag } from "@chakra-ui/react"
@@ -17,67 +18,54 @@ export default function Overviewtab(
 ) {
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
-            <div id="genres-franchise" className="two-column">
-                <Genres game={game} />
-                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                    <GameFranchise franchisePromise={franchisePromise} />
-                </Suspense>
+            <div id="summary-news" className="two-column">
+                <div id="summary">
+                    <Header text="Summary" />
+                    <div id="summary-text" dangerouslySetInnerHTML={{ __html: game.summary }}></div>
+                </div>
+                <div id="news">
+                    <Header text="Trailer" />
+                    <div>
+                        {
+                            game.trailerUrl ? 
+                            <iframe 
+                                id='screen' 
+                                className="border-radius-md shadow"
+                                src={game.trailerUrl} 
+                                title="YouTube video player" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowFullScreen 
+                            />
+                            :
+                                <p>No Trailer found</p>
+                        }
+                    </div>
+                </div>
             </div>
             <div id="overview-characters">
-                <Header text="Characters" />
+                <Header text="Main Characters" />
                 <Suspense fallback={<CharacterCardSkeleton />}>
                     <Characters charactersPromise={characterPromise} />
                 </Suspense>
             </div>
-        </div>
-    )
-}
-
-function Genres({game}:{game : AsobuGame}) {
-
-    return (
-        <div id="overview-genres">
-            <Header text="Genres"/>
-            <div className="flex flex-wrap flex-gap-sm">
-                {
-                    game.genres.map((genre: any, idx: number) => (
-                        <Tag.Root key={idx} size={'xl'} className="card bg-asobu-base clr-txt-white">
-                            <Tag.Label>{genre.name}</Tag.Label>
-                        </Tag.Root>
-                    ))
-                }
+            <div id="relationships" >
+                <Header text="Game Flow" />
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <Relationships game={game} />
+                </Suspense>
             </div>
         </div>
     )
 }
 
-function GameFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
-    return (
-        <div id="franchise-section">
-            <Header text="Franchise"/>
-            {
-                franchise ?
-                    <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} />
-                        <div className="mask"></div>
-                        <p>{franchise.name}</p>
-                    </div>
-                :
-                    <p>No Franchise found</p>
-            }
-        </div>
-    )
-}
-
-function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
+function Characters({charactersPromise}:{charactersPromise : Promise<any[]>}) {
     const characters = use(charactersPromise)
+    const mainCharacters = characters.filter((character) => character.role === "Main")
 
     return (
         <div className="character-container">
             {
-                characters.map((entry: any, idx: number) => {
+                mainCharacters.map((entry: any, idx: number) => {
                     if(idx < 6) {
                         let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
                         let rSideSrc = null
@@ -103,6 +91,52 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
                     }
                 })
             }
+        </div>
+    )
+}
+
+function Relationships({game}:{game : AsobuGame}) {
+
+    return (
+        <div>
+            <div className="two-column">
+                <div id="prequel">
+                    {
+                        game.prequel ?
+                            <RelationMedia 
+                                media={game.prequel} 
+                                app="miru" 
+                                relation="Prequel"
+                                link={`/asobu/game/${game.prequel.id}/${game.prequel.slug}`}
+                                src={`/storage/asobu/${game.prequel.id}/cover.jpg`}
+                            />
+                        :
+                            <p>No Prequel Found</p>
+                    }
+                </div>
+                <div id="sequel">
+                    {
+                        game.sequels.length > 0 ?
+                            <div className="flex flex-column row-gap-md">
+                                {
+                                    game.sequels.map((game: AsobuGame, idx: number) => (
+                                        <RelationMedia 
+                                            key={idx}
+                                            media={game} 
+                                            app="miru" 
+                                            relation="Sequel"
+                                            link={`/asobu/game/${game.id}/${game.slug}`}
+                                            src={`/storage/asobu/${game.id}/cover.jpg`}
+                                        />
+                                    ))
+                                }
+                            </div>
+                        :
+                            <p>No Sequel Found</p>
+                    }
+                    
+                </div>
+            </div>
         </div>
     )
 }

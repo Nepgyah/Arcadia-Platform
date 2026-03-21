@@ -24,7 +24,7 @@ export default function OverviewTab(
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise" className="two-column">
                 <div id="summary">
-                    <Header text="Synopsis" />
+                    <Header text="Summary" />
                     <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
                 </div>
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>

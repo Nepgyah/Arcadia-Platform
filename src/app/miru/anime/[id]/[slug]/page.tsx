@@ -42,7 +42,7 @@ export default async function Page(
             <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />
                 <div>
-                    <div id="ranks-news">
+                    <div id="ranks-franchise">
                         <Ranks anime={anime} />
                         <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                             <AnimeFranchise franchisePromise={franchisePromise} />
@@ -66,7 +66,7 @@ export default async function Page(
 function Ranks({anime}:{anime:Anime}) {
     return (
         <div id="ranks">
-            <Header text="Synopsis" />
+            <Header text="Rankings" />
             <div id="rank-container">
                 <div className="rank card">
                     <UserPlus />
@@ -78,10 +78,10 @@ function Ranks({anime}:{anime:Anime}) {
                 </div>
                 <div className="rank card">
                    <img src="/icons/anilist-logo.svg" alt="" />
-                   <p>Anilist Rank: N/A</p>
+                   <p>Anilist Rank: WiP</p>
                 </div>
                 <div className="rank card">
-                    ?
+                    TBD
                 </div>
             </div>
         </div>
@@ -98,14 +98,14 @@ function Hero(
     return (
         <React.Fragment>
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
-        <div id="hero" className="border-radius-md card">
-            <div className="mask"></div>
-            <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} />
-            <div id="titles">
-                <p className="clr-miru-base txt-xxl">{anime.title}</p>
-                <p className="clr-txt-fadded">{anime.titleNative}</p>
+            <div id="hero" className="border-radius-md card">
+                <div className="mask"></div>
+                <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} />
+                <div id="titles">
+                    <p className="clr-miru-base txt-xxl">{anime.title}</p>
+                    <p className="clr-txt-fadded">{anime.titleNative}</p>
+                </div>
             </div>
-        </div>
         </React.Fragment>
     )
 }

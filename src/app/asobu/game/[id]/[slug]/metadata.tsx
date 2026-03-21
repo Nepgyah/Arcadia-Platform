@@ -23,12 +23,38 @@ export default function Metadata(
                 </Suspense>
             </div>
             <div>
+                <Header text="Tags" />
+                <div className="flex flex-column row-gap-sm">
+                    {
+                        game.tags.length ? 
+                            game.tags.map((tag: any, idx: number) => (
+                                <p key={idx}>{tag.name}</p>
+                            ))
+                        :
+                            <p>No Tags Found</p>
+                    }
+                </div>
+            </div>
+            <div>
+                <Header text="Genres" />
+                <div className="flex flex-column row-gap-sm">
+                    {
+                        game.genres.length ? 
+                            game.genres.map((genre: any, idx: number) => (
+                                <p key={idx}>{genre.name}</p>
+                            ))
+                        :
+                            <p>No Genres Found</p>
+                    }
+                </div>
+            </div>
+            <div>
                 <Header text="Release Dates" />
                 <Platforms game={game} />
             </div>
             <div>
                 <Header text="Ratings" />
-                <div className="flex-row row-gap-md">
+                <div className="flex flex-column row-gap-sm">
                     <InfoItem label="ESRB" value={game.esrbRating} />
                     <InfoItem label="PEGI" value={game.pegiRating} />
                 </div>
@@ -40,7 +66,7 @@ export default function Metadata(
 function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
     const franchise = use(franchisePromise)
 
-    if (franchise.socials) {
+    if (franchise) {
         return (
             <SocialsList socials={franchise.socials} />
         )

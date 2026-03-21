@@ -18,7 +18,7 @@ export default function SimpleMediaCard(
     return (
         <div className="simple-media">
             <Link href={href}>
-                <img src={imagePath} alt="" className="card animation-hover"/>
+                <img src={imagePath} alt="" className="card animation-hover border-radius-sm"/>
             </Link>
             <Link className="hover-underline" href={href} >{title}</Link>
         </div>
