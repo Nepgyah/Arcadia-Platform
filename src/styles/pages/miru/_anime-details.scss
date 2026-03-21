@@ -2,20 +2,7 @@
 @use "sass:map";
 
 #page-anime-details {
-    #hero {
 
-        #latest {
-            > div {
-                display: flex;
-                align-items: flex-end;
-                
-                img {
-                    padding-top: 1rem;
-                    margin-right: 1rem;
-                }
-            }
-        }
-    }
     #main-content {
         .details {
 
@@ -47,6 +34,22 @@
             display: flex;
             flex-direction: column;
             row-gap: 1rem;
+        }
+
+        #latest {
+            .video-card {
+                height: 300px;
+                img {
+                    max-height: 200px;
+                }
+            }
+        }
+
+        #summary {
+            #summary-text {
+                max-height: 300px;
+                overflow-y: auto;
+            }
         }
     }
 }
@@ -81,6 +84,7 @@
 
 @media only screen and (min-width: 1200px) {
     #page-anime-details {
+
         #main-content {
             display: grid;
             grid-template-columns: 1fr 4fr;

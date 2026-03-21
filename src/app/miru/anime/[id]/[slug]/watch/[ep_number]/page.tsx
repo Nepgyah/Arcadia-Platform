@@ -58,7 +58,6 @@ export default async function Page(
                                 />
                             ))
                         }
-
                     </div>
                 </div>
             </div>
@@ -87,11 +86,10 @@ async function FetchAnimeInfo(id: string) {
      const query =
         `
         query {
-            animeById(id:${id}) {
+            animeById(animeId:${id}) {
                 id,
                 slug,
                 title,
-                titleJa,
                 score,
                 users,
                 summary,

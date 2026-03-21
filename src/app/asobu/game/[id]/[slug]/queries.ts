@@ -8,9 +8,12 @@ export async function FetchGame(id: string) {
             id,
             title,
             slug,
+            score,
+            users,
             summary,
             esrbRating,
             pegiRating,
+            trailerUrl,
             tags {
                 name
             },
@@ -25,6 +28,16 @@ export async function FetchGame(id: string) {
                     name
                 },
                 releaseDate
+            },
+            prequel {
+                id,
+                title,
+                slug
+            },
+            sequels {
+                id,
+                title,
+                slug
             }
         }
     }

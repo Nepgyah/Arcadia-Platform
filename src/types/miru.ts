@@ -1,6 +1,7 @@
 import { Franchise, Media } from "./base";
 
 export interface Anime extends Media {
+    titleNative: string,
     titleJa: string,
     bannerImgUrl: string,
     coverImgUrl: string,
@@ -23,5 +24,6 @@ export interface AnimeEpisode {
     id: number,
     number: number,
     title: string,
-    description: string
+    description: string,
+    coverImgUrl: string
 }

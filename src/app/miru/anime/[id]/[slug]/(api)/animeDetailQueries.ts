@@ -14,6 +14,10 @@ export async function GetAnime(id: string) {
         animeById(animeId: ${id}) {
             id,
             title,
+            titleNative,
+            score,
+            users,
+            slug,
             bannerImgUrl,
             coverImgUrl,
             score,
@@ -120,6 +124,7 @@ export async function GetAnimeEpisodes(id: string) {
         getAnimeEpisodes(animeId: ${id}) {
             id,
             title,
+            coverImgUrl,
             number,
             description
         }
