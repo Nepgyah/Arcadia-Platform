@@ -82,7 +82,7 @@ function Ranks({anime}:{anime:Anime}) {
                 </div>
                 <div className="rank card">
                     <img src="/icons/mal-logo.svg" alt="" />
-                   <p>Score: {anime.malData.rankScore ? anime.malData.rankScore : 'N/A'} | Popularity: {anime.malData.rankPopular ? anime.malData.rankPopular : 'N/A'}</p>
+                   <p>Score: {anime.malData ? anime.malData.rankScore : 'N/A'} | Popularity: {anime.malData ? anime.malData.rankPopular : 'N/A'}</p>
                 </div>
             </div>
         </div>
