@@ -51,6 +51,14 @@ export async function GetAnime(id: string) {
                 slug,
                 coverImgUrl,
             },
+            malData {
+                rankScore,
+                rankPopular
+            },
+            anilistdata {
+                rankScore,
+                rankPopular
+            }
         }
     }
     `

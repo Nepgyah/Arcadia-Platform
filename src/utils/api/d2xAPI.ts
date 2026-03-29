@@ -54,13 +54,13 @@ class D2XAPI {
                     description: `${data.detail}`,
                     type: 'error'
                 })
-                throw 'Error occurred from the api'
+                throw 'Error occurred from d2x API'
             } else {
                 return res.json();
             }
         } catch(error) {
             console.log(error)
-            throw 'Error attempting to call api'
+            throw 'Error occurred calling the d2x API'
         }
     }
 }

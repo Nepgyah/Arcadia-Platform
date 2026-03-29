@@ -51,12 +51,12 @@ class ArcadiaAPI {
             // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                throw 'Error occurred from the api'
+                throw 'Error occurred from the Arcadia API REST endpoint'
             } else {
                 return res.json();
             }
         } catch(error) {
-            throw 'Error attempting to call api'
+            throw 'Error occurred attempting to call the Arcadia API REST endpoint'
         }
     }
 
@@ -78,12 +78,13 @@ class ArcadiaAPI {
         // Error from the server
             if (!res.ok) {
                 const data = await res.json()
-                throw 'Error occurred from the api'
+                throw 'Error occurred from the Arcadia API Graphql endpoint'
             } else {
                 return res.json();
             }
         } catch(error) {
-            throw 'Error attempting to call api'
+            console.log(error)
+            throw 'Error occurred attempting to call the Arcadia API Graphql endpoint'
         }
     }
 }

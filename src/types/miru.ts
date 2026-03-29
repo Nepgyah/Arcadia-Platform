@@ -1,5 +1,10 @@
 import { Franchise, Media } from "./base";
 
+interface Rankings {
+    rankScore: number,
+    rankPopular: number
+}
+
 export interface Anime extends Media {
     titleNative: string,
     titleJa: string,
@@ -17,7 +22,9 @@ export interface Anime extends Media {
     latestEpisode: AnimeEpisode,
     episodeCount: number,
     airingStartDate: string,
-    airingEndDate: string
+    airingEndDate: string,
+    malData: Rankings,
+    anilistdata: Rankings
 }
 
 export interface AnimeEpisode {
