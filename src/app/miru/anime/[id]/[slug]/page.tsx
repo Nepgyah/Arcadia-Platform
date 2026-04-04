@@ -70,18 +70,19 @@ function Ranks({anime}:{anime:Anime}) {
             <div id="rank-container">
                 <div className="rank card">
                     <UserPlus />
-                    <p>Users: {anime.users}</p>
+                    <p>Arc Users: {anime.users}</p>
                 </div>
                 <div className="rank card">
                     <Sparkles />
-                    <p>Score: {anime.score == 0 ? 'NA' : anime.score}</p>
+                    <p>Arc Score: {anime.score == 0 ? 'NA' : anime.score}</p>
                 </div>
                 <div className="rank card">
                    <img src="/icons/anilist-logo.svg" alt="" />
-                   <p>Anilist Rank: WiP</p>
+                   <p>Score: {anime.anilistdata.rankScore ? anime.anilistdata.rankScore : 'N/A'} | Popularity: {anime.anilistdata.rankPopular ? anime.anilistdata.rankPopular : 'N/A'}</p>
                 </div>
                 <div className="rank card">
-                    TBD
+                    <img src="/icons/mal-logo.svg" alt="" />
+                   <p>Score: {anime.malData ? anime.malData.rankScore : 'N/A'} | Popularity: {anime.malData ? anime.malData.rankPopular : 'N/A'}</p>
                 </div>
             </div>
         </div>
