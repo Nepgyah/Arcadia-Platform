@@ -19,6 +19,10 @@
     }
 }
 
+.chakra-input {
+    background-color: map.get($colors, platform-light);
+}
+
 .chakra-card__root {
     background-color: map.get($colors, platform-light);
     overflow: hidden;
