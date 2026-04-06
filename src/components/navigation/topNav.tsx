@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 
 import { HamburgerIcon } from "lucide-react";
 import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
@@ -20,6 +20,7 @@ export default function TopNav(
         urlSet: url[]
     }
 ) {
+    const router = useRouter();
     const user = useUserStore((state) => state.user)
     const setUser = useUserStore((state) => state.setUser)
     const [navOpen, setNavOpen] = useState<boolean>(false)
@@ -61,6 +62,12 @@ export default function TopNav(
             console.error("Logout failed", error);
         }
     }
+
+    const handleViewProfile = () => {
+        router.push(`/profile/${user.id}`)
+        setProfileOpen(!profileOpen)
+    }
+    
     return (
         <div id="top-nav">
             <div className="mobile-links">
@@ -114,7 +121,9 @@ export default function TopNav(
                                 <p>{user ? user.username : ''}</p>
                             </Drawer.Header>
                             <Drawer.Body>
-
+                                {
+                                    user && <Button onClick={handleViewProfile}>View Profile</Button>
+                                }
                             </Drawer.Body>
                             <Drawer.Footer>
                                 {  

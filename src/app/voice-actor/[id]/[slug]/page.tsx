@@ -3,9 +3,10 @@ export const revalidate = 60;
 import Header from "@/components/custom/header";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
-import "@/styles/pages/_voice-actor.scss";
 import CharacterCard from "@/components/media/characters/character-card";
 import SocialsList from "@/components/media/socials/socials";
+
+import "@/styles/pages/_voice-actor.scss";
 
 export default async function Page(
     props : {
