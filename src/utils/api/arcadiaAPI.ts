@@ -1,4 +1,5 @@
 import { toaster } from "@/components/ui/toaster";
+import { cookies } from "next/headers";
 
 class ArcadiaAPI {
     constructor() {}
@@ -62,7 +63,6 @@ class ArcadiaAPI {
 
     async GraphQL<T>(query: any, variables = {}) : Promise<T> {
         const endpoint = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
-
         try {
             const res = await fetch(
                 endpoint,
