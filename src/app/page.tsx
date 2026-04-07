@@ -1,17 +1,15 @@
 export const dynamic = "force-dynamic";
 
 import Header from "@/components/custom/header";
-import RelationMedia from "@/components/media/relation-media";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import { Media } from "@/types/base";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import LinkedHeader from "@/components/custom/linkedHeader";
 import { Anime } from "@/types/miru";
-import { arcadiaServerFetch } from "@/utils/api/server/arcadiaServer";
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 
 export default async function Home() {
     const animeList = await FetchAnime()

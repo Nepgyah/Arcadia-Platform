@@ -1,7 +1,7 @@
 import { toaster } from "@/components/ui/toaster"
 import { ArcadiaGraphqlBase } from "../arcadiaGraphqlBase"
 
-export class ArcadiaClient extends ArcadiaGraphqlBase {
+export class ArcadiaClientFetch extends ArcadiaGraphqlBase {
 
     async GraphQL<T>(query: any, variables = {}) : Promise<GraphqlResponse<T>> {
 
@@ -41,3 +41,5 @@ export class ArcadiaClient extends ArcadiaGraphqlBase {
         }
     }
 }
+
+export const arcadiaClientFetch = new ArcadiaClientFetch()

@@ -10,12 +10,12 @@ import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react
 import Date from "@/components/custom/date";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { useUserStore } from "@/app/store/store";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import StatCard from "@/components/custom/stat-card/statCard";
 
 import '@/styles/pages/miru/_anilist.scss';
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
+import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 export default function Page() {
     const user = useUserStore((state) => state.user)
@@ -79,7 +79,7 @@ export default function Page() {
             }
             `
 
-            const results = await arcadiaAPI.GraphQL<any>(query)
+            const results = await arcadiaClientFetch.GraphQL<any>(query)
             if (!results.data.getAnimeList) {
                 redirect('/not-found')
             }

@@ -1,4 +1,4 @@
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer"
 
 export async function FetchGame(id: string) {
     const query =
@@ -43,7 +43,7 @@ export async function FetchGame(id: string) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.gameById
 }
 
@@ -72,7 +72,7 @@ export async function FetchCharacters(id: string) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.charactersByGame
 }
 
@@ -89,7 +89,7 @@ export async function FetchFranchise(id: string) {
         }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query);
+    const response = await arcadiaServerFetch.GraphQL<any>(query);
     return response.data.franchiseByGame
 }
 
@@ -104,6 +104,6 @@ export async function FetchDLC(id: string) {
         }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query);
+    const response = await arcadiaServerFetch.GraphQL<any>(query);
     return response.data.dlcByGame
 }

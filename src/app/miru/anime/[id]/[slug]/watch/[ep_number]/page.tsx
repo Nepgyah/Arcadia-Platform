@@ -1,4 +1,3 @@
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
 import { notFound } from "next/navigation"
 
 import "@/styles/pages/miru/_watch.scss";
@@ -8,6 +7,7 @@ import Header from "@/components/custom/header";
 import Link from "next/link";
 import { videos } from "./videos";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 
 export default async function Page(
     {
@@ -78,7 +78,7 @@ async function FetchAnimeEpisodes(id: string) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.getAnimeEpisodes
 }
 
@@ -101,6 +101,6 @@ async function FetchAnimeInfo(id: string) {
         }
     `
     
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.animeById
 }
