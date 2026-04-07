@@ -7,6 +7,7 @@ import { Franchise } from "@/types/base";
 import SocialsList from "@/components/media/socials/socials";
 import SocialsSkeleton from "@/components/media/socials/skeleton";
 import { SkeletonText } from "@chakra-ui/react";
+import AnimeListInput from "../animeListInput";
 
 export default function MetaData(
     { 
@@ -19,7 +20,7 @@ export default function MetaData(
 ) {
     return (
         <div id="metadata-column">
-            {/* <AnimeListInput animePromise={animePromise} /> */}
+            <AnimeListInput anime={anime} />
             <div>
                 <Header text="Socials" />
                 <Suspense fallback={<SocialsSkeleton />}>

@@ -1,8 +1,8 @@
 import { toaster } from "@/components/ui/toaster"
+import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient"
 import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer"
 
 export async function CreateNewAnimeListEntry(
-    userID: number, 
     animeID: number,
     status: number,
     details: {
@@ -16,7 +16,6 @@ export async function CreateNewAnimeListEntry(
     `
     mutation {
         addAnimeListEntry(
-            userId: ${userID},
             animeId: ${animeID},
             status: ${status},
             details: {
@@ -26,27 +25,22 @@ export async function CreateNewAnimeListEntry(
             endWatchDate: ${details.endWatchDate ? `"${details.endWatchDate}"` : null}
             }
         ) {
-            ok
+            message
         }
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<any>(mutation)
-    if (response.data.addAnimeListEntry.ok == true) {
+    const response = await arcadiaClientFetch.GraphQL<any>(mutation)
+    const message = response.data.addAnimeListEntry?.message
+    if (message) {
         toaster.create({
-            description: "Added to your anilist!",
-            type: "success"
-        })
-    } else {
-        toaster.create({
-            description: "Error adding to your anilist. Try again later.",
-            type: "error"
+            title: message,
+            type: 'success'
         })
     }
 }
 
 export async function UpdateNewAnimeListEntry(
-    userID: number, 
     animeID: number,
     status: number,
     details: {
@@ -56,11 +50,11 @@ export async function UpdateNewAnimeListEntry(
         endWatchDate: string | null
     }
 ) {
+    console.log('UPDATING')
     const mutation =
     `
     mutation {
         updateAnimeListEntry(
-            userId: ${userID},
             animeId: ${animeID},
             status: ${status},
             details: {
@@ -70,21 +64,17 @@ export async function UpdateNewAnimeListEntry(
             endWatchDate: ${details.endWatchDate ? `"${details.endWatchDate}"` : null}
             }
         ) {
-            ok
+            message
         }
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<any>(mutation)
-    if (response.data.updateAnimeListEntry.ok == true) {
+    const response = await arcadiaClientFetch.GraphQL<any>(mutation)
+    const message = response.data.updateAnimeListEntry?.message
+    if (message) {
         toaster.create({
-            description: "You have updated your anilist",
-            type: "success"
-        })
-    } else {
-        toaster.create({
-            description: "Error updating your anilist. Try again later.",
-            type: "error"
+            title: message,
+            type: 'success'
         })
     }
 }

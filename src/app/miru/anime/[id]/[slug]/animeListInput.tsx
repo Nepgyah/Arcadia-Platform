@@ -5,22 +5,21 @@ import React, { use, useEffect, useState } from "react";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
-import { GetAnimeListEntry } from "./(api)/animeDetailQueries";
 import { useUserStore } from "@/app/store/store";
 import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
 import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./(api)/animeListMutations";
+import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 
 export default function AnimeListInput(
     {
-        animePromise
+        anime
     } : {
-        animePromise: Promise<Anime>
+        anime: Anime
     }
 ) {
     const user = useUserStore((state) => state.user)
-    const anime = use(animePromise)
     const [isAnimeAlreadyListed, setIsAnimeAlreadyListed] = useState(false);
     const [status, setStatus] = useState<number>(-1)
     const [score, setScore] = useState<number>(-1)
@@ -29,7 +28,7 @@ export default function AnimeListInput(
 
     useEffect(() => {
         if (user && anime) {
-            GetAnimeListEntry(user.id, anime.id)
+            GetAnimeListEntry(anime.id)
             .then((res) => {
                 if (res != null) {
                     setIsAnimeAlreadyListed(true)
@@ -53,9 +52,9 @@ export default function AnimeListInput(
             endWatchDate: null
         }
         if (isAnimeAlreadyListed) {
-            UpdateNewAnimeListEntry(user.id, anime.id, status, details)
+            UpdateNewAnimeListEntry(anime.id, status, details)
         } else {
-            CreateNewAnimeListEntry(user.id, anime.id, status, details)
+            CreateNewAnimeListEntry(anime.id, status, details)
         }
     }
 
@@ -126,4 +125,22 @@ export default function AnimeListInput(
             }
         </div>
     )
+}
+
+async function GetAnimeListEntry(animeID: number) {
+    const query =
+    `
+    query {
+        getAnimeListEntry(animeId: ${animeID}) {
+            status,
+            currentEpisode,
+            startWatchDate,
+            endWatchDate,
+            score
+        }
+    }
+    `
+
+    const response = await arcadiaClientFetch.GraphQL<any>(query)
+    return response.data.getAnimeListEntry
 }
