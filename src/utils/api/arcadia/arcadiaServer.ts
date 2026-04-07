@@ -7,15 +7,19 @@ export class ArcadiaServer {
         const cookieStore = await cookies()
         const access_token = cookieStore.get('access_token')?.value
 
+        const headers: Record<string, string> = {
+            "Content-Type": "application/json",
+        }
+
+        if (access_token) {
+            headers['Cookie'] = `access_token=${access_token}`
+        }
         try {
             const response = await fetch(
                 endpoint,
                 {
                     method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Cookie": `access_token=${access_token}`,       
-                    },
+                    headers: headers,
                     body: JSON.stringify({
                         query,
                         variables
@@ -24,7 +28,9 @@ export class ArcadiaServer {
             )
             
             if (response.ok) {
-                return response.json()
+                const data = await response.json()
+                console.log(data)
+                return data
             } else {
                 throw 'Error occured fromt he Arcadia API'
             }

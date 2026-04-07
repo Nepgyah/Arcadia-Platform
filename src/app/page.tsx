@@ -24,6 +24,7 @@ export default async function Home() {
                     <LinkedHeader text="Miru" href="/miru/all-time" linkText="See all" />
                     <div className="container">
                         {
+                            animeList &&
                             animeList.map((media: Anime, idx: number) => (
                                 <SimpleMediaCard 
                                     key={idx}
@@ -45,6 +46,7 @@ export default async function Home() {
                     <Header text="Asobu" />
                     <div className="container">
                         {
+                            gamesList && 
                             gamesList.map((media: Media, idx: number) => (
                                 <SimpleMediaCard 
                                     key={idx}
