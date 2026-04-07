@@ -1,5 +1,5 @@
 import { toaster } from "@/components/ui/toaster"
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer"
 
 export async function CreateNewAnimeListEntry(
     userID: number, 
@@ -31,7 +31,7 @@ export async function CreateNewAnimeListEntry(
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(mutation)
+    const response = await arcadiaServerFetch.GraphQL<any>(mutation)
     if (response.data.addAnimeListEntry.ok == true) {
         toaster.create({
             description: "Added to your anilist!",
@@ -75,7 +75,7 @@ export async function UpdateNewAnimeListEntry(
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(mutation)
+    const response = await arcadiaServerFetch.GraphQL<any>(mutation)
     if (response.data.updateAnimeListEntry.ok == true) {
         toaster.create({
             description: "You have updated your anilist",

@@ -8,10 +8,10 @@ import { redirect, RedirectType, useRouter } from "next/navigation";
 import { HamburgerIcon } from "lucide-react";
 import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { useUserStore } from "@/app/store/store";
 import { handleGetUser, logoutUser } from "@/utils/actions/user";
 import { url } from "@/utils/data/urls";
+import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 export default function TopNav(
     {
@@ -28,7 +28,7 @@ export default function TopNav(
 
     useEffect(() => {
         const getCSRF = async () => {
-            await arcadiaAPI.GET('util/csrf/')
+            await arcadiaClientFetch.GET('util/csrf/')
         }
 
         const getUser = async () => {

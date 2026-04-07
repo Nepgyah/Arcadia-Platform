@@ -1,5 +1,5 @@
 import { Anime } from "@/types/miru"
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer"
 
 interface AnimeDetailsQuery {
     data: {
@@ -63,7 +63,7 @@ export async function GetAnime(id: string) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<AnimeDetailsQuery>(query)
+    const response = await arcadiaServerFetch.GraphQL<AnimeDetailsQuery>(query)
     return response.data.animeById
 }
 
@@ -81,7 +81,7 @@ export async function GetAnimeListEntry(userID: number, animeID: number) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.getAnimeListEntry
 }
 
@@ -106,7 +106,7 @@ export async function GetAnimeCharacters(id: string) {
         }
     }
     `
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.charactersByAnime
 }
 
@@ -121,7 +121,7 @@ export async function GetAnimeFranchise(id: string) {
         }
     }
     `
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.franchiseByAnime
 }
 
@@ -139,6 +139,6 @@ export async function GetAnimeEpisodes(id: string) {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.getAnimeEpisodes
 }

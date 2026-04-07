@@ -1,7 +1,6 @@
 'use client';
 
 import Header from "@/components/custom/header";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { useEffect, useState } from "react";
 
 import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
@@ -12,6 +11,7 @@ import '@/styles/pages/miru/_search.scss';
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import React from "react";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
+import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 export default function Page() {
 
@@ -69,7 +69,7 @@ export default function Page() {
             }
         }
         `
-        const response = await arcadiaAPI.GraphQL<any>(query)
+        const response = await arcadiaClientFetch.GraphQL<any>(query)
         if (loading) {
             setLoading(false)
         }

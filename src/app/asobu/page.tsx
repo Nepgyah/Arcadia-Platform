@@ -3,10 +3,10 @@ import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import { AsobuGame } from "@/types/asobu";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
 import { Suspense, use } from "react";
 
 import '@/styles/pages/asobu/_home.scss';
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 
 export default function Page() {
 
@@ -83,7 +83,7 @@ async function FetchTopGames() {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query);
+    const response = await arcadiaServerFetch.GraphQL<any>(query);
     return response.data.gamesByCategory
 }
 
@@ -100,6 +100,6 @@ async function FetchPopularGames() {
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<any>(query);
+    const response = await arcadiaServerFetch.GraphQL<any>(query);
     return response.data.gamesByCategory
 }

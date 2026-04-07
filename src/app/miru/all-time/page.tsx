@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";
+import { arcadiaClientFetch, ArcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 export default function Page() {
     
@@ -63,7 +63,7 @@ export default function Page() {
             }
         `
 
-        const response = await arcadiaAPI.GraphQL<any>(query)
+        const response = await arcadiaClientFetch.GraphQL<any>(query)
         if (loading) {
             setLoading(false)
         }

@@ -1,4 +1,4 @@
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer"
 
 export async function GetRatedAnime() {
     const query = 
@@ -13,7 +13,7 @@ export async function GetRatedAnime() {
     }
     `
 
-    const res = await arcadiaAPI.GraphQL<any>(query)
+    const res = await arcadiaServerFetch.GraphQL<any>(query)
     return res.data.animeByCategory
 }
 
@@ -30,6 +30,6 @@ export async function GetPopularAnime() {
     }
     `
 
-    const res = await arcadiaAPI.GraphQL<any>(query)
+    const res = await arcadiaServerFetch.GraphQL<any>(query)
     return res.data.animeByCategory
 }

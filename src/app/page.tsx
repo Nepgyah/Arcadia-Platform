@@ -1,16 +1,15 @@
 export const dynamic = "force-dynamic";
 
 import Header from "@/components/custom/header";
-import RelationMedia from "@/components/media/relation-media";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import { Media } from "@/types/base";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import LinkedHeader from "@/components/custom/linkedHeader";
 import { Anime } from "@/types/miru";
+import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 
 export default async function Home() {
     const animeList = await FetchAnime()
@@ -25,6 +24,7 @@ export default async function Home() {
                     <LinkedHeader text="Miru" href="/miru/all-time" linkText="See all" />
                     <div className="container">
                         {
+                            animeList &&
                             animeList.map((media: Anime, idx: number) => (
                                 <SimpleMediaCard 
                                     key={idx}
@@ -46,6 +46,7 @@ export default async function Home() {
                     <Header text="Asobu" />
                     <div className="container">
                         {
+                            gamesList && 
                             gamesList.map((media: Media, idx: number) => (
                                 <SimpleMediaCard 
                                     key={idx}
@@ -94,7 +95,7 @@ async function FetchAnime() {
         }
     }
     `
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.animeByCategory
 }
 
@@ -109,6 +110,6 @@ async function FetchGames() {
         }
     }
     `
-    const response = await arcadiaAPI.GraphQL<any>(query)
+    const response = await arcadiaServerFetch.GraphQL<any>(query)
     return response.data.gamesByCategory
 }
