@@ -1,16 +1,15 @@
 import { cookies } from "next/headers";
-import { ArcadiaGraphqlBase } from "../arcadiaGraphqlBase";
 
-export class ArcadiaServer extends ArcadiaGraphqlBase {
-
-    
+export class ArcadiaServer {
+ 
     async GraphQL<T>(query: any, variables = {}) : Promise<T> {
+        const endpoint = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
         const cookieStore = await cookies()
         const access_token = cookieStore.get('access_token')?.value
 
         try {
             const response = await fetch(
-                this.endpoint,
+                endpoint,
                 {
                     method: 'POST',
                     headers: {
