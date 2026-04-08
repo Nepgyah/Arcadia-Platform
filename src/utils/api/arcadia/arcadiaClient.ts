@@ -61,13 +61,6 @@ export class ArcadiaClientFetch {
             
             const data = await response.json()
             if (response.ok) {
-                const message = data?.message
-                if (message) {
-                    toaster.create({
-                        title: data.message,
-                        type: 'success'
-                    })
-                }
                 return data
             } else {
                 const errorMessage = data.errors?.[0]?.message || 'Error occured from the API'
