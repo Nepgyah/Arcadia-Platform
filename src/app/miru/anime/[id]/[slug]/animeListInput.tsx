@@ -10,6 +10,7 @@ import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
 import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./(api)/animeListMutations";
 import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
+import { toaster } from "@/components/ui/toaster";
 
 
 export default function AnimeListInput(
@@ -21,10 +22,9 @@ export default function AnimeListInput(
 ) {
     const user = useUserStore((state) => state.user)
     const [isAnimeAlreadyListed, setIsAnimeAlreadyListed] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<number>(-1)
     const [score, setScore] = useState<number>(-1)
-    const [startWatchDate, setStartWatchDate] = useState<Date>();
-    const [endWatchDate, setEndWatchDate] = useState<Date>()
 
     useEffect(() => {
         if (user && anime) {
@@ -34,28 +34,48 @@ export default function AnimeListInput(
                     setIsAnimeAlreadyListed(true)
                     setIsAnimeAlreadyListed(true)
                     setStatus(res.status)
-                    setStartWatchDate(res.startWatchDate)
-                    setEndWatchDate(res.endWatchDate)
+                    setScore(res.score ? res.score : -1)
                 }
             })
         }
     }, [user])
 
-    const handleSubmit = (e: React.SyntheticEvent) => {
-        e.preventDefault()
-        // const tempStartDate = startWatchDate ? String(startWatchDate.toISOString().split("T")[0]) : null
-        // const tempEndDate = endWatchDate ? String(endWatchDate.toISOString().split("T")[0]) : null
-        const details = {
+    const formatDetails = () => {
+        return {
             score: score == -1 ? null : score,
             currentEpisode: 0,
             startWatchDate: null,
             endWatchDate: null
         }
-        if (isAnimeAlreadyListed) {
-            UpdateNewAnimeListEntry(anime.id, status, details)
+    }
+
+    const handleNewEntry = (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        if (status == -1) {
+            toaster.create({
+                title: 'Select a status',
+                type: 'info'
+            })
         } else {
+            const details = formatDetails()
             CreateNewAnimeListEntry(anime.id, status, details)
+            .then(() => {
+                setLoading(false)
+                setIsAnimeAlreadyListed(true)
+            })
         }
+    }
+
+    const handleUpdateEntry = (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        setLoading(true)
+
+        const details = formatDetails()
+        UpdateNewAnimeListEntry(anime.id, status, details)
+        .then(() => {
+            setLoading(false)
+        })
     }
 
     return (
@@ -65,7 +85,7 @@ export default function AnimeListInput(
                 !user ?
                     <p>Login to add to your anilist!</p>
                 :
-                <form onSubmit={handleSubmit} className="flex flex-column row-gap-md">
+                <form className="flex flex-column row-gap-md">
                     <Field.Root>
                         <Field.Label>Status</Field.Label>
                         <NativeSelect.Root>
@@ -115,11 +135,26 @@ export default function AnimeListInput(
                         </Field.Root>
                     </div> */}
                     <div id="actions">
-                        <Button type="submit" variant={'subtle'} className="btn-primary">
-                            {
-                                isAnimeAlreadyListed ? "Update" : "Add"
-                            }
-                        </Button>
+                        {
+                            isAnimeAlreadyListed ?
+                                <Button 
+                                    onClick={(e) => handleUpdateEntry(e)}
+                                    loading={loading}
+                                    variant={'subtle'} 
+                                    className="btn-primary"
+                                >
+                                    Update
+                                </Button>
+                            :
+                                <Button 
+                                    onClick={(e) => handleNewEntry(e)} 
+                                    loading={loading}
+                                    variant={'subtle'} 
+                                    className="btn-primary"
+                                >
+                                    Add
+                                </Button>
+                        }
                     </div>
                 </form>
             }
