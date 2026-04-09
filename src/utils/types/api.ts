@@ -4,7 +4,7 @@ interface GraphqlResponse<T> {
     errors: Array<{message: string}>
 }
 
-interface RESTResponse<T> {
-    data: T,
-    message: string
+export interface RESTResponse {
+    detail?: string,
+    message?: string
 }

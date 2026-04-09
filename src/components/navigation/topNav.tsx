@@ -13,6 +13,7 @@ import { handleGetUser, logoutUser } from "@/utils/actions/user";
 import { url } from "@/utils/data/urls";
 import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 import { FetchCSRFToken } from "@/actions/util-actions";
+import { FetchUser } from "@/actions/user-actions";
 
 export default function TopNav(
     {
@@ -33,7 +34,7 @@ export default function TopNav(
         }
 
         const getUser = async () => {
-            let user = await handleGetUser()
+            let user = await FetchUser()
             if (user) {
                 setUser(user)
             } else {

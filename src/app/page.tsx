@@ -10,6 +10,7 @@ import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import LinkedHeader from "@/components/custom/linkedHeader";
 import { Anime } from "@/types/miru";
 import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 export default async function Home() {
     const animeList = await FetchAnime()
@@ -95,7 +96,7 @@ async function FetchAnime() {
         }
     }
     `
-    const response = await arcadiaServerFetch.GraphQL<any>(query)
+    const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.animeByCategory
 }
 
@@ -110,6 +111,6 @@ async function FetchGames() {
         }
     }
     `
-    const response = await arcadiaServerFetch.GraphQL<any>(query)
+    const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.gamesByCategory
 }

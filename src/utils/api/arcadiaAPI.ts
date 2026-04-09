@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 export class ArcadiaAPI {
 
@@ -24,6 +25,7 @@ export class ArcadiaAPI {
             )
             
             const data = await response.json()
+
             if (response.ok) {
                 return data
             } else {
@@ -58,7 +60,6 @@ export class ArcadiaAPI {
             
             const data = await response.json()
             if (response.ok) {
-                console.log(data)
                 return data
             } else {
                 throw 'Error occured within the Arcadia API'
@@ -68,7 +69,7 @@ export class ArcadiaAPI {
         }
     }
 
-    async GraphQL<T>(query: any, variables = {}) : Promise<T> {
+    GraphQL = cache(async <T>(query: any, variables = {}): Promise<T> => {
         const api_endpoint = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
         const cookieStore = await cookies()
         const access_token = cookieStore.get('access_token')?.value
@@ -103,7 +104,7 @@ export class ArcadiaAPI {
         } catch {
             throw 'Error occured attempting to call Arcadia GraphQL endpoint'
         }
-    }
+    })
 }
 
 export const arcadiaAPI = new ArcadiaAPI()

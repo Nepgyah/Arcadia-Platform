@@ -35,8 +35,6 @@ export default function Page() {
                 type: 'error'
             })
         })
-        const res = await LoginAsAdmin(username, password)
-
     }
 
     return (

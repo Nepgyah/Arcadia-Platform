@@ -7,7 +7,7 @@ interface CSRFResponse {
     token: string
 }
 export async function FetchCSRFToken() {
-    const response = await arcadiaAPI.GET<CSRFResponse>('util/csrf')
+    const response = await arcadiaAPI.GET<CSRFResponse>('util/csrf/')
 
     const cookieStore = await cookies()
 
