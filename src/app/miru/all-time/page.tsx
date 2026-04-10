@@ -13,6 +13,7 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";
 import { FetchAllTimeAnimeAction } from "./actions";
+import { toaster } from "@/components/ui/toaster";
 
 
 export default function Page() {
@@ -27,13 +28,21 @@ export default function Page() {
         .then(() => {
             setLoading(false);
         })
-        
+
     }, [])
 
     const FetchAnime = async (page: number) => {
-        const response = await FetchAllTimeAnimeAction(page)
-        setAnimes(response.searchAnime.animes)
-        setTotalCount(response.searchAnime.total)
+        const result = await FetchAllTimeAnimeAction(page)
+
+        if (!result.success) {
+            toaster.create({
+                title: result.error,
+                type: 'error'
+            })
+        } else {
+            setAnimes(result.data.searchAnime.animes)
+            setTotalCount(result.data.searchAnime.total)
+        }
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {

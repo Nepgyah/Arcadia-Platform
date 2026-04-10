@@ -2,6 +2,7 @@
 
 import { Anime } from "@/types/miru";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { ActionResult, GraphqlResponse } from "@/utils/types/api";
 
 interface APIResponse {
     searchAnime: {
@@ -10,7 +11,7 @@ interface APIResponse {
     }
 }
 
-export async function FetchAllTimeAnimeAction(page: number) : Promise<APIResponse> {
+export async function FetchAllTimeAnimeAction(page: number) : Promise<ActionResult<APIResponse>> {
     const query = 
         `
         query {
@@ -47,6 +48,17 @@ export async function FetchAllTimeAnimeAction(page: number) : Promise<APIRespons
             }
         }
     `
-    const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query)
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch(e: any) {
+        return {
+            success: false,
+            error: e.message
+        }
+    }
 }
