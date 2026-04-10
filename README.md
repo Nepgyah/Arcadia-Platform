@@ -1,11 +1,10 @@
 # Arcadia Platform
-Introducing the Arcadia Platform. The web app that helps users view and track anime, manga, games and music.
+Introducing the Arcadia Platform. The web app that helps users view and track anime, manga, games and music. This repo contains the Next.js frontend
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
-## How it works
-With the api hosted on a seperate Django server, this repo is designed to be the platform that users interact with. At full deployment, users will be able to seamlessly
-traverse between apps, doing there desired actions between games, anime, manga and more without having multipiple accounts/tabs/websites to do so.
+## Why I Started Arcadia
+See [API docs](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#why-i-started-arcadia) for information
 
 ## Features
 Please see [Features in the Arcadia API readme](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#features)
@@ -17,6 +16,6 @@ State Management: [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/i
 UI: [Chakra UI](https://chakra-ui.com)
 Deployment: [Vercel](https://vercel.com/home)
 
-## Future Plans
-1: If the arcadia apps become collectively big, I plan to split them up into microservices which is already in place with django's app system<br>
-2. Create other apps/use cases
+## Architecture
+Arcadia is setup in a BFF(Backend for Frontend) architecture. In order to handle security and proper authorization, clients do not directly engage the api and instead utilize the next.js server to act on behalf of them. This allows removes the dependency of third party cookies for the client and confirms that the only connection to the backend api is the next.js server. For a visual view of this practice see below.
+![Diagram](docs/bff-diagram.webp)

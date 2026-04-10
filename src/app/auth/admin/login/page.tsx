@@ -5,10 +5,11 @@ import { useState } from "react";
 import { Button, Field, Input } from "@chakra-ui/react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { toaster, Toaster } from "@/components/ui/toaster";
-import { LoginAsAdmin } from "@/utils/actions/oauth";
 
-import '@/styles/pages/auth/_admin-login.scss';
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { LoginAsAdmin } from "@/actions/auth-actions";
+
+import "@/styles/pages/auth/_admin-login.scss";
 
 export default function Page() {
     const [username, setUsername] = useState('');
@@ -17,22 +18,23 @@ export default function Page() {
 
     const handleLogin =  async () => {
         setLoading(true)
-        const res = await LoginAsAdmin(username, password)
-        if(res.ok) {
+        LoginAsAdmin(username, password)
+        .then((res) => {
             toaster.create({
-                title: res.message,
+                title: res,
                 type: 'success'
             })
             setTimeout(() => {
                 window.location.href = '/'
             }, 3000)
-        } else {
+        })
+        .catch((res) => {
             setLoading(false)
             toaster.create({
-                title: res.message,
+                title: res,
                 type: 'error'
             })
-        }
+        })
     }
 
     return (

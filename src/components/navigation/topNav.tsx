@@ -12,6 +12,7 @@ import { useUserStore } from "@/app/store/store";
 import { handleGetUser, logoutUser } from "@/utils/actions/user";
 import { url } from "@/utils/data/urls";
 import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
+import { FetchUser } from "@/actions/user-actions";
 
 export default function TopNav(
     {
@@ -27,19 +28,15 @@ export default function TopNav(
     const [profileOpen, setProfileOpen] = useState<boolean>(false)
 
     useEffect(() => {
-        const getCSRF = async () => {
-            await arcadiaClientFetch.GET('util/csrf/')
-        }
 
         const getUser = async () => {
-            let user = await handleGetUser()
+            let user = await FetchUser()
             if (user) {
                 setUser(user)
             } else {
                 setUser(null)
             }
         }
-        getCSRF()
         getUser()
     }, [])
 
