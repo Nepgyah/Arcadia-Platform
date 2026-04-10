@@ -12,63 +12,28 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";
-import { arcadiaClientFetch, ArcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
+import { FetchAllTimeAnimeAction } from "./actions";
+
 
 export default function Page() {
     
     const [loading, setLoading] = useState(true)
-    const [animes, setAnimes] = useState([])
+    const [animes, setAnimes] = useState<Anime []>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
     
     useEffect(() => {
-        FetchAnime(1);
+        FetchAnime(1)
+        .then(() => {
+            setLoading(false);
+        })
+        
     }, [])
 
-    async function FetchAnime(page: number) {
-        const query = 
-        `
-            query {
-                searchAnime(
-                    filters: {
-                        type: -1,
-                        status: -1,
-                        title: "",
-                    },
-                    sort: {
-                        category: "score",
-                        direction: "desc"
-                    },
-                    pagination: {
-                        perPage: 10,
-                        currentPage: ${page}
-                    }
-                ) {
-                    animes {
-                        id,
-                        title,
-                        coverImgUrl,
-                        score,
-                        users,
-                        summary,
-                        slug,
-                        franchise {
-                            name
-                        }
-                    },
-                    currentPage,
-                    pageCount,
-                    total
-                }
-            }
-        `
-
-        const response = await arcadiaClientFetch.GraphQL<any>(query)
-        if (loading) {
-            setLoading(false)
-        }
-        setAnimes(response.data.searchAnime.animes)
-        setTotalCount(response.data.searchAnime.total)
+    const FetchAnime = async (page: number) => {
+        const response = await FetchAllTimeAnimeAction(page)
+        setAnimes(response.searchAnime.animes)
+        setTotalCount(response.searchAnime.total)
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {
