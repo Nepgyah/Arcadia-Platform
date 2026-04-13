@@ -35,48 +35,6 @@ export default function Page() {
     }, [])
 
     async function SearchAnime(currentPage: number) {
-        // const query = 
-        // `
-        // query {
-        //     searchAnime(
-        //         filters: {
-        //             type: ${mediaType},
-        //             status: ${mediaStatus},
-        //             title: "${mediaTitle}",
-        //         },
-        //         sort: {
-        //             category: "${sortCategory}",
-        //             direction: "${sortDirection}"
-        //         },
-        //         pagination: {
-        //             perPage: ${perPage},
-        //             currentPage: ${currentPage}
-        //         }
-        //     ) {
-        //         animes {
-        //             id,
-        //             title,
-        //             score,
-        //             users,
-        //             summary,
-        //             slug,
-        //             franchise {
-        //                 name
-        //             }
-        //         },
-        //         currentPage,
-        //         pageCount,
-        //         total
-        //     }
-        // }
-        // `
-        // const response = await arcadiaClientFetch.GraphQL<any>(query)
-        // if (loading) {
-        //     setLoading(false)
-        // }
-        // setAnime(response.data.searchAnime.animes)
-        // setTotalCount(response.data.searchAnime.total)
-
         const result = await FetchAnimeSearchAction(
             mediaType,
             mediaStatus,

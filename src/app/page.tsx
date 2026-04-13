@@ -8,7 +8,6 @@ import { Media } from "@/types/base";
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import LinkedHeader from "@/components/custom/linkedHeader";
 import { Anime } from "@/types/miru";
-import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';

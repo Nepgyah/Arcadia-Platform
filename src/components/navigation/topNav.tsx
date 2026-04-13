@@ -11,7 +11,6 @@ import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 import { useUserStore } from "@/app/store/store";
 import { handleGetUser, logoutUser } from "@/utils/actions/user";
 import { url } from "@/utils/data/urls";
-import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 import { FetchUser } from "@/actions/user-actions";
 
 export default function TopNav(
