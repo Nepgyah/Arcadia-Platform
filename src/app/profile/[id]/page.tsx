@@ -1,15 +1,17 @@
-import Header from "@/components/custom/header"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs"
-import { User } from "@/types/user"
 import { Avatar } from "@chakra-ui/react"
+import { Book, Gamepad2, Ticket, Tv } from "lucide-react"
+
+import Header from "@/components/custom/header"
+import StatCard from "@/components/custom/stat-card/statCard"
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { Tooltip } from "@/components/ui/tooltip"
+import { User } from "@/types/user"
 
 import "@/styles/pages/_profile.scss";
-import StatCard from "@/components/custom/stat-card/statCard"
-import { Book, Gamepad2, Ticket, Tv } from "lucide-react"
-import { notFound } from "next/navigation"
-import Link from "next/link"
-import { Tooltip } from "@/components/ui/tooltip"
-import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
 
 export default async function Page(
     {params}:{params: Promise<{ id: string, username: string}>}
@@ -85,6 +87,6 @@ async function FetchUser(userId: string) {
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<{ data: { User: User}}>(query)
+    const response = await arcadiaAPI.GraphQL<{ data: { User: User}}>(query)
     return response.data.User
 }
