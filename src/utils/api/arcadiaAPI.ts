@@ -102,8 +102,7 @@ export class ArcadiaAPI {
                 }
                 return data
             } else {
-                console.log(data)
-                throw new Error('Could not connect to the Arcadia API');
+                throw new Error(data.errors[0].message);
             }
         } catch (error: any) {
             throw Error(error.message)

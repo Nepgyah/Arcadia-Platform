@@ -15,83 +15,92 @@ import StatCard from "@/components/custom/stat-card/statCard";
 
 import '@/styles/pages/miru/_anilist.scss';
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
-import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { FetchAnimeListAction } from "./action";
+import { toaster } from "@/components/ui/toaster";
+import { AnimeListEntry } from "@/types/miru";
 
 export default function Page() {
     const user = useUserStore((state) => state.user)
     const params = useParams<{ user_id: string}>()
-    const [watchlist, setWatchlist] = useState<any []>([])
-    const [completedList, setCompletedList] = useState([])
-    const [planToList, setPlanToList] = useState([])
-    const [onHoldList, setOnHoldList] = useState([])
+    const [watchlist, setWatchlist] = useState<AnimeListEntry []>([])
+    const [completedList, setCompletedList] = useState<AnimeListEntry []>([])
+    const [planToList, setPlanToList] = useState<AnimeListEntry []>([])
+    const [onHoldList, setOnHoldList] = useState<AnimeListEntry []>([])
     const [username, setUserName] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
 
-        async function FetchAnimeList() {
-            const query = 
-            `
-            query {
-                getAnimeList(userId: ${params.user_id ? params.user_id: user.id}) {
-                    username,
-                    watching {
-                        anime {
-                            id,
-                            slug,
-                            title
-                        },
-                        score,
-                        startWatchDate,
-                        endWatchDate
-                    },
-                    completed {
-                        anime {
-                            id,
-                            slug,
-                            title
-                        },
-                        score,
-                        startWatchDate,
-                        endWatchDate
-                    },
-                    planTo {
-                        anime {
-                            id,
-                            slug,
-                            title
-                        },
-                        score,
-                        startWatchDate,
-                        endWatchDate
-                    },
-                    onHold {
-                        anime {
-                            id,
-                            slug,
-                            title
-                        },
-                        score,
-                        startWatchDate,
-                        endWatchDate
-                    }
-                }
-            }
-            `
+        async function FetchList() {
+            // const query = 
+            // `
+            // query {
+            //     getAnimeList(userId: ${params.user_id ? params.user_id: user.id}) {
+            //         username,
+            //         watching {
+            //             anime {
+            //                 id,
+            //                 slug,
+            //                 title
+            //             },
+            //             score,
+            //             startWatchDate,
+            //             endWatchDate
+            //         },
+            //         completed {
+            //             anime {
+            //                 id,
+            //                 slug,
+            //                 title
+            //             },
+            //             score,
+            //             startWatchDate,
+            //             endWatchDate
+            //         },
+            //         planTo {
+            //             anime {
+            //                 id,
+            //                 slug,
+            //                 title
+            //             },
+            //             score,
+            //             startWatchDate,
+            //             endWatchDate
+            //         },
+            //         onHold {
+            //             anime {
+            //                 id,
+            //                 slug,
+            //                 title
+            //             },
+            //             score,
+            //             startWatchDate,
+            //             endWatchDate
+            //         }
+            //     }
+            // }
+            // `
 
-            const results = await arcadiaClientFetch.GraphQL<any>(query)
-            if (!results.data.getAnimeList) {
-                redirect('/not-found')
+            const result = await FetchAnimeListAction(params.user_id ? params.user_id: user.id)
+
+            if (!result.success) {
+                toaster.create({
+                    title: result.error,
+                    type: 'error'
+                })
+            } else {
+                setWatchlist(result.data.getAnimeList.watching)
+                setCompletedList(result.data.getAnimeList.completed)
+                setPlanToList(result.data.getAnimeList.planTo)
+                setOnHoldList(result.data.getAnimeList.onHold)
+                setUserName(result.data.getAnimeList.username)
+                setLoading(false)
             }
-            setWatchlist(results.data.getAnimeList.watching)
-            setCompletedList(results.data.getAnimeList.completed)
-            setPlanToList(results.data.getAnimeList.planTo)
-            setOnHoldList(results.data.getAnimeList.onHold)
-            setUserName(results.data.getAnimeList.username)
-            setLoading(false)
+
         }
 
-        FetchAnimeList()
+        FetchList()
     }, [user])
 
     return (

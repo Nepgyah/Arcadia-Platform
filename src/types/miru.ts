@@ -34,3 +34,10 @@ export interface AnimeEpisode {
     description: string,
     coverImgUrl: string
 }
+
+export interface AnimeListEntry {
+    anime: Anime,
+    score: number,
+    startWatchDate: string,
+    endWatchDate: string
+}
