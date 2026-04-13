@@ -8,9 +8,9 @@ import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { useUserStore } from "@/app/store/store";
 import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
-import { CreateNewAnimeListEntry, UpdateNewAnimeListEntry } from "./(api)/animeListMutations";
-import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 import { toaster } from "@/components/ui/toaster";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { AddAnimeListEntryAction, FetchAnimeListEntryAction, UpdateAnimeListEntryAction } from "./actions";
 
 
 export default function AnimeListInput(
@@ -27,16 +27,24 @@ export default function AnimeListInput(
     const [score, setScore] = useState<number>(-1)
 
     useEffect(() => {
-        if (user && anime) {
-            GetAnimeListEntry(anime.id)
-            .then((res) => {
-                if (res != null) {
+        const fetchEntry = async (animeID: number) => {
+            const result = await FetchAnimeListEntryAction(animeID)
+            
+            if (!result.success) {
+                toaster.create({
+                    title: result.error,
+                    type: 'error'
+                })
+            } else {
+                if (result.data) {
                     setIsAnimeAlreadyListed(true)
-                    setIsAnimeAlreadyListed(true)
-                    setStatus(res.status)
-                    setScore(res.score ? res.score : -1)
+                    setStatus(result.data.getAnimeListEntry.status)
+                    setScore(result.data.getAnimeListEntry.score ? result.data.getAnimeListEntry.score : -1)
                 }
-            })
+            }
+        }
+        if (user && anime) {
+            fetchEntry(anime.id)
         }
     }, [user])
 
@@ -49,7 +57,7 @@ export default function AnimeListInput(
         }
     }
 
-    const handleNewEntry = (e: React.SyntheticEvent) => {
+    const handleNewEntry = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setLoading(true)
         if (status == -1) {
@@ -59,25 +67,43 @@ export default function AnimeListInput(
             })
         } else {
             const details = formatDetails()
-            CreateNewAnimeListEntry(anime.id, status, details)
-            .then(() => {
+            const result = await AddAnimeListEntryAction(anime.id, status, details)
+            
+            if (!result.success) {
+                toaster.create({
+                    title: result.error,
+                    type: 'error'
+                })
+            } else {
+                toaster.create({
+                    title: 'Entry added successfully',
+                    type: 'success'
+                })
                 setLoading(false)
-                setIsAnimeAlreadyListed(true)
-            })
+            }
         }
     }
 
-    const handleUpdateEntry = (e: React.SyntheticEvent) => {
+    const handleUpdateEntry = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setLoading(true)
 
         const details = formatDetails()
-        UpdateNewAnimeListEntry(anime.id, status, details)
-        .then(() => {
+        const result = await UpdateAnimeListEntryAction(anime.id, status, details)
+            
+        if (!result.success) {
+            toaster.create({
+                title: result.error,
+                type: 'error'
+            })
+        } else {
+            toaster.create({
+                title: 'Entry updated successfully',
+                type: 'success'
+            })
             setLoading(false)
-        })
+        }
     }
-
     return (
         <div id="anime-list-control">
             <Header text="List Control" />
@@ -160,22 +186,4 @@ export default function AnimeListInput(
             }
         </div>
     )
-}
-
-async function GetAnimeListEntry(animeID: number) {
-    const query =
-    `
-    query {
-        getAnimeListEntry(animeId: ${animeID}) {
-            status,
-            currentEpisode,
-            startWatchDate,
-            endWatchDate,
-            score
-        }
-    }
-    `
-
-    const response = await arcadiaClientFetch.GraphQL<any>(query)
-    return response.data.getAnimeListEntry
 }

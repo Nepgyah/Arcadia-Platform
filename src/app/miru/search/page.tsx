@@ -11,7 +11,8 @@ import '@/styles/pages/miru/_search.scss';
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import React from "react";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
-import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
+import { FetchAnimeSearchAction } from "./actions";
+import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
 
 export default function Page() {
 
@@ -34,47 +35,67 @@ export default function Page() {
     }, [])
 
     async function SearchAnime(currentPage: number) {
-        const query = 
-        `
-        query {
-            searchAnime(
-                filters: {
-                    type: ${mediaType},
-                    status: ${mediaStatus},
-                    title: "${mediaTitle}",
-                },
-                sort: {
-                    category: "${sortCategory}",
-                    direction: "${sortDirection}"
-                },
-                pagination: {
-                    perPage: ${perPage},
-                    currentPage: ${currentPage}
-                }
-            ) {
-                animes {
-                    id,
-                    title,
-                    score,
-                    users,
-                    summary,
-                    slug,
-                    franchise {
-                        name
-                    }
-                },
-                currentPage,
-                pageCount,
-                total
+        // const query = 
+        // `
+        // query {
+        //     searchAnime(
+        //         filters: {
+        //             type: ${mediaType},
+        //             status: ${mediaStatus},
+        //             title: "${mediaTitle}",
+        //         },
+        //         sort: {
+        //             category: "${sortCategory}",
+        //             direction: "${sortDirection}"
+        //         },
+        //         pagination: {
+        //             perPage: ${perPage},
+        //             currentPage: ${currentPage}
+        //         }
+        //     ) {
+        //         animes {
+        //             id,
+        //             title,
+        //             score,
+        //             users,
+        //             summary,
+        //             slug,
+        //             franchise {
+        //                 name
+        //             }
+        //         },
+        //         currentPage,
+        //         pageCount,
+        //         total
+        //     }
+        // }
+        // `
+        // const response = await arcadiaClientFetch.GraphQL<any>(query)
+        // if (loading) {
+        //     setLoading(false)
+        // }
+        // setAnime(response.data.searchAnime.animes)
+        // setTotalCount(response.data.searchAnime.total)
+
+        const result = await FetchAnimeSearchAction(
+            mediaType,
+            mediaStatus,
+            mediaTitle,
+            sortCategory,
+            sortDirection,
+            {
+                perPage: perPage,
+                currentPage: currentPage
             }
+        )
+
+        if (!result.success) {
+            CreateErrorToaster(result.error)
+        } else {
+            setLoading(false);
+            setAnime(result.data.searchAnime.animes)
+            setTotalCount(result.data.searchAnime.total)
         }
-        `
-        const response = await arcadiaClientFetch.GraphQL<any>(query)
-        if (loading) {
-            setLoading(false)
-        }
-        setAnime(response.data.searchAnime.animes)
-        setTotalCount(response.data.searchAnime.total)
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {

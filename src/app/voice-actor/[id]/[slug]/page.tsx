@@ -6,7 +6,7 @@ import CharacterCard from "@/components/media/characters/character-card";
 import SocialsList from "@/components/media/socials/socials";
 
 import "@/styles/pages/_voice-actor.scss";
-import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 export default async function Page(
     props : {
@@ -154,6 +154,6 @@ async function FetchVoiceActor(id: string) {
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<any>(query)
+    const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.voiceActorById
 }

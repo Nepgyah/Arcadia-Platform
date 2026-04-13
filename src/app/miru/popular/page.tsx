@@ -4,70 +4,42 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { toaster } from "@/components/ui/toaster";
 
 import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
+import { FetchPopularAnimeAction } from "./actions";
+import { Anime } from "@/types/miru";
 
 import '@/styles/pages/miru/_rankings.scss';
-import { Anime } from "@/types/miru";
-import { arcadiaClientFetch } from "@/utils/api/arcadia/arcadiaClient";
 
 export default function Page() {
     
     const [loading, setLoading] = useState(true)
-    const [animes, setAnimes] = useState([])
+    const [animes, setAnimes] = useState<Anime[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
     
     useEffect(() => {
-        FetchAnime(1);
+        FetchAnime(1)
+        .then(() => {
+            setLoading(false)
+        })
     }, [])
 
     async function FetchAnime(page: number) {
-        const query = 
-        `
-            query {
-                searchAnime(
-                    filters: {
-                        type: -1,
-                        status: -1,
-                        title: "",
-                    },
-                    sort: {
-                        category: "users",
-                        direction: "desc"
-                    },
-                    pagination: {
-                        perPage: 10,
-                        currentPage: ${page}
-                    }
-                ) {
-                    animes {
-                        id,
-                        title,
-                        score,
-                        users,
-                        summary,
-                        slug,
-                        franchise {
-                            name
-                        },
-                        coverImgUrl
-                    },
-                    currentPage,
-                    pageCount,
-                    total
-                }
-            }
-        `
+        const result = await FetchPopularAnimeAction(page)
 
-        const response = await arcadiaClientFetch.GraphQL<any>(query)
-        if (loading) {
-            setLoading(false)
+        if (!result.success) {
+            toaster.create({
+                title: result.error,
+                type: 'error'
+            })
+        } else {
+            setAnimes(result.data.searchAnime.animes)
+            setTotalCount(result.data.searchAnime.total)
         }
-        setAnimes(response.data.searchAnime.animes)
-        setTotalCount(response.data.searchAnime.total)
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {
@@ -75,7 +47,6 @@ export default function Page() {
             FetchAnime(currentPage + 1)
             setCurrentPage((prev) => prev + 1)
         } else {
-            console.log('Going previous')
             setCurrentPage((prev) => prev + -1)
             FetchAnime(currentPage - 1)
         }

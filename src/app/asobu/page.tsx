@@ -6,7 +6,7 @@ import { AsobuGame } from "@/types/asobu";
 import { Suspense, use } from "react";
 
 import '@/styles/pages/asobu/_home.scss';
-import { arcadiaServerFetch } from "@/utils/api/arcadia/arcadiaServer";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 export default function Page() {
 
@@ -83,7 +83,7 @@ async function FetchTopGames() {
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<any>(query);
+    const response = await arcadiaAPI.GraphQL<any>(query);
     return response.data.gamesByCategory
 }
 
@@ -100,6 +100,6 @@ async function FetchPopularGames() {
     }
     `
 
-    const response = await arcadiaServerFetch.GraphQL<any>(query);
+    const response = await arcadiaAPI.GraphQL<any>(query);
     return response.data.gamesByCategory
 }

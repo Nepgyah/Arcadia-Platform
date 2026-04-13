@@ -97,12 +97,15 @@ export class ArcadiaAPI {
             
             const data = await response.json()
             if (response.ok) {
+                if (data.errors && data.errors.length > 0) {
+                    throw new Error(data.errors[0].message || "An error occured on the API")
+                }
                 return data
             } else {
-                throw 'Error occured within the Arcadia API'
+                throw new Error(data.errors[0].message);
             }
-        } catch {
-            throw 'Error occured attempting to call Arcadia GraphQL endpoint'
+        } catch (error: any) {
+            throw Error(error.message)
         }
     })
 }
