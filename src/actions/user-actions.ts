@@ -2,7 +2,7 @@
 
 import { User } from "@/types/user"
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
-import { RESTResponse } from "@/utils/types/api"
+import { RESTResponse } from "@/types/api"
 import { cookies } from "next/headers"
 
 interface FetchUserResponse extends RESTResponse {

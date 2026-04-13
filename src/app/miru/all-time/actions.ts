@@ -2,7 +2,7 @@
 
 import { Anime } from "@/types/miru";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-import { ActionResult, GraphqlResponse } from "@/utils/types/api";
+import { ActionResult, GraphqlResponse } from "@/types/api";
 
 interface APIResponse {
     searchAnime: {

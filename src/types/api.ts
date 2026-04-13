@@ -12,3 +12,8 @@ export interface RESTResponse {
     detail?: string,
     message?: string
 }
+
+export interface Pagination {
+    perPage: number,
+    currentPage: number
+}
