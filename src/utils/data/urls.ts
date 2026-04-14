@@ -12,7 +12,7 @@ export const mainboard: url[] = [
 export const miruNav: url[] = [
     { title: 'Miru Home', path: '/miru'},
     { title: 'Anime List', path: '/miru/list'},
-    // { title: 'Search', path: '/miru/search'},
+    { title: 'Search Anime', path: '/miru/search-anime'},
     { title: 'All Time', path: '/miru/all-time'},
     { title: 'Most Popular', path: '/miru/popular'},
 ]

@@ -13,6 +13,7 @@ import React from "react";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 import { FetchAnimeSearchAction } from "./actions";
 import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
+import { PaginationResults } from "@/types/pagination";
 
 export default function Page() {
 
@@ -26,9 +27,11 @@ export default function Page() {
     const [sortCategory, setSortCategory] = useState("")
     const [sortDirection, setSortDirection] = useState<string>('desc')
 
-    const [perPage, setPerPage] = useState<number>(3)
+    const [perPage, setPerPage] = useState<number>(15)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
+
+    const [paginationResults, setPaginationResults] = useState<PaginationResults>()
 
     useEffect(() => {
         SearchAnime(1)
@@ -52,7 +55,7 @@ export default function Page() {
         } else {
             setLoading(false);
             setAnime(result.data.searchAnime.animes)
-            setTotalCount(result.data.searchAnime.total)
+            setPaginationResults(result.data.searchAnime.paginationResults)
         }
     }
 
@@ -97,7 +100,7 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Type</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={mediaType} onChange={(e) => handleChangeFilter('type', e.target.value)}>
+                            <NativeSelect.Field value={mediaType} onChange={(e) => handleChangeFilter('type', Number(e.target.value))}>
                                 <option value={-1} disabled>Select Type</option>
                                 <option value={0}>Tv</option>
                                 <option value={1}>Movie</option>
@@ -111,7 +114,7 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Airing Status</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={mediaStatus} onChange={(e) => handleChangeFilter('status', e.target.value)}>
+                            <NativeSelect.Field value={mediaStatus} onChange={(e) => handleChangeFilter('status', Number(e.target.value))}>
                                 <option value={-1} disabled>Select Status</option>
                                 <option value={0}>Not Yet Aired</option>
                                 <option value={1}>Airing</option>
@@ -144,12 +147,35 @@ export default function Page() {
                         </NativeSelect.Root>
                     </Field.Root>
                 </div>
-                <Button onClick={() => SearchAnime(currentPage)}>Search</Button>
-                <Button onClick={() => handleReset()}>Reset</Button>
+                <div id="others" className="flex flex-column row-gap-md">
+                    <Header text="Others" />
+                    <Field.Root>
+                        <Field.Label>Per Page</Field.Label>
+                        <NativeSelect.Root>
+                            <NativeSelect.Field value={perPage} onChange={(e) => setPerPage(Number(e.target.value))}>
+                                <option value={9}>9</option>
+                                <option value={15}>15</option>
+                                <option value={21}>21</option>
+                            </NativeSelect.Field>
+                        </NativeSelect.Root>
+                    </Field.Root>
+                </div>
+                <Button
+                    className="btn-primary" 
+                    onClick={() => SearchAnime(currentPage)}
+                >
+                    Search
+                </Button>
+                <Button 
+                    variant={'ghost'}
+                    onClick={() => handleReset()}
+                >
+                    Reset
+                </Button>
             </div>
             <div>
                 <div id="pagination">
-                    <Pagination.Root count={totalCount} pageSize={perPage} defaultPage={1} maxW="240px">
+                    <Pagination.Root count={paginationResults?.totalItems} pageSize={paginationResults?.perPage} defaultPage={1} maxW="240px">
                         <ButtonGroup variant="ghost" size="sm" w="full">
                             <Pagination.PageText format="long" flex="1" />
                             <Pagination.PrevTrigger asChild>
@@ -179,7 +205,7 @@ export default function Page() {
                                         summary={anime.summary}
                                         users={anime.users}
                                         score={anime.score}
-                                        src={`/storage/miru/${anime.id}/cover.jpg`}
+                                        src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
                                         franchise={anime.franchise}
                                     />
                                 ))
