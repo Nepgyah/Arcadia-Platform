@@ -3,7 +3,7 @@ import { create } from "zustand";
 // Tutorial
 // Declare a store, essentially the group/object you wish to save
 type UserStore = {
-    user: any | null
+    user: any | undefined
     setUser: (user: any) => void;
     setNull: () => void;
 }
@@ -11,7 +11,7 @@ type UserStore = {
 // Initialize default values or logic of functions
 export const useUserStore = create<UserStore>((set) => ({
     user: null,
-    setUser: (user: any) => {
+    setUser: (user: undefined) => {
         set(() => ({ user: user}))
     },
     setNull: () => {

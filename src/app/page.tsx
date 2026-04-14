@@ -22,7 +22,7 @@ export default async function Home() {
             <GreetingImage />
             <div id="app-overview">
                 <div id="miru">
-                    <LinkedHeader text="Miru" href="/miru/all-time" linkText="See all" />
+                    <Header text="Miru" />
                     <div className="container">
                         {
                             animeList &&
