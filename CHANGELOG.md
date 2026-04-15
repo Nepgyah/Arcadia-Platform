@@ -1,4 +1,9 @@
-## Latest Release - Alpha 1.0 - 4/10/2026
+## Alpha 1.1 - 4/13/2026
+- **General**
+    - Convert client api calls to server actions
+    - Create bff layer to handle bearer authentication
+
+## Alpha 1.0 - 4/10/2026
 - **General**
     - Add changelog tracking
 
