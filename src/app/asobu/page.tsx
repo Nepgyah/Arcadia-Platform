@@ -93,6 +93,7 @@ async function FetchPopularGames() {
     query {
         gamesByCategory(category: "-users", count: 5) {
             id,
+            slug,
             title,
             score,
             users

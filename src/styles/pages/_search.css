@@ -1,1 +1,0 @@
-#page-arcadia-search .container{display:flex;flex-direction:column;row-gap:1rem}@media only screen and (min-width: 480px){#page-arcadia-search .container{display:flex;flex-wrap:wrap;gap:1rem}}@media only screen and (min-width: 480px){#page-arcadia-search .container{display:grid;grid-template-columns:repeat(5, 1fr);justify-items:center}}
