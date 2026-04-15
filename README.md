@@ -3,10 +3,13 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
-## Latest Release - Alpha 1.1 - 4/13/2026
+## Latest Release - Alpha 1.2 - 4/15/2026
 - **General**
-    - Convert client api calls to server actions
-    - Create bff layer to handle bearer authentication
+    - Add zod library
+    - Add general search bar
+
+- **Asobu**
+    - Fix slug not displaying on game detail page
 
 ## Why I Started Arcadia
 See [API docs](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#why-i-started-arcadia) for information
@@ -17,6 +20,7 @@ Please see [Features in the Arcadia API readme](https://github.com/Nepgyah/Arcad
 ## Tech
 Languages: Typescript, SCSS, HTML
 Frameworks: Next.js
+Type Checking: [Zod](https://zod.dev)
 State Management: [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction)
 UI: [Chakra UI](https://chakra-ui.com)
 Deployment: [Vercel](https://vercel.com/home)
