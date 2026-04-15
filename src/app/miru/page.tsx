@@ -10,6 +10,7 @@ import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCa
 
 import '@/styles/pages/miru/_home.scss';
 import { Anime } from "@/types/miru";
+import LinkedHeader from "@/components/custom/linkedHeader";
 
 export default async function MiruHome() {
 
@@ -21,13 +22,13 @@ export default async function MiruHome() {
             <SetBreadcrumbs breadcrumbs={['Miru', 'Home']} />
             <div id="anime-lists" className="flex flex-column row-gap-md">
                 <div id="score">
-                    <Header text="Highest Rated" />
+                    <LinkedHeader text="Highest Rated" href="/miru/all-time" linkText="See More" />
                     <Suspense fallback={<AnimeListSkeleton />}>
                         <AnimeList animePromise={highestRatedAnimePromise} />
                     </Suspense>
                 </div>
                 <div id="popular">
-                    <Header text="Most Popular" />
+                    <LinkedHeader text="Most Popular" href="/miru/popular" linkText="See More"/>
                     <Suspense fallback={<AnimeListSkeleton />}>
                         <AnimeList animePromise={popularAnimePromise} />
                     </Suspense>

@@ -33,6 +33,31 @@
         }
     }
 
+    #search-and-stats {
+        .header {
+            border-color:  map.get($colors, arc-accent);
+            &__box {
+                background-color: map.get($colors, arc-accent);
+            }
+        }
+
+        #arcadia-search {
+            margin-bottom: 2rem;
+
+            .chakra-group {
+                width: 100%;
+            }
+        }
+
+        #stats {
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 1rem;
+            }
+        }
+    }
+
     #app-overview {
         display: flex;
         flex-direction: column;
@@ -90,6 +115,25 @@
 }
 @media only screen and (min-width: 1200px) {
     #page-home {
+        
+        #search-and-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 2rem;
+            
+            #arcadia-search {
+                margin-bottom: 0;
+            }
+
+            #stats {
+                // .container {
+                //     display: grid;
+                //     grid-template-columns: 1fr 1fr;
+                //     column-gap: 1rem;
+                // }
+            }
+        }
+
         #app-overview {
             
             .container {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import React from "react";
+import React, { use } from "react";
 import { useEffect, useState } from "react";
 import { notFound, redirect, useParams } from "next/navigation";
 
@@ -19,10 +19,11 @@ import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { FetchAnimeListAction } from "./action";
 import { toaster } from "@/components/ui/toaster";
 import { AnimeListEntry } from "@/types/miru";
+import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
 
-export default function Page() {
+export default function Page({params} : {params : Promise<{ user_id : number}> }) {
+    const { user_id } = use(params)
     const user = useUserStore((state) => state.user)
-    const params = useParams<{ user_id: string}>()
     const [watchlist, setWatchlist] = useState<AnimeListEntry []>([])
     const [completedList, setCompletedList] = useState<AnimeListEntry []>([])
     const [planToList, setPlanToList] = useState<AnimeListEntry []>([])
@@ -32,57 +33,8 @@ export default function Page() {
 
     useEffect(() => {
 
-        async function FetchList() {
-            // const query = 
-            // `
-            // query {
-            //     getAnimeList(userId: ${params.user_id ? params.user_id: user.id}) {
-            //         username,
-            //         watching {
-            //             anime {
-            //                 id,
-            //                 slug,
-            //                 title
-            //             },
-            //             score,
-            //             startWatchDate,
-            //             endWatchDate
-            //         },
-            //         completed {
-            //             anime {
-            //                 id,
-            //                 slug,
-            //                 title
-            //             },
-            //             score,
-            //             startWatchDate,
-            //             endWatchDate
-            //         },
-            //         planTo {
-            //             anime {
-            //                 id,
-            //                 slug,
-            //                 title
-            //             },
-            //             score,
-            //             startWatchDate,
-            //             endWatchDate
-            //         },
-            //         onHold {
-            //             anime {
-            //                 id,
-            //                 slug,
-            //                 title
-            //             },
-            //             score,
-            //             startWatchDate,
-            //             endWatchDate
-            //         }
-            //     }
-            // }
-            // `
-
-            const result = await FetchAnimeListAction(params.user_id ? params.user_id: user.id)
+        async function FetchList(targetID : number) {
+            const result = await FetchAnimeListAction(targetID)
 
             if (!result.success) {
                 toaster.create({
@@ -97,10 +49,20 @@ export default function Page() {
                 setUserName(result.data.getAnimeList.username)
                 setLoading(false)
             }
-
         }
 
-        FetchList()
+        if (user != undefined) {
+            if (user_id) {
+                console.log('Using params')
+                const convertedUserID = Number(user_id)
+                FetchList(convertedUserID)
+            } else if (user) {
+                console.log('Using user object')
+                FetchList(user.id)
+            } else {
+                CreateErrorToaster('Cannot find user to search')
+            }
+        }
     }, [user])
 
     return (

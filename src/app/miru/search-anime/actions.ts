@@ -2,14 +2,13 @@
 
 import { ActionResult, GraphqlResponse, Pagination } from "@/types/api";
 import { Anime } from "@/types/miru";
+import { PaginationResults } from "@/types/pagination";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 interface APIResponse {
     searchAnime: {
         animes: Anime[],
-        currentPage: number,
-        pageCount: number,
-        total: number
+        paginationResults: PaginationResults
     }
 }
 
@@ -33,18 +32,18 @@ export async function FetchAnimeSearchAction(
             $currentPage: Int!
         ) {
             searchAnime(
-                filters: {
+                filterInput: {
                     type: $mediaType,
                     status: $mediaStatus,
                     title: $mediaTitle,
                 },
-                sort: {
+                sortInput: {
                     category: $sortCategory,
                     direction: $sortDirection
                 },
-                pagination: {
+                paginationInput: {
                     perPage: $perPage,
-                    currentPage: $currentPage
+                    targetPage: $currentPage
                 }
             ) {
                 animes {
@@ -56,11 +55,14 @@ export async function FetchAnimeSearchAction(
                     slug,
                     franchise {
                         name
-                    }
+                    },
+                    coverImgUrl
                 },
-                currentPage,
-                pageCount,
-                total
+                paginationResults {
+                    perPage,
+                    totalPages,
+                    totalItems
+                }
             }
         }
     `
