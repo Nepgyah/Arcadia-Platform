@@ -3,23 +3,45 @@ export const revalidate = 60;
 import Header from "@/components/custom/header";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 
-import { Media } from "@/types/base";
-
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
-import LinkedHeader from "@/components/custom/linkedHeader";
+import ArcadiaSearch from "./arcadiaSearch";
+import { Media } from "@/types/base";
 import { Anime } from "@/types/miru";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
+import { GraphqlResponse } from "@/types/api";
+import StatCard from "@/components/custom/stat-card/statCard";
+import { Book, GamepadIcon, TvMinimal } from "lucide-react";
+
 
 export default async function Home() {
     const animeList = await FetchAnime()
     const gamesList = await FetchGames()
+    const arcadiaStats = await FetchStats()
 
     return (
         <div id="page-home" className="page-content">
             <SetBreadcrumbs breadcrumbs={['Home']} />
             <GreetingImage />
+            <div id="search-and-stats">
+                <ArcadiaSearch />
+                <div id="stats">
+                    <Header text="Arcadia at a Glance" />
+                    <div className="container">
+                        <StatCard
+                            icon={TvMinimal}
+                            label="Anime"
+                            value={arcadiaStats.animeCount} 
+                        />
+                        <StatCard
+                            icon={GamepadIcon}
+                            label="Games"
+                            value={arcadiaStats.gameCount} 
+                        />
+                    </div>
+                </div>
+            </div>
             <div id="app-overview">
                 <div id="miru">
                     <Header text="Miru" />
@@ -113,4 +135,26 @@ async function FetchGames() {
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
     return response.data.gamesByCategory
+}
+
+interface ArcadiaStatsResponse {
+    arcadiaStats: {
+        animeCount: number,
+        gameCount: number
+    }
+}
+
+async function FetchStats() {
+    const query =
+    `
+    query {
+        arcadiaStats {
+            animeCount,
+            gameCount
+        }
+    }
+    `
+
+    const response = await arcadiaAPI.GraphQL<GraphqlResponse<ArcadiaStatsResponse>>(query)
+    return response.data.arcadiaStats
 }
