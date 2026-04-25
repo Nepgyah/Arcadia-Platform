@@ -3,6 +3,9 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
+## Hotfix - Alpha 1.2.1 - 4/25/2026
+- Add proxy error handling, avoiding default next js error page
+
 ## Latest Release - Alpha 1.2 - 4/15/2026
 - **General**
     - Add zod library
