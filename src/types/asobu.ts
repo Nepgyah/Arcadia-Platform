@@ -15,3 +15,15 @@ export interface AsobuGame extends Media {
     platforms: any[],
     steam_id: number,
 }
+
+export interface GameListEntry {
+    game: AsobuGame,
+    status: number,
+    score: number,
+    note: string,
+    review: string,
+    startPlayDate: string,
+    endPlayDate: string,
+    updateAt: string,
+    createdAt: string
+}

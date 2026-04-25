@@ -3,7 +3,6 @@
 import Link from "next/link";
 import React, { use } from "react";
 import { useEffect, useState } from "react";
-import { notFound, redirect, useParams } from "next/navigation";
 
 import { Table, Tabs } from "@chakra-ui/react";
 import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react";
@@ -13,13 +12,13 @@ import { useUserStore } from "@/app/store/store";
 
 import StatCard from "@/components/custom/stat-card/statCard";
 
-import '@/styles/pages/miru/_anilist.scss';
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { FetchAnimeListAction } from "./action";
 import { toaster } from "@/components/ui/toaster";
 import { AnimeListEntry } from "@/types/miru";
 import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
+
+import '@/styles/pages/miru/_anilist.scss';
 
 export default function Page({params} : {params : Promise<{ user_id : number}> }) {
     const { user_id } = use(params)
@@ -53,7 +52,6 @@ export default function Page({params} : {params : Promise<{ user_id : number}> }
 
         if (user != undefined) {
             if (user_id) {
-                console.log('Using params')
                 const convertedUserID = Number(user_id)
                 FetchList(convertedUserID)
             } else if (user) {
@@ -187,6 +185,5 @@ function AnimeList({list}:{list: any[]}) {
                 </Table.Body>
             </Table.Root>
         </Table.ScrollArea>
-
     )
 }

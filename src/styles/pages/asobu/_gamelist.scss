@@ -1,0 +1,15 @@
+#page-asobu-gamelist {
+    #gamelist-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #page-asobu-gamelist {
+        #gamelist-stats {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+}
