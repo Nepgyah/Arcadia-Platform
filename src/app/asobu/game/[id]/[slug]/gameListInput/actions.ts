@@ -1,7 +1,7 @@
 'use server';
 
 import { ActionResult, GraphqlResponse } from "@/types/api";
-import { GameListEntry } from "@/types/asobu";
+import { GameListEntry, GameListEntryMetadata } from "@/types/asobu";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 interface EntryResponse {
@@ -34,4 +34,46 @@ export async function FetchUserGameListEntry(gameID: number) : Promise<ActionRes
             error: error.message
         }
     }
+}
+
+interface CreateResponse {
+    createGameListEntry : {
+        message: string,
+        gameEntry: GameListEntry
+    }
+}
+export async function CreateGameListEntry(gameID: number, status: number, details: GameListEntryMetadata) : Promise<ActionResult<CreateResponse>> {
+    const mutation = 
+    `
+    mutation ($gameID: ID!, $status: Int!, $details: GameListEntryMetadata!) {
+        createGameListEntry(gameId: $gameID, status: $status, details: $details) {
+            message,
+            detail,
+            gameEntry {
+                status,
+                score
+            }
+        }
+    }
+    `
+
+    const variables = {
+        'gameID': gameID,
+        'status': status,
+        'details': details
+    }
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<any>>(mutation, variables);
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+
 }

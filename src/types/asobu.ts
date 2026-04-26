@@ -1,4 +1,5 @@
 import { Media } from "./base";
+import { z } from 'zod';
 
 export interface AsobuGame extends Media {
     trailerUrl : string,
@@ -27,3 +28,13 @@ export interface GameListEntry {
     updateAt: string,
     createdAt: string
 }
+
+export const GameListEntryMetadataSchema = z.object({
+    score: z.number().min(-1).max(10).optional(),
+    note: z.string().nullable(),
+    review: z.string().nullable(),
+    startPlayDate: z.date().nullable(),
+    endPlayDate: z.date().nullable()
+})
+
+export type GameListEntryMetadata = z.infer<typeof GameListEntryMetadataSchema>;

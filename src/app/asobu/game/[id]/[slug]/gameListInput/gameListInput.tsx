@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/app/store/store";
 import Header from "@/components/custom/header";
-import { AsobuGame, GameListEntry } from "@/types/asobu";
-import { FetchUserGameListEntry } from "./actions";
+import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
+import { CreateGameListEntry, FetchUserGameListEntry } from "./actions";
 import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
+import { toaster } from "@/components/ui/toaster";
+import z from "zod";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -35,6 +37,47 @@ export default function GameListInput({gameID} : {gameID: number}) {
             fetchEntry(gameID)
         }
     }, [user])
+
+    const formatDetails = () => {
+        try {
+            let details = GameListEntryMetadataSchema.parse({
+                score: score,
+                note: null,
+                review: null,
+                startPlayDate: null,
+                endPlayDate: null
+            })
+            return details
+        } catch (error: any) {
+            CreateErrorToaster(error.issues[0].message)
+        }
+    }
+    
+    const handleNewEntry = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        setIsLoading(true)
+        if (status == -1) {
+            toaster.create({
+                title: 'Select a status',
+                type: 'info'
+            })
+        } else {
+            const formattedDetails = formatDetails()
+            if (formattedDetails) {
+                const result = await CreateGameListEntry(gameID, status, formattedDetails)
+
+                if (result.success) {
+                    toaster.create({
+                        title: result.data.createGameListEntry.message,
+                        type: 'success'
+                    })
+                    setIsLoading(false)
+                } else {
+                    CreateErrorToaster(result.error)
+                }
+            }
+        }
+    }
 
     return (
         <div id="game-list-input">
@@ -88,7 +131,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                             </Button>
                         :
                             <Button 
-                                // onClick={(e) => handleNewEntry(e)} 
+                                onClick={(e) => handleNewEntry(e)} 
                                 loading={isLoading}
                                 variant={'subtle'} 
                                 className="btn-primary"
