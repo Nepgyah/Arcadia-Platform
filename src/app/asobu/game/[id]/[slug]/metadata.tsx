@@ -5,6 +5,8 @@ import SocialsList from "@/components/media/socials/socials";
 import { AsobuGame } from "@/types/asobu";
 import { Franchise } from "@/types/base";
 import { Suspense, use } from "react";
+import GameListInput from "./gameListInput/gameListInput";
+import React from "react";
 
 export default function Metadata(
     {
@@ -16,6 +18,7 @@ export default function Metadata(
 ) {
     return (
         <div id="metadata-column">
+            <GameListInput gameID={game.id} />
             <div>
                 <Header text="Socials" />
                 <Suspense fallback={<SocialsSkeleton />}>

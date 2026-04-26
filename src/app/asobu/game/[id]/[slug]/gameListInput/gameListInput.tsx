@@ -1,0 +1,105 @@
+'use client';
+
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/app/store/store";
+import Header from "@/components/custom/header";
+import { AsobuGame, GameListEntry } from "@/types/asobu";
+import { FetchUserGameListEntry } from "./actions";
+import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
+import { Button, Field, NativeSelect } from "@chakra-ui/react";
+
+export default function GameListInput({gameID} : {gameID: number}) {
+    const user = useUserStore((state) => state.user);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [status, setStatus] = useState<number>(-1)
+    const [score, setScore] = useState<number>(-1)
+    const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchEntry = async (gameID: number) => {
+            const result = await FetchUserGameListEntry(gameID);
+
+            if (result.success) {
+                if (result.data.gameListEntry) {
+                    setIsEntryFound(true)
+                    setStatus(result.data.gameListEntry.status)
+                    setScore(result.data.gameListEntry.score)
+                }
+            } else {
+                CreateErrorToaster(result.error)
+            }
+        }
+
+        if (user && gameID) {
+            console.log('fetching entry')
+            fetchEntry(gameID)
+        }
+    }, [user])
+
+    return (
+        <div id="game-list-input">
+            <Header text="Entry" />
+            {
+                !user ? 
+                    <p>Login to see your gamelist</p>
+                :
+                <form className="flex flex-column row-gap-md">
+                    <Field.Root>
+                        <Field.Label>Status</Field.Label>
+                        <NativeSelect.Root>
+                            <NativeSelect.Field value={status} onChange={(e) => setStatus(Number(e.target.value))}>
+                                <option value={-1} disabled>Select Status</option>
+                                <option value={1}>Playing</option>
+                                <option value={2}>Completed</option>
+                                <option value={3}>Plan To</option>
+                                <option value={4}>On Hold</option>
+                                <option value={5}>Replyaing</option>
+                            </NativeSelect.Field>
+                        </NativeSelect.Root>
+                    </Field.Root>
+                    <Field.Root>
+                        <Field.Label>Score</Field.Label>
+                        <NativeSelect.Root>
+                            <NativeSelect.Field value={score} onChange={(e) => setScore(Number(e.target.value))}>
+                                <option value={-1} disabled>Select Score</option>
+                                <option value={1}>1 - Actual Trash</option>
+                                <option value={2}>2 - Appaling</option>
+                                <option value={3}>3 - Very Bad</option>
+                                <option value={4}>4 - Watchable Trash</option>
+                                <option value={5}>5 - Mid</option>
+                                <option value={6}>6 - Good Trash</option>
+                                <option value={7}>7 - Actually Good</option>
+                                <option value={8}>8 - Great</option>
+                                <option value={9}>9 - Amazing</option>
+                                <option value={10}>10 - Cinema</option>
+                            </NativeSelect.Field>
+                        </NativeSelect.Root>
+                    </Field.Root>
+                    <div id="actions">
+                        {
+                            isEntryFound ?
+                            <Button 
+                                // onClick={(e) => handleUpdateEntry(e)}
+                                loading={isLoading}
+                                variant={'subtle'} 
+                                className="btn-primary"
+                            >
+                                Update
+                            </Button>
+                        :
+                            <Button 
+                                // onClick={(e) => handleNewEntry(e)} 
+                                loading={isLoading}
+                                variant={'subtle'} 
+                                className="btn-primary"
+                            >
+                                Add
+                            </Button>
+
+                        }
+                    </div>
+                </form>
+            }
+        </div>
+    )
+}
