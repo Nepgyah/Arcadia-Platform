@@ -30,7 +30,7 @@
     .chakra-button {
         &.btn-primary {
             background-color: map.get($colors, asobu-base);
-            color: map.get($colors, txt-dark);
+            color: white;
         }
     }
 

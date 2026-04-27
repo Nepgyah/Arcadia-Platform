@@ -75,5 +75,45 @@ export async function CreateGameListEntry(gameID: number, status: number, detail
             error: error.message
         }
     }
+}
 
+interface UpdateResponse {
+    updateGameListEntry : {
+        message: string,
+        gameEntry: GameListEntry
+    }
+}
+export async function UpdateeGameListEntry(gameID: number, status: number, details: GameListEntryMetadata) : Promise<ActionResult<UpdateResponse>> {
+    const mutation = 
+    `
+    mutation ($gameID: ID!, $status: Int!, $details: GameListEntryMetadata!) {
+        updateGameListEntry(gameId: $gameID, status: $status, details: $details) {
+            message,
+            detail,
+            gameEntry {
+                status,
+                score
+            }
+        }
+    }
+    `
+
+    const variables = {
+        'gameID': gameID,
+        'status': status,
+        'details': details
+    }
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<UpdateResponse>>(mutation, variables);
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
 }

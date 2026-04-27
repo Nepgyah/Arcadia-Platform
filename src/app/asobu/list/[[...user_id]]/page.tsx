@@ -47,11 +47,6 @@ export default function Page(
             replaying: []
         }
     )
-    const [playList, setPlayList] = useState<GameListEntry[]>([])
-    const [completeList, setCompleteList] = useState<GameListEntry[]>([])
-    const [planToList, setPlanToList] = useState<GameListEntry[]>([])
-    const [onHoldList, setOnHoldList] = useState<GameListEntry[]>([])
-    const [replayList, setReplayList] = useState<GameListEntry[]>([])
 
     useEffect(() => {
         if (user != undefined) {
