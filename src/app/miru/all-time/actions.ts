@@ -3,31 +3,32 @@
 import { Anime } from "@/types/miru";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 import { ActionResult, GraphqlResponse } from "@/types/api";
+import { PaginationResults } from "@/types/pagination";
 
 interface APIResponse {
     searchAnime: {
         animes: Anime[],
-        total: number
+        paginationResults: PaginationResults
     }
 }
 
-export async function FetchAllTimeAnimeAction(page: number) : Promise<ActionResult<APIResponse>> {
+export async function FetchAllTimeAnimeAction(targetPage: number) : Promise<ActionResult<APIResponse>> {
     const query = 
         `
-        query {
+        query ($targetPage: Int!){
             searchAnime(
-                filters: {
+                filterInput: {
                     type: -1,
                     status: -1,
                     title: "",
                 },
-                sort: {
+                sortInput: {
                     category: "score",
                     direction: "desc"
                 },
-                pagination: {
+                paginationInput: {
                     perPage: 10,
-                    currentPage: ${page}
+                    targetPage: $targetPage
                 }
             ) {
                 animes {
@@ -42,15 +43,18 @@ export async function FetchAllTimeAnimeAction(page: number) : Promise<ActionResu
                         name
                     }
                 },
-                currentPage,
-                pageCount,
-                total
+                paginationResults {
+                    perPage,
+                    totalPages,
+                    totalItems
+                }
             }
         }
     `
 
+    const variables = { targetPage: targetPage}
     try {
-        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query)
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables)
         return {
             success: true,
             data: response.data
