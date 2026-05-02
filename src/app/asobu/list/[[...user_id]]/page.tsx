@@ -12,7 +12,7 @@ import Date from "@/components/custom/date";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
 import StatCard from "@/components/custom/stat-card/statCard";
-import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
+import { CreateErrorToaster } from "@/utils/toasterHelpers";
 import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause } from "lucide-react";
 import React from "react";
 

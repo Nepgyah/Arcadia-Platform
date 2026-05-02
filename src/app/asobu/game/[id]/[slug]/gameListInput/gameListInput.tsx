@@ -5,7 +5,7 @@ import { useUserStore } from "@/app/store/store";
 import Header from "@/components/custom/header";
 import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { CreateGameListEntry, FetchUserGameListEntry, UpdateeGameListEntry } from "./actions";
-import { CreateErrorToaster } from "@/utils/toasterHelpers/createErrorToaster";
+import { CreateErrorToaster, CreateWarningToaster } from "@/utils/toasterHelpers";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import z from "zod";
@@ -15,6 +15,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [status, setStatus] = useState<number>(-1)
     const [score, setScore] = useState<number>(-1)
+    const [entry, setEntry] = useState<GameListEntry | null>(null)
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
 
     useEffect(() => {
@@ -24,6 +25,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
             if (result.success) {
                 if (result.data.gameListEntry) {
                     setIsEntryFound(true)
+                    setEntry(result.data.gameListEntry)
                     setStatus(result.data.gameListEntry.status)
                     setScore(result.data.gameListEntry.score)
                 }
@@ -53,6 +55,12 @@ export default function GameListInput({gameID} : {gameID: number}) {
         }
     }
     
+    const verifyInput = () => {
+        if (entry?.score == score) {
+            CreateWarningToaster('')
+        }
+    }
+
     const handleNewEntry = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setIsLoading(true)
