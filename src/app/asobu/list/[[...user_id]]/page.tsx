@@ -2,18 +2,18 @@
 
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import { Table, Tabs } from "@chakra-ui/react";
+import { Button, Dialog, IconButton, Portal, Table, Tabs } from "@chakra-ui/react";
 
-import { FetchUserGameList } from "./action";
+import { DeleteUserListEntry, FetchUserGameList } from "./action";
 import { useUserStore } from "@/app/store/store";
-import { GameListEntry } from "@/types/asobu";
+import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
 
 import Date from "@/components/custom/date";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
 import StatCard from "@/components/custom/stat-card/statCard";
-import { CreateErrorToaster } from "@/utils/toasterHelpers";
-import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause } from "lucide-react";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers";
+import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, Trash2 } from "lucide-react";
 import React from "react";
 
 import '@/styles/pages/asobu/_gamelist.scss';
@@ -21,7 +21,7 @@ import TableSkeleton from "@/components/custom/tableSkeleton";
 
 interface GameLists {
     playing: GameListEntry[],
-    complete: GameListEntry[],
+    completed: GameListEntry[],
     planTo: GameListEntry[],
     onHold: GameListEntry[],
     replaying: GameListEntry[]
@@ -38,15 +38,22 @@ export default function Page(
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [username, setUsername] = useState<string>('Loading')
+    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
     const [gameLists, setGameLists] = useState<GameLists>(
         {
             playing: [],
-            complete: [],
+            completed: [],
             planTo: [],
             onHold: [],
             replaying: []
         }
     )
+
+    const [selectedInput, setSelectedInput] = useState<
+    {
+        entryID: number,
+        listType: GameListEntryStatus  
+    } | null>(null)
 
     useEffect(() => {
         if (user != undefined) {
@@ -67,82 +74,166 @@ export default function Page(
             setUsername(result.data.userGameList.username)
             setGameLists({
                 playing: result.data.userGameList.playing,
-                complete: result.data.userGameList.completed,
+                completed: result.data.userGameList.completed,
                 planTo: result.data.userGameList.planTo,
                 onHold: result.data.userGameList.onHold,
                 replaying: result.data.userGameList.replaying
             })
+            console.log('Done')
             setIsLoading(false)
         } else {
             CreateErrorToaster(result.error)
         }
     }
-    return (
-        <div id="page-asobu-gamelist" className="page-content">
-            {
-                !isLoading &&
-                    <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
+
+    const handleOpenPopup = (listType: GameListEntryStatus, entryID: number) => {
+        setIsPopupOpen(true)
+        setSelectedInput({
+            entryID: entryID,
+            listType: listType
+        })
+    }
+
+    async function handleDeleteEntry() {
+        switch(selectedInput?.listType) {
+            case 'playing': {
+                break;
             }
-            <div id="gamelist-stats">
-                <Statistics
-                    isLoading={isLoading}
-                    counts={{
-                        playing: gameLists.playing.length,
-                        completed: gameLists.complete.length,
-                        planTo: gameLists.planTo.length,
-                        onHold: gameLists.onHold.length,
-                        replaying: gameLists.replaying.length
-                    }}
-                />
-            </div>
-            <Tabs.Root defaultValue='playing'>
-                <Tabs.List>
-                    <Tabs.Trigger value="playing">
-                        <GamepadDirectional />
-                        Playing
-                    </Tabs.Trigger>
-                    <Tabs.Trigger value="completed">
-                        <CheckCheck />
-                        Completed
-                    </Tabs.Trigger>
-                    <Tabs.Trigger value="planTo">
-                        <CalendarClock />
-                        Plan To
-                    </Tabs.Trigger>
-                    <Tabs.Trigger value="onHold">
-                        <SquarePause />
-                        On Hold
-                    </Tabs.Trigger>
-                    <Tabs.Trigger value="replaying">
-                        <RotateCcw />
-                        Replaying
-                    </Tabs.Trigger>
-                    <Tabs.Indicator />
-                </Tabs.List>
-                {
-                    isLoading ?
-                        <TableSkeleton />
-                    :
-                        <React.Fragment>
-                            <Tabs.Content value="playing">
-                                <GameList list={gameLists.playing} />   
-                            </Tabs.Content>
-                            <Tabs.Content value="completed">
-                                <GameList list={gameLists.complete} />   
-                            </Tabs.Content>
-                            <Tabs.Content value="planTo">
-                                <GameList list={gameLists.planTo} />   
-                            </Tabs.Content>
-                            <Tabs.Content value="onHold">
-                                <GameList list={gameLists.onHold} />   
-                            </Tabs.Content>
-                            <Tabs.Content value="replaying">
-                                <GameList list={gameLists.replaying} />   
-                            </Tabs.Content>
-                        </React.Fragment>
+            case 'completed': {
+                let result = gameLists.completed.filter(item => item.id !== selectedInput.entryID)
+                let temp = {
+                    playing: gameLists.playing,
+                    completed: result,
+                    onHold: gameLists.onHold,
+                    planTo: gameLists.planTo,
+                    replaying: gameLists.replaying
                 }
-            </Tabs.Root>
-        </div>
+                setGameLists(temp)
+                break;
+            }
+            case 'onHold': {
+                break;
+            }
+            case 'planTo' : {
+                break;
+            }
+            case 'replaying': {
+                break;
+            }
+            default: {
+                CreateErrorToaster('Could not find list entry')
+            }
+        }
+        setIsPopupOpen(false)
+        if (selectedInput?.entryID) {
+            const result = await DeleteUserListEntry(selectedInput.entryID)
+
+            if (result.success) {
+                CreateSuccessToaster(result.data.deleteGameListEntry.message)
+            } else {
+                CreateErrorToaster(result.error)
+            }
+        } else {
+            CreateErrorToaster('Cannot delete entry. Try again later.')
+        }
+    }
+
+    return (
+        <React.Fragment>
+            <div id="page-asobu-gamelist" className="page-content">
+                    {
+                        !isLoading &&
+                            <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
+                    }
+                    <div id="gamelist-stats">
+                        <Statistics
+                            isLoading={isLoading}
+                            counts={{
+                                playing: gameLists.playing.length,
+                                completed: gameLists.completed.length,
+                                planTo: gameLists.planTo.length,
+                                onHold: gameLists.onHold.length,
+                                replaying: gameLists.replaying.length
+                            }}
+                        />
+                    </div>
+                    <Tabs.Root defaultValue='playing'>
+                        <Tabs.List>
+                            <Tabs.Trigger value="playing">
+                                <GamepadDirectional />
+                                Playing
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value="completed">
+                                <CheckCheck />
+                                Completed
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value="planTo">
+                                <CalendarClock />
+                                Plan To
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value="onHold">
+                                <SquarePause />
+                                On Hold
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value="replaying">
+                                <RotateCcw />
+                                Replaying
+                            </Tabs.Trigger>
+                            <Tabs.Indicator />
+                        </Tabs.List>
+                        {
+                            isLoading ?
+                                <TableSkeleton />
+                            :
+                                <React.Fragment>
+                                    <Tabs.Content value="playing">
+                                        <GameList list={gameLists.playing} listType="playing" handleOpenPopup={handleOpenPopup} />   
+                                    </Tabs.Content>
+                                    <Tabs.Content value="completed">
+                                        <GameList list={gameLists.completed} listType="completed" handleOpenPopup={handleOpenPopup} />   
+                                    </Tabs.Content>
+                                    <Tabs.Content value="planTo">
+                                        <GameList list={gameLists.planTo} listType="planTo" handleOpenPopup={handleOpenPopup} />   
+                                    </Tabs.Content>
+                                    <Tabs.Content value="onHold">
+                                        <GameList list={gameLists.onHold} listType="onHold" handleOpenPopup={handleOpenPopup} />   
+                                    </Tabs.Content>
+                                    <Tabs.Content value="replaying">
+                                        <GameList list={gameLists.replaying} listType="replaying" handleOpenPopup={handleOpenPopup} />   
+                                    </Tabs.Content>
+                                </React.Fragment>
+                        }
+                    </Tabs.Root>
+            </div>
+            <Dialog.Root 
+                lazyMount 
+                open={isPopupOpen} 
+                onOpenChange={(e) => setIsPopupOpen(e.open)}
+                placement={"center"}
+                motionPreset="slide-in-bottom"
+            >
+                <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                        <Dialog.Content>
+                        <Dialog.Header>
+                            <Dialog.Title>Delete Entry</Dialog.Title>
+                        </Dialog.Header>
+                        <Dialog.Body>Are you sure?</Dialog.Body>
+                        <Dialog.Footer>
+                            <Dialog.ActionTrigger asChild>
+                            <Button variant="outline">Cancel</Button>
+                            </Dialog.ActionTrigger>
+                            <Button onClick={() => handleDeleteEntry()}>Delete</Button>
+                        </Dialog.Footer>
+                        <Dialog.CloseTrigger asChild>
+                            {/* <CloseButton size="sm" /> */}
+                        </Dialog.CloseTrigger>
+                        </Dialog.Content>
+                    </Dialog.Positioner>
+                </Portal>
+            </Dialog.Root>
+        </React.Fragment>
     )
 }
 
@@ -199,7 +290,17 @@ function Statistics({isLoading, counts} : StatisticsProps) {
 }
 
 
-function GameList({list} : {list:GameListEntry[]}) {
+function GameList(
+    {
+        list,
+        listType,
+        handleOpenPopup
+    } : {
+        list: GameListEntry[],
+        listType: GameListEntryStatus ,
+        handleOpenPopup: (listType: GameListEntryStatus, entry_id: number) => void
+    }) {
+
     return (
         <Table.ScrollArea>
             <Table.Root size={"lg"} className="arcadia-table">
@@ -210,6 +311,7 @@ function GameList({list} : {list:GameListEntry[]}) {
                         <Table.ColumnHeader>Score</Table.ColumnHeader>
                         <Table.ColumnHeader>Start Date</Table.ColumnHeader>
                         <Table.ColumnHeader>End Date</Table.ColumnHeader>
+                        <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -229,15 +331,20 @@ function GameList({list} : {list:GameListEntry[]}) {
                                         <Table.Cell>{entry.score ? entry.score : '--'}</Table.Cell>
                                         <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
                                         <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
+                                        <Table.Cell>
+                                            <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
+                                                <Trash2 />
+                                            </IconButton>
+                                        </Table.Cell>
                                     </Table.Row>
                                 ))
                             :
                                 <Table.Row>
-                                    <Table.Cell colSpan={5}> No Games Here!</Table.Cell>
+                                    <Table.Cell colSpan={6}> No Games Here!</Table.Cell>
                                 </Table.Row>
                         :
                             <Table.Row>
-                                <Table.Cell colSpan={5}>Loading</Table.Cell>
+                                <Table.Cell colSpan={6}>Loading</Table.Cell>
                             </Table.Row>
                     }
                 </Table.Body>

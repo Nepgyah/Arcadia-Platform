@@ -18,6 +18,7 @@ export interface AsobuGame extends Media {
 }
 
 export interface GameListEntry {
+    id: number,
     game: AsobuGame,
     status: number,
     score: number,
@@ -28,6 +29,8 @@ export interface GameListEntry {
     updateAt: string,
     createdAt: string
 }
+
+export type GameListEntryStatus = 'playing' | 'completed' | 'onHold' | 'planTo' | 'replaying'
 
 export const GameListEntryMetadataSchema = z.object({
     score: z.number().min(-1).max(10).optional(),
