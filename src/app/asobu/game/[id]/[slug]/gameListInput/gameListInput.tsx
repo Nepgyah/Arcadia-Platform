@@ -126,11 +126,11 @@ export default function GameListInput({gameID} : {gameID: number}) {
                         <NativeSelect.Root>
                             <NativeSelect.Field value={status} onChange={(e) => setStatus(Number(e.target.value))}>
                                 <option value={-1} disabled>Select Status</option>
-                                <option value={1}>Playing</option>
-                                <option value={2}>Completed</option>
-                                <option value={3}>Plan To</option>
-                                <option value={4}>On Hold</option>
-                                <option value={5}>Replyaing</option>
+                                <option value={0}>Playing</option>
+                                <option value={1}>Completed</option>
+                                <option value={2}>Plan To</option>
+                                <option value={3}>On Hold</option>
+                                <option value={4}>Replyaing</option>
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>

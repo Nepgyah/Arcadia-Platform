@@ -147,76 +147,75 @@ export default function Page(
     return (
         <IDContext.Provider value={paramID}>
             <div id="page-asobu-gamelist" className="page-content">
-                    {
-                        !isLoading &&
-                            <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
-                    }
-                    {
-                        showLogin ?
-                            <LoginRequired />
-                        :
-                        <>
-                            <div id="gamelist-stats">
-                                <Statistics
-                                    isLoading={isLoading}
-                                    counts={{
-                                        playing: gameLists.playing.length,
-                                        completed: gameLists.completed.length,
-                                        planTo: gameLists.planTo.length,
-                                        onHold: gameLists.onHold.length,
-                                        replaying: gameLists.replaying.length
-                                    }}
-                                />
-                            </div>
-                            <Tabs.Root defaultValue='playing'>
-                                <Tabs.List>
-                                    <Tabs.Trigger value="playing">
-                                        <GamepadDirectional />
-                                        Playing
-                                    </Tabs.Trigger>
-                                    <Tabs.Trigger value="completed">
-                                        <CheckCheck />
-                                        Completed
-                                    </Tabs.Trigger>
-                                    <Tabs.Trigger value="planTo">
-                                        <CalendarClock />
-                                        Plan To
-                                    </Tabs.Trigger>
-                                    <Tabs.Trigger value="onHold">
-                                        <SquarePause />
-                                        On Hold
-                                    </Tabs.Trigger>
-                                    <Tabs.Trigger value="replaying">
-                                        <RotateCcw />
-                                        Replaying
-                                    </Tabs.Trigger>
-                                    <Tabs.Indicator />
-                                </Tabs.List>
-                                {
-                                    isLoading ?
-                                        <TableSkeleton />
-                                    :
-                                        <React.Fragment>
-                                            <Tabs.Content value="playing">
-                                                <GameList list={gameLists.playing} listType="playing" handleOpenPopup={handleOpenPopup} />   
-                                            </Tabs.Content>
-                                            <Tabs.Content value="completed">
-                                                <GameList list={gameLists.completed} listType="completed" handleOpenPopup={handleOpenPopup} />   
-                                            </Tabs.Content>
-                                            <Tabs.Content value="planTo">
-                                                <GameList list={gameLists.planTo} listType="planTo" handleOpenPopup={handleOpenPopup} />   
-                                            </Tabs.Content>
-                                            <Tabs.Content value="onHold">
-                                                <GameList list={gameLists.onHold} listType="onHold" handleOpenPopup={handleOpenPopup} />   
-                                            </Tabs.Content>
-                                            <Tabs.Content value="replaying">
-                                                <GameList list={gameLists.replaying} listType="replaying" handleOpenPopup={handleOpenPopup} />   
-                                            </Tabs.Content>
-                                        </React.Fragment>
-                                }
-                            </Tabs.Root>
-                        </>
-                    }
+                {
+                    !isLoading && <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
+                }
+                {
+                    showLogin ?
+                        <LoginRequired />
+                    :
+                    <>
+                        <div id="gamelist-stats">
+                            <Statistics
+                                isLoading={isLoading}
+                                counts={{
+                                    playing: gameLists.playing.length,
+                                    completed: gameLists.completed.length,
+                                    planTo: gameLists.planTo.length,
+                                    onHold: gameLists.onHold.length,
+                                    replaying: gameLists.replaying.length
+                                }}
+                            />
+                        </div>
+                        <Tabs.Root defaultValue='playing'>
+                            <Tabs.List>
+                                <Tabs.Trigger value="playing">
+                                    <GamepadDirectional />
+                                    Playing
+                                </Tabs.Trigger>
+                                <Tabs.Trigger value="completed">
+                                    <CheckCheck />
+                                    Completed
+                                </Tabs.Trigger>
+                                <Tabs.Trigger value="planTo">
+                                    <CalendarClock />
+                                    Plan To
+                                </Tabs.Trigger>
+                                <Tabs.Trigger value="onHold">
+                                    <SquarePause />
+                                    On Hold
+                                </Tabs.Trigger>
+                                <Tabs.Trigger value="replaying">
+                                    <RotateCcw />
+                                    Replaying
+                                </Tabs.Trigger>
+                                <Tabs.Indicator />
+                            </Tabs.List>
+                            {
+                                isLoading ?
+                                    <TableSkeleton />
+                                :
+                                    <React.Fragment>
+                                        <Tabs.Content value="playing">
+                                            <GameList list={gameLists.playing} listType="playing" handleOpenPopup={handleOpenPopup} />   
+                                        </Tabs.Content>
+                                        <Tabs.Content value="completed">
+                                            <GameList list={gameLists.completed} listType="completed" handleOpenPopup={handleOpenPopup} />   
+                                        </Tabs.Content>
+                                        <Tabs.Content value="planTo">
+                                            <GameList list={gameLists.planTo} listType="planTo" handleOpenPopup={handleOpenPopup} />   
+                                        </Tabs.Content>
+                                        <Tabs.Content value="onHold">
+                                            <GameList list={gameLists.onHold} listType="onHold" handleOpenPopup={handleOpenPopup} />   
+                                        </Tabs.Content>
+                                        <Tabs.Content value="replaying">
+                                            <GameList list={gameLists.replaying} listType="replaying" handleOpenPopup={handleOpenPopup} />   
+                                        </Tabs.Content>
+                                    </React.Fragment>
+                            }
+                        </Tabs.Root>
+                    </>
+                }
             </div>
             <Dialog.Root 
                 lazyMount 
