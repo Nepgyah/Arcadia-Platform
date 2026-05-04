@@ -42,7 +42,7 @@ export default function Page() {
             <SetBreadcrumbs breadcrumbs={['Login', 'Admin']} />
             <Toaster />
             <Field.Root>
-                <Field.Label>Username</Field.Label>
+                <Field.Label>Email</Field.Label>
                 <Input
                     placeholder="Username"
                     onChange={(e) => setEmail(e.target.value)} 

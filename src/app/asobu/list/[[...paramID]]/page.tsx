@@ -347,7 +347,8 @@ function GameList(
 
     const paramID = useContext(IDContext)
     const user = useUserStore((state) => state.user );
-
+    console.log(user)
+    console.log(paramID)
     return (
         <Table.ScrollArea>
             <Table.Root size={"lg"} className="arcadia-table">
@@ -359,7 +360,7 @@ function GameList(
                         <Table.ColumnHeader>Start Date</Table.ColumnHeader>
                         <Table.ColumnHeader>End Date</Table.ColumnHeader>
                         {
-                            user.id == paramID || (user != undefined || user != null) &&
+                            paramID == undefined && (user != undefined && user != null) &&
                             <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
                         }
                     </Table.Row>
@@ -382,7 +383,7 @@ function GameList(
                                         <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
                                         <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
                                         {
-                                            user.id == paramID || (user != undefined || user != null) &&
+                                            paramID == undefined && (user != undefined && user != null) &&
                                                 <Table.Cell>
                                                     <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
                                                         <Trash2 />
