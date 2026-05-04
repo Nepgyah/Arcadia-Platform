@@ -98,7 +98,9 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
     const variables = { 'userID': user_id }
 
     try {
+        console.log(user_id)
         const response = await arcadiaAPI.GraphQL<GraphqlResponse<GameListResponse>>(query, variables)
+        console.log(response)
         return {
             success: true,
             data: response.data

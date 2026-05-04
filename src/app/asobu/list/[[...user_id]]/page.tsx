@@ -56,7 +56,8 @@ export default function Page(
     } | null>(null)
 
     useEffect(() => {
-        if (user != undefined) {
+        console.log(user)
+        if (user !== undefined) {
             if (user_id) {
                 FetchListData(Number(user_id))
             } else if (user) {
