@@ -12,13 +12,13 @@ import { LoginAsAdmin } from "@/actions/auth-actions";
 import "@/styles/pages/auth/_admin-login.scss";
 
 export default function Page() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
 
     const handleLogin =  async () => {
         setLoading(true)
-        LoginAsAdmin(username, password)
+        LoginAsAdmin(email, password)
         .then((res) => {
             toaster.create({
                 title: res,
@@ -45,7 +45,7 @@ export default function Page() {
                 <Field.Label>Username</Field.Label>
                 <Input
                     placeholder="Username"
-                    onChange={(e) => setUsername(e.target.value)} 
+                    onChange={(e) => setEmail(e.target.value)} 
                 />
             </Field.Root>
 

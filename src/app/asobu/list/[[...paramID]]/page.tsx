@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import { Button, Dialog, IconButton, Portal, Table, Tabs } from "@chakra-ui/react";
 
 import { DeleteUserListEntry, FetchUserGameList } from "./action";
@@ -16,9 +16,12 @@ import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers
 import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, Trash2 } from "lucide-react";
 import React from "react";
 
-import '@/styles/pages/asobu/_gamelist.scss';
 import TableSkeleton from "@/components/custom/tableSkeleton";
 import LoginRequired from "@/components/custom/loginRequired";
+
+import '@/styles/pages/asobu/_gamelist.scss';
+
+const IDContext = createContext(-1)
 
 interface GameLists {
     playing: GameListEntry[],
@@ -31,10 +34,10 @@ export default function Page(
     { 
         params 
     } : {
-        params: Promise<{ user_id : number}>
+        params: Promise<{ paramID : number}>
     }
 ) {
-    const { user_id } = use(params);
+    const { paramID } = use(params);
     const user = useUserStore((state) => state.user );
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -59,8 +62,8 @@ export default function Page(
 
     useEffect(() => {
         if (user !== undefined) {
-            if (user_id) {
-                FetchListData(Number(user_id))
+            if (paramID) {
+                FetchListData(Number(paramID))
             } else if (user) {
                 FetchListData(user.id)
             } else {
@@ -142,7 +145,7 @@ export default function Page(
     }
 
     return (
-        <React.Fragment>
+        <IDContext.Provider value={paramID}>
             <div id="page-asobu-gamelist" className="page-content">
                     {
                         !isLoading &&
@@ -243,7 +246,7 @@ export default function Page(
                     </Dialog.Positioner>
                 </Portal>
             </Dialog.Root>
-        </React.Fragment>
+        </IDContext.Provider>
     )
 }
 
@@ -299,17 +302,19 @@ function Statistics({isLoading, counts} : StatisticsProps) {
     }
 }
 
-
 function GameList(
     {
         list,
         listType,
-        handleOpenPopup
+        handleOpenPopup,
     } : {
         list: GameListEntry[],
         listType: GameListEntryStatus ,
         handleOpenPopup: (listType: GameListEntryStatus, entry_id: number) => void
     }) {
+
+    const paramID = useContext(IDContext)
+    const user = useUserStore((state) => state.user );
 
     return (
         <Table.ScrollArea>
@@ -321,7 +326,10 @@ function GameList(
                         <Table.ColumnHeader>Score</Table.ColumnHeader>
                         <Table.ColumnHeader>Start Date</Table.ColumnHeader>
                         <Table.ColumnHeader>End Date</Table.ColumnHeader>
-                        <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
+                        {
+                            user.id == paramID && 
+                            <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
+                        }
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -341,11 +349,14 @@ function GameList(
                                         <Table.Cell>{entry.score ? entry.score : '--'}</Table.Cell>
                                         <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
                                         <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
-                                        <Table.Cell>
-                                            <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
-                                                <Trash2 />
-                                            </IconButton>
-                                        </Table.Cell>
+                                        {
+                                            user.id == paramID && 
+                                                <Table.Cell>
+                                                    <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
+                                                        <Trash2 />
+                                                    </IconButton>
+                                                </Table.Cell>
+                                        }
                                     </Table.Row>
                                 ))
                             :
@@ -362,3 +373,4 @@ function GameList(
         </Table.ScrollArea>
     )
 }
+
