@@ -20,6 +20,8 @@ import TableSkeleton from "@/components/custom/tableSkeleton";
 import LoginRequired from "@/components/custom/loginRequired";
 
 import '@/styles/pages/asobu/_gamelist.scss';
+import { usePathname } from "next/navigation";
+import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
 
 const IDContext = createContext(-1)
 
@@ -38,6 +40,7 @@ export default function Page(
     }
 ) {
     const { paramID } = use(params);
+    const pathname = usePathname();
     const user = useUserStore((state) => state.user );
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -85,7 +88,6 @@ export default function Page(
                 onHold: result.data.userGameList.onHold,
                 replaying: result.data.userGameList.replaying
             })
-            console.log('Done')
             setIsLoading(false)
         } else {
             CreateErrorToaster(result.error)
@@ -188,7 +190,7 @@ export default function Page(
                         <LoginRequired />
                     :
                     <>
-                        <div id="gamelist-stats">
+                        <div id="overview">
                             <Statistics
                                 isLoading={isLoading}
                                 counts={{
@@ -199,6 +201,12 @@ export default function Page(
                                     replaying: gameLists.replaying.length
                                 }}
                             />
+                            <div id="actions">
+                                <CopyToClipboardButton text="Share List"/>
+                                <Button variant={'ghost'}>
+                                    Export
+                                </Button>
+                            </div>
                         </div>
                         <Tabs.Root defaultValue='playing'>
                             <Tabs.List>
@@ -303,7 +311,7 @@ function Statistics({isLoading, counts} : StatisticsProps) {
        )
     } else {
         return (
-            <>
+            <div id="stats-container">
                 <StatCard 
                     icon={GamepadDirectional} 
                     label="Playing"
@@ -329,7 +337,7 @@ function Statistics({isLoading, counts} : StatisticsProps) {
                     label="Replyaing"
                     value={counts.replaying}
                 />
-            </>
+            </div>
         )
     }
 }
@@ -347,8 +355,7 @@ function GameList(
 
     const paramID = useContext(IDContext)
     const user = useUserStore((state) => state.user );
-    console.log(user)
-    console.log(paramID)
+
     return (
         <Table.ScrollArea>
             <Table.Root size={"lg"} className="arcadia-table">
