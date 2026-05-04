@@ -101,35 +101,68 @@ export default function Page(
     }
 
     async function handleDeleteEntry() {
+        let temp = gameLists
         switch(selectedInput?.listType) {
             case 'playing': {
+                let result = gameLists.playing.filter(item => item.id !== selectedInput.entryID)
+                temp = {
+                    playing: result,
+                    completed: gameLists.completed,
+                    onHold: gameLists.onHold,
+                    planTo: gameLists.planTo,
+                    replaying: gameLists.replaying
+                }
                 break;
             }
             case 'completed': {
                 let result = gameLists.completed.filter(item => item.id !== selectedInput.entryID)
-                let temp = {
+                temp = {
                     playing: gameLists.playing,
                     completed: result,
                     onHold: gameLists.onHold,
                     planTo: gameLists.planTo,
                     replaying: gameLists.replaying
                 }
-                setGameLists(temp)
                 break;
             }
             case 'onHold': {
+                let result = gameLists.onHold.filter(item => item.id !== selectedInput.entryID)
+                temp = {
+                    playing: gameLists.playing,
+                    completed: gameLists.completed,
+                    onHold: result,
+                    planTo: gameLists.planTo,
+                    replaying: gameLists.replaying
+                }
                 break;
             }
             case 'planTo' : {
+                let result = gameLists.playing.filter(item => item.id !== selectedInput.entryID)
+                temp = {
+                    playing: gameLists.playing,
+                    completed: gameLists.completed,
+                    onHold: gameLists.onHold,
+                    planTo: result,
+                    replaying: gameLists.replaying
+                }
                 break;
             }
             case 'replaying': {
+                let result = gameLists.playing.filter(item => item.id !== selectedInput.entryID)
+                temp = {
+                    playing: gameLists.playing,
+                    completed: gameLists.completed,
+                    onHold: gameLists.onHold,
+                    planTo: gameLists.planTo,
+                    replaying: result
+                }
                 break;
             }
             default: {
                 CreateErrorToaster('Could not find list entry')
             }
         }
+        setGameLists(temp)
         setIsPopupOpen(false)
         if (selectedInput?.entryID) {
             const result = await DeleteUserListEntry(selectedInput.entryID)
@@ -229,9 +262,9 @@ export default function Page(
                     <Dialog.Positioner>
                         <Dialog.Content>
                         <Dialog.Header>
-                            <Dialog.Title>Delete Entry</Dialog.Title>
+                            <Dialog.Title>Delete Entry?</Dialog.Title>
                         </Dialog.Header>
-                        <Dialog.Body>Are you sure?</Dialog.Body>
+                        {/* <Dialog.Body>Are you sure?</Dialog.Body> */}
                         <Dialog.Footer>
                             <Dialog.ActionTrigger asChild>
                             <Button variant="outline">Cancel</Button>
@@ -326,7 +359,7 @@ function GameList(
                         <Table.ColumnHeader>Start Date</Table.ColumnHeader>
                         <Table.ColumnHeader>End Date</Table.ColumnHeader>
                         {
-                            user.id == paramID && 
+                            user.id == paramID || (user != undefined || user != null) &&
                             <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
                         }
                     </Table.Row>
@@ -349,7 +382,7 @@ function GameList(
                                         <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
                                         <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
                                         {
-                                            user.id == paramID && 
+                                            user.id == paramID || (user != undefined || user != null) &&
                                                 <Table.Cell>
                                                     <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
                                                         <Trash2 />
