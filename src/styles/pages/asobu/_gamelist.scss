@@ -1,8 +1,11 @@
 #page-asobu-gamelist {
     #overview {
-        display: flex;
-        flex-direction: column;
-        row-gap: 1rem;
+
+        &.two-column {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+        }
 
         #stats-container {
             display: grid;
@@ -15,10 +18,12 @@
 @media only screen and (min-width: 768px) {
     #page-asobu-gamelist {
         #overview {
-            display: grid;
-            grid-template-columns: 4fr 1fr;
-            column-gap: 1rem;
-            align-items: center;
+            &.two-column {
+                display: grid;
+                grid-template-columns: 4fr 1fr;
+                column-gap: 1rem;
+                align-items: center;
+            }
 
             #stats-container {
                 grid-template-columns: repeat(3, 1fr);

@@ -24,7 +24,7 @@ import { usePathname } from "next/navigation";
 import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
-const IDContext = createContext(-1)
+const UserOwnPageContext = createContext(false)
 
 interface GameLists {
     playing: GameListEntry[],
@@ -44,6 +44,7 @@ export default function Page(
     const pathname = usePathname();
     const user = useUserStore((state) => state.user );
 
+    const [isUsersOwnPage, setIsUsersOwnPage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
     const [showLogin, setShowLogin] = useState<boolean>(false)
@@ -58,7 +59,6 @@ export default function Page(
             replaying: []
         }
     )
-
     const [selectedInput, setSelectedInput] = useState<
     {
         entryID: number,
@@ -74,6 +74,9 @@ export default function Page(
             } else {
                 CreateErrorToaster('Cannot find target user')
                 setShowLogin(true)
+            }
+            if (paramID == undefined && (user != undefined && user != null)) {
+                setIsUsersOwnPage(true)
             }
         }
     }, [user])
@@ -197,11 +200,10 @@ export default function Page(
             if(link.parentNode) {
                 link.parentNode.removeChild(link);
             }
-            window.URL.revokeObjectURL(url); // Free up memory
+            window.URL.revokeObjectURL(url);
 
             CreateSuccessToaster('Gamelist generated!');
         } catch (error) {
-            console.error(error);
             CreateErrorToaster('Error exporting list');
         } finally {
             setIsButtonLoading(false);
@@ -209,7 +211,7 @@ export default function Page(
     }
 
     return (
-        <IDContext.Provider value={paramID}>
+        <UserOwnPageContext.Provider value={isUsersOwnPage}>
             <div id="page-asobu-gamelist" className="page-content">
                 {
                     !isLoading && <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
@@ -219,7 +221,7 @@ export default function Page(
                         <LoginRequired />
                     :
                     <>
-                        <div id="overview">
+                        <div id="overview" className={`${isUsersOwnPage && 'two-column'}`}>
                             <Statistics
                                 isLoading={isLoading}
                                 counts={{
@@ -230,13 +232,15 @@ export default function Page(
                                     replaying: gameLists.replaying.length
                                 }}
                             />
-                            <div id="actions">
-                                <CopyToClipboardButton text="Share List"/>
-                                
-                                <Button variant={'ghost'} onClick={() => handleListExport()} loading={isButtonLoading}>
-                                    Export
-                                </Button>
-                            </div>
+                            {
+                                isUsersOwnPage &&
+                                <div id="actions" className="button-container">
+                                    <CopyToClipboardButton text="Share List"/>
+                                    <Button variant={'ghost'} onClick={() => handleListExport()} loading={isButtonLoading}>
+                                        Export
+                                    </Button>
+                                </div>
+                            }
                         </div>
                         <Tabs.Root defaultValue='playing'>
                             <Tabs.List>
@@ -302,7 +306,6 @@ export default function Page(
                         <Dialog.Header>
                             <Dialog.Title>Delete Entry?</Dialog.Title>
                         </Dialog.Header>
-                        {/* <Dialog.Body>Are you sure?</Dialog.Body> */}
                         <Dialog.Footer>
                             <Dialog.ActionTrigger asChild>
                             <Button variant="outline">Cancel</Button>
@@ -316,7 +319,7 @@ export default function Page(
                     </Dialog.Positioner>
                 </Portal>
             </Dialog.Root>
-        </IDContext.Provider>
+        </UserOwnPageContext.Provider>
     )
 }
 
@@ -380,11 +383,10 @@ function GameList(
     } : {
         list: GameListEntry[],
         listType: GameListEntryStatus ,
-        handleOpenPopup: (listType: GameListEntryStatus, entry_id: number) => void
+        handleOpenPopup: (listType: GameListEntryStatus, entry_id: number) => void,
     }) {
 
-    const paramID = useContext(IDContext)
-    const user = useUserStore((state) => state.user );
+    const isUsersOwnPage = useContext(UserOwnPageContext);
 
     return (
         <Table.ScrollArea>
@@ -397,7 +399,7 @@ function GameList(
                         <Table.ColumnHeader>Start Date</Table.ColumnHeader>
                         <Table.ColumnHeader>End Date</Table.ColumnHeader>
                         {
-                            paramID == undefined && (user != undefined && user != null) &&
+                            isUsersOwnPage &&
                             <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
                         }
                     </Table.Row>
@@ -420,7 +422,7 @@ function GameList(
                                         <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
                                         <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
                                         {
-                                            paramID == undefined && (user != undefined && user != null) &&
+                                            isUsersOwnPage &&
                                                 <Table.Cell>
                                                     <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
                                                         <Trash2 />
