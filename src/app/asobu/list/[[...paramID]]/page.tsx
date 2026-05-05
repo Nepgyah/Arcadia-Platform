@@ -235,7 +235,7 @@ export default function Page(
                             {
                                 isUsersOwnPage &&
                                 <div id="actions" className="button-container">
-                                    <CopyToClipboardButton text="Share List"/>
+                                    <CopyToClipboardButton text="Share List" link={`${window.location.href}/${user.id}`}/>
                                     <Button variant={'ghost'} onClick={() => handleListExport()} loading={isButtonLoading}>
                                         Export
                                     </Button>

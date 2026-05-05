@@ -4,11 +4,18 @@ import { CreateSuccessToaster } from "@/utils/toasterHelpers";
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function CopyToClipboardButton({text}:{text:string}) {
+export default function CopyToClipboardButton(
+    {
+        link,
+        text
+    }:{
+        link: string,
+        text: string
+    }) {
     const [buttonText, setButtonText] = useState(text)
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard.writeText(link)
         CreateSuccessToaster('Link copied!')
         setButtonText('Copied!')
         setTimeout(() => {
