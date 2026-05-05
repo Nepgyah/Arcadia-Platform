@@ -19,4 +19,5 @@ export const miruNav: url[] = [
 
 export const asobuNav: url[] = [
     { title: 'Asobu Home', path: '/asobu'},
+    { title: 'Game List', path: '/asobu/list'},
 ]

@@ -14,11 +14,11 @@ interface LoginAsAdminResponse {
     message: string
 }
 
-export async function LoginAsAdmin(username: string, password: string) : Promise<string> {
+export async function LoginAsAdmin(email: string, password: string) : Promise<string> {
     const response = await arcadiaAPI.POST<LoginAsAdminResponse>(
         'auth/admin-login/',
         {
-            username: username,
+            email: email,
             password: password
         }
     )

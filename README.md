@@ -3,17 +3,15 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
-## Hotfix - Alpha 1.2.1 - 4/25/2026
-- Add proxy error handling, avoiding default next js error page
-
-## Latest Release - Alpha 1.2 - 4/15/2026
+## Latest Release - Alpha 2.0 - 4/15/2026
 - **General**
-    - Add zod library
-    - Add general search bar
+    - Add toaster helper functions
+    - Add login required component
 
 - **Asobu**
-    - Fix slug not displaying on game detail page
-
+    - Add gamelist page
+    - Add create/update gamelist entry on game detail page
+    
 ## Why I Started Arcadia
 See [API docs](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#why-i-started-arcadia) for information
 

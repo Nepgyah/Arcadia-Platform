@@ -10,7 +10,7 @@ type UserStore = {
 
 // Initialize default values or logic of functions
 export const useUserStore = create<UserStore>((set) => ({
-    user: null,
+    user: undefined,
     setUser: (user: undefined) => {
         set(() => ({ user: user}))
     },

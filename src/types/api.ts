@@ -8,9 +8,10 @@ export type ActionResult<T> =
     | { success: true, data: T}
     | { success: false, error: string}
 
-export interface RESTResponse {
+export interface RESTResponse<T> {
     detail?: string,
-    message?: string
+    message?: string,
+    data: T
 }
 
 export interface Pagination {

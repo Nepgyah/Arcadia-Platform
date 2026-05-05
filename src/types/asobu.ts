@@ -1,4 +1,5 @@
 import { Media } from "./base";
+import { z } from 'zod';
 
 export interface AsobuGame extends Media {
     trailerUrl : string,
@@ -15,3 +16,28 @@ export interface AsobuGame extends Media {
     platforms: any[],
     steam_id: number,
 }
+
+export interface GameListEntry {
+    id: number,
+    game: AsobuGame,
+    status: number,
+    score: number,
+    note: string,
+    review: string,
+    startPlayDate: string,
+    endPlayDate: string,
+    updateAt: string,
+    createdAt: string
+}
+
+export type GameListEntryStatus = 'playing' | 'completed' | 'onHold' | 'planTo' | 'replaying'
+
+export const GameListEntryMetadataSchema = z.object({
+    score: z.number().min(-1).max(10).optional(),
+    note: z.string().nullable(),
+    review: z.string().nullable(),
+    startPlayDate: z.date().nullable(),
+    endPlayDate: z.date().nullable()
+})
+
+export type GameListEntryMetadata = z.infer<typeof GameListEntryMetadataSchema>;
