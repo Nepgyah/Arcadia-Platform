@@ -1,31 +1,26 @@
 'use client';
 
-import Link from "next/link";
-import { createContext, use, useContext, useEffect, useState } from "react";
-import { Button, Dialog, IconButton, Portal, Table, Tabs } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { use, useEffect, useState } from "react";
+import { Button, Dialog, Portal, Tabs } from "@chakra-ui/react";
 
-import { DeleteUserListEntry, ExportGameList, FetchUserGameList } from "./action";
+import { DeleteUserListEntry, FetchUserGameList } from "./action";
+import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, Trash2 } from "lucide-react";
+
 import { useUserStore } from "@/app/store/store";
 import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
-
-import Date from "@/components/custom/date";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers";
+import TableSkeleton from "@/components/custom/tableSkeleton";
+import LoginRequired from "@/components/custom/loginRequired";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
 import StatCard from "@/components/custom/stat-card/statCard";
-import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers";
-import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, Trash2 } from "lucide-react";
-import React from "react";
+import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
+import UserOwnPageContextWrapper, { UserOwnPageContext } from "@/contexts/usersOwnPage";
 
-import TableSkeleton from "@/components/custom/tableSkeleton";
-import LoginRequired from "@/components/custom/loginRequired";
+import GameListTable from "./gameListTable";
 
 import '@/styles/pages/asobu/_gamelist.scss';
-import { usePathname } from "next/navigation";
-import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-// import { UserOwnPageContext } from "./context";
-import GameListTable from "./gameListTable";
-import UserOwnPageContextWrapper from "@/contexts/usersOwnPage";
 
 interface GameLists {
     playing: GameListEntry[],
@@ -42,10 +37,8 @@ export default function Page(
     }
 ) {
     const { paramID } = use(params);
-    const pathname = usePathname();
+    const isUsersOwnPage = useContext(UserOwnPageContext)
     const user = useUserStore((state) => state.user );
-
-    const [isUsersOwnPage, setIsUsersOwnPage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
     const [showLogin, setShowLogin] = useState<boolean>(false)
@@ -75,9 +68,6 @@ export default function Page(
             } else {
                 CreateErrorToaster('Cannot find target user')
                 setShowLogin(true)
-            }
-            if (paramID == undefined && (user != undefined && user != null)) {
-                setIsUsersOwnPage(true)
             }
         }
     }, [user])
