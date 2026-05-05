@@ -1,5 +1,6 @@
 import { Media } from "./base";
 import { z } from 'zod';
+import { User } from "./user";
 
 export interface AsobuGame extends Media {
     trailerUrl : string,
@@ -20,6 +21,7 @@ export interface AsobuGame extends Media {
 export interface GameListEntry {
     id: number,
     game: AsobuGame,
+    user: User,
     status: number,
     score: number,
     note: string,
