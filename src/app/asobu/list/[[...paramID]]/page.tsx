@@ -4,7 +4,7 @@ import Link from "next/link";
 import { createContext, use, useContext, useEffect, useState } from "react";
 import { Button, Dialog, IconButton, Portal, Table, Tabs } from "@chakra-ui/react";
 
-import { DeleteUserListEntry, FetchUserGameList } from "./action";
+import { DeleteUserListEntry, ExportGameList, FetchUserGameList } from "./action";
 import { useUserStore } from "@/app/store/store";
 import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
 
@@ -22,6 +22,7 @@ import LoginRequired from "@/components/custom/loginRequired";
 import '@/styles/pages/asobu/_gamelist.scss';
 import { usePathname } from "next/navigation";
 import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
+import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
 const IDContext = createContext(-1)
 
@@ -44,6 +45,7 @@ export default function Page(
     const user = useUserStore((state) => state.user );
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
     const [showLogin, setShowLogin] = useState<boolean>(false)
     const [username, setUsername] = useState<string>('Loading')
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
@@ -179,6 +181,33 @@ export default function Page(
         }
     }
 
+    const handleListExport = async () => {
+        setIsButtonLoading(true)
+        try {
+            const response = await fetch('/api/asobu/export');
+            if (!response.ok) throw new Error('Download failed');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'game_list_export.json');
+            document.body.appendChild(link);
+            link.click();
+            
+            if(link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+            window.URL.revokeObjectURL(url); // Free up memory
+
+            CreateSuccessToaster('Gamelist generated!');
+        } catch (error) {
+            console.error(error);
+            CreateErrorToaster('Error exporting list');
+        } finally {
+            setIsButtonLoading(false);
+        }
+    }
+
     return (
         <IDContext.Provider value={paramID}>
             <div id="page-asobu-gamelist" className="page-content">
@@ -203,7 +232,8 @@ export default function Page(
                             />
                             <div id="actions">
                                 <CopyToClipboardButton text="Share List"/>
-                                <Button variant={'ghost'}>
+                                
+                                <Button variant={'ghost'} onClick={() => handleListExport()} loading={isButtonLoading}>
                                     Export
                                 </Button>
                             </div>

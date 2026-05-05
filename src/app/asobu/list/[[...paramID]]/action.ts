@@ -1,6 +1,6 @@
 'use server';
 
-import { ActionResult, GraphqlResponse } from "@/types/api";
+import { ActionResult, GraphqlResponse, RESTResponse } from "@/types/api";
 import { GameListEntry } from "@/types/asobu";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
 
@@ -139,6 +139,22 @@ export async function DeleteUserListEntry(entry_id: number) : Promise<ActionResu
         return {
             success: false,
             error: error.message
+        }
+    }
+}
+
+export async function ExportGameList() : Promise<any> {
+    try {
+        const response = await arcadiaAPI.GET<RESTResponse<any>>('asobu/export-list/')
+        console.log(response.data)
+        return {
+            success: true,
+            data: null
+        }
+    } catch(error: any) {
+        return {
+            success: false,
+            error: 'An error occured exporting gamelist'
         }
     }
 }
