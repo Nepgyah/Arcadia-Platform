@@ -23,8 +23,9 @@ import '@/styles/pages/asobu/_gamelist.scss';
 import { usePathname } from "next/navigation";
 import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
 import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-
-const UserOwnPageContext = createContext(false)
+// import { UserOwnPageContext } from "./context";
+import GameListTable from "./gameListTable";
+import UserOwnPageContextWrapper from "@/contexts/usersOwnPage";
 
 interface GameLists {
     playing: GameListEntry[],
@@ -211,7 +212,7 @@ export default function Page(
     }
 
     return (
-        <UserOwnPageContext.Provider value={isUsersOwnPage}>
+        <UserOwnPageContextWrapper userID={paramID}>
             <div id="page-asobu-gamelist" className="page-content">
                 {
                     !isLoading && <SetBreadcrumbs breadcrumbs={['Asobu', 'List', `${username}'s game list`]} /> 
@@ -272,19 +273,19 @@ export default function Page(
                                 :
                                     <React.Fragment>
                                         <Tabs.Content value="playing">
-                                            <GameList list={gameLists.playing} listType="playing" handleOpenPopup={handleOpenPopup} />   
+                                            <GameListTable list={gameLists.playing} listType="playing" handleOpenPopup={handleOpenPopup} />   
                                         </Tabs.Content>
                                         <Tabs.Content value="completed">
-                                            <GameList list={gameLists.completed} listType="completed" handleOpenPopup={handleOpenPopup} />   
+                                            <GameListTable list={gameLists.completed} listType="completed" handleOpenPopup={handleOpenPopup} />   
                                         </Tabs.Content>
                                         <Tabs.Content value="planTo">
-                                            <GameList list={gameLists.planTo} listType="planTo" handleOpenPopup={handleOpenPopup} />   
+                                            <GameListTable list={gameLists.planTo} listType="planTo" handleOpenPopup={handleOpenPopup} />   
                                         </Tabs.Content>
                                         <Tabs.Content value="onHold">
-                                            <GameList list={gameLists.onHold} listType="onHold" handleOpenPopup={handleOpenPopup} />   
+                                            <GameListTable list={gameLists.onHold} listType="onHold" handleOpenPopup={handleOpenPopup} />   
                                         </Tabs.Content>
                                         <Tabs.Content value="replaying">
-                                            <GameList list={gameLists.replaying} listType="replaying" handleOpenPopup={handleOpenPopup} />   
+                                            <GameListTable list={gameLists.replaying} listType="replaying" handleOpenPopup={handleOpenPopup} />   
                                         </Tabs.Content>
                                     </React.Fragment>
                             }
@@ -319,7 +320,7 @@ export default function Page(
                     </Dialog.Positioner>
                 </Portal>
             </Dialog.Root>
-        </UserOwnPageContext.Provider>
+        </UserOwnPageContextWrapper>
     )
 }
 
@@ -373,76 +374,5 @@ function Statistics({isLoading, counts} : StatisticsProps) {
             </div>
         )
     }
-}
-
-function GameList(
-    {
-        list,
-        listType,
-        handleOpenPopup,
-    } : {
-        list: GameListEntry[],
-        listType: GameListEntryStatus ,
-        handleOpenPopup: (listType: GameListEntryStatus, entry_id: number) => void,
-    }) {
-
-    const isUsersOwnPage = useContext(UserOwnPageContext);
-
-    return (
-        <Table.ScrollArea>
-            <Table.Root size={"lg"} className="arcadia-table">
-                <Table.Header>
-                    <Table.Row>
-                        <Table.ColumnHeader>#</Table.ColumnHeader>
-                        <Table.ColumnHeader width={'50%'}>Title</Table.ColumnHeader>
-                        <Table.ColumnHeader>Score</Table.ColumnHeader>
-                        <Table.ColumnHeader>Start Date</Table.ColumnHeader>
-                        <Table.ColumnHeader>End Date</Table.ColumnHeader>
-                        {
-                            isUsersOwnPage &&
-                            <Table.ColumnHeader>Action(s)</Table.ColumnHeader>
-                        }
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {
-                        list ?
-                            list.length != 0 ?
-                                list.map((entry: GameListEntry, idx: number) => (
-                                    <Table.Row key={idx}>
-                                        <Table.Cell>
-                                            {idx + 1}
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <Link href={`/asobu/game/${entry.game.id}/${entry.game.slug}`} className="hover-underline">
-                                                {entry.game.title}
-                                            </Link>
-                                        </Table.Cell>
-                                        <Table.Cell>{entry.score ? entry.score : '--'}</Table.Cell>
-                                        <Table.Cell>{entry.startPlayDate ? <Date dateString={entry.startPlayDate}/>  : "--"}</Table.Cell>
-                                        <Table.Cell>{entry.endPlayDate ? <Date dateString={entry.endPlayDate}/>  : "--"}</Table.Cell>
-                                        {
-                                            isUsersOwnPage &&
-                                                <Table.Cell>
-                                                    <IconButton onClick={() => handleOpenPopup(listType, entry.id)}>
-                                                        <Trash2 />
-                                                    </IconButton>
-                                                </Table.Cell>
-                                        }
-                                    </Table.Row>
-                                ))
-                            :
-                                <Table.Row>
-                                    <Table.Cell colSpan={6}> No Games Here!</Table.Cell>
-                                </Table.Row>
-                        :
-                            <Table.Row>
-                                <Table.Cell colSpan={6}>Loading</Table.Cell>
-                            </Table.Row>
-                    }
-                </Table.Body>
-            </Table.Root>
-        </Table.ScrollArea>
-    )
 }
 
