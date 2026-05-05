@@ -9,6 +9,7 @@ import { CreateErrorToaster, CreateWarningToaster } from "@/utils/toasterHelpers
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import z from "zod";
+import SelectScore from "@/components/custom/selectScore";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -54,12 +55,6 @@ export default function GameListInput({gameID} : {gameID: number}) {
             CreateErrorToaster(error.issues[0].message)
         }
     }
-    
-    const verifyInput = () => {
-        if (entry?.score == score) {
-            CreateWarningToaster('')
-        }
-    }
 
     const handleNewEntry = async (e: React.SyntheticEvent) => {
         e.preventDefault()
@@ -80,6 +75,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                         type: 'success'
                     })
                     setIsLoading(false)
+                    setIsEntryFound(true)
                 } else {
                     CreateErrorToaster(result.error)
                 }
@@ -134,24 +130,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>
-                    <Field.Root>
-                        <Field.Label>Score</Field.Label>
-                        <NativeSelect.Root>
-                            <NativeSelect.Field value={score} onChange={(e) => setScore(Number(e.target.value))}>
-                                <option value={-1} disabled>Select Score</option>
-                                <option value={1}>1 - Actual Trash</option>
-                                <option value={2}>2 - Appaling</option>
-                                <option value={3}>3 - Very Bad</option>
-                                <option value={4}>4 - Watchable Trash</option>
-                                <option value={5}>5 - Mid</option>
-                                <option value={6}>6 - Good Trash</option>
-                                <option value={7}>7 - Actually Good</option>
-                                <option value={8}>8 - Great</option>
-                                <option value={9}>9 - Amazing</option>
-                                <option value={10}>10 - Cinema</option>
-                            </NativeSelect.Field>
-                        </NativeSelect.Root>
-                    </Field.Root>
+                    <SelectScore currentValue={score} setFunction={setScore} />
                     <div id="actions">
                         {
                             isEntryFound ?
