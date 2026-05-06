@@ -9,8 +9,8 @@ import { AsobuGame } from "@/types/asobu";
 
 import { Franchise } from "@/types/base";
 import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
-import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
-import Header from "@/components/custom/header";
+import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
+import Header from "@/components/ui/headers/header";
 
 import Metadata from "./metadata";
 import TabWrapper from "./gameTabWrapper";

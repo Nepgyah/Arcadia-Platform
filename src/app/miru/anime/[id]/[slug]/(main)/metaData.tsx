@@ -1,11 +1,11 @@
 import { Suspense, use } from "react";
 
 import { Anime } from "@/types/miru";
-import Header from "@/components/custom/header";
-import InfoItem from "@/components/custom/info-item/info-item";
+import Header from "@/components/ui/headers/header";
+import InfoItem from "@/components/shared/info-item/info-item";
 import { Franchise } from "@/types/base";
-import SocialsList from "@/components/media/socials/socials";
-import SocialsSkeleton from "@/components/media/socials/skeleton";
+import SocialsList from "@/components/shared/socials/socials";
+import SocialsSkeleton from "@/components/shared/socials/socialsSkeleton";
 import { SkeletonText } from "@chakra-ui/react";
 import AnimeListInput from "../animeListInput";
 

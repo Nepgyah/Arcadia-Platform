@@ -1,4 +1,4 @@
-import CharacterCard from "@/components/media/characters/character-card"
+import CharacterCard from "@/components/shared/characters/character-card"
 import { use } from "react"
 
 export default function CharactersTab(

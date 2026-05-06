@@ -1,19 +1,19 @@
 'use client';
 
-import Header from "@/components/custom/header";
+import Header from "@/components/ui/headers/header";
 import { useEffect, useState } from "react";
 
-import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
 import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
 import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import React from "react";
-import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 import { FetchAnimeSearchAction } from "./actions";
 import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
 import { PaginationResults } from "@/types/pagination";
+import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
+import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
 
 export default function Page() {
 

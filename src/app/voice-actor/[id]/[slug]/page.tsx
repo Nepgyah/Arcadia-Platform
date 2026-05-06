@@ -1,9 +1,9 @@
 export const revalidate = 60;
 
-import Header from "@/components/custom/header";
+import Header from "@/components/ui/headers/header";
 
-import CharacterCard from "@/components/media/characters/character-card";
-import SocialsList from "@/components/media/socials/socials";
+import CharacterCard from "@/components/shared/characters/character-card";
+import SocialsList from "@/components/shared/socials/socials";
 
 import "@/styles/pages/_voice-actor.scss";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";

@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 
 import { Table, Tabs } from "@chakra-ui/react";
 import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react";
-import Date from "@/components/custom/date";
+import Date from "@/lib/helper/date";
 import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import { useUserStore } from "@/app/store/store";
 
-import StatCard from "@/components/custom/stat-card/statCard";
+import StatCard from "@/components/shared/statsCard/statCard";
 
-import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
+import StatCardSkeleton from "@/components/shared/statsCard/statCardSkeleton";
 import { FetchAnimeListAction } from "./action";
 import { toaster } from "@/components/ui/toaster";
 import { AnimeListEntry } from "@/types/miru";

@@ -2,15 +2,15 @@ export const revalidate = 60;
 
 import { Suspense, use } from "react";
 
-import Header from "@/components/custom/header";
+import Header from "@/components/ui/headers/header";
 import { GetPopularAnime, GetRatedAnime } from "./miruHomeQueries"
-import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
+import SimpleMediaCard from "@/components/shared/media/simpleCard/simpleMediaCard";
 import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
-import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
+import SimpleMediaCardSkeleton from "@/components/shared/media/simpleCard/simpleMediaCardSkeleton";
 
 import '@/styles/pages/miru/_home.scss';
 import { Anime } from "@/types/miru";
-import LinkedHeader from "@/components/custom/linkedHeader";
+import LinkedHeader from "@/components/ui/headers/linkedHeader";
 
 export default async function MiruHome() {
 

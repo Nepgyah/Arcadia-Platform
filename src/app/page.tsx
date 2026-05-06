@@ -1,9 +1,9 @@
 export const revalidate = 60;
 
-import Header from "@/components/custom/header";
+import Header from "@/components/ui/headers/header";
 import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 
-import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
+import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
 import ArcadiaSearch from "./arcadiaSearch";
 import { Media } from "@/types/base";
 import { Anime } from "@/types/miru";
@@ -11,7 +11,7 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
 import { GraphqlResponse } from "@/types/api";
-import StatCard from "@/components/custom/stat-card/statCard";
+import StatCard from "@/components/shared/statsCard/statCard";
 import { Book, GamepadIcon, TvMinimal } from "lucide-react";
 
 

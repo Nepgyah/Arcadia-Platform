@@ -10,7 +10,7 @@ import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
-import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
+import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
 import TabWrapper from "./(tabs)/animeTabWrapper";
 import EpisodesTab from "./(tabs)/episodesTab";
 
@@ -18,9 +18,9 @@ import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } fro
 import '@/styles/pages/miru/_anime-details.scss';
 import React from "react";
 import { Franchise } from "@/types/base";
-import Header from "@/components/custom/header";
+import Header from "@/components/ui/headers/header";
 import { Sparkles, UserPlus } from "lucide-react";
-import VideoCard from "@/components/media/video/videoCard";
+import VideoCard from "@/components/shared/videoCard";
 
 export default async function Page(
     props: {

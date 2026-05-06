@@ -1,4 +1,4 @@
-import VideoCard from "@/components/media/video/videoCard";
+import VideoCard from "@/components/shared/videoCard";
 import { AnimeEpisode } from "@/types/miru";
 import { use } from "react";
 
