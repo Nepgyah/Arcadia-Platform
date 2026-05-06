@@ -1,4 +1,5 @@
 name: ESLint
+
 on:
   pull_request:
     branches:
@@ -6,21 +7,19 @@ on:
 
 jobs:
   lint:
-    name: Run ESLint
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
+          cache: npm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run ESLint
-        run: yarn lint --max-warnings=5
+        run: npm run lint
