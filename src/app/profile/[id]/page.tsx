@@ -7,7 +7,7 @@ import { Book, Gamepad2, Ticket, Tv } from "lucide-react"
 
 import Header from "@/components/custom/header"
 import StatCard from "@/components/custom/stat-card/statCard"
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
 import { Tooltip } from "@/components/ui/tooltip"
 import { User } from "@/types/user"
 

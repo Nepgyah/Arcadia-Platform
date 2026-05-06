@@ -1,5 +1,5 @@
 import { RESTResponse } from "@/types/api";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { NextResponse } from "next/server";
 
 export async function GET() {

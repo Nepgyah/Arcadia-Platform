@@ -1,7 +1,7 @@
 'use server';
 
 import { AnimeListEntry } from "@/types/miru";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { ActionResult, GraphqlResponse } from "@/types/api";
 
 interface APIResponse {

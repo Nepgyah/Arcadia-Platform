@@ -2,7 +2,7 @@
 
 import { ActionResult, GraphqlResponse, RESTResponse } from "@/types/api";
 import { GameListEntry } from "@/types/asobu";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 interface GameListResponse {
     userGameList: {

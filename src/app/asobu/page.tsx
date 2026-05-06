@@ -6,7 +6,7 @@ import { AsobuGame } from "@/types/asobu";
 import { Suspense, use } from "react";
 
 import '@/styles/pages/asobu/_home.scss';
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default function Page() {
 

@@ -1,5 +1,5 @@
 import { Anime } from "@/types/miru"
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
 
 interface AnimeDetailsQuery {
     data: {

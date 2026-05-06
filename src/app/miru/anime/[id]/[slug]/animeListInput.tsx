@@ -9,7 +9,7 @@ import { useUserStore } from "@/app/store/store";
 import { Anime } from "@/types/miru";
 import Header from "@/components/custom/header";
 import { toaster } from "@/components/ui/toaster";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { AddAnimeListEntryAction, FetchAnimeListEntryAction, UpdateAnimeListEntryAction } from "./actions";
 
 

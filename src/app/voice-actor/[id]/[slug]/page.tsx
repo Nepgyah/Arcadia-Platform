@@ -6,7 +6,7 @@ import CharacterCard from "@/components/media/characters/character-card";
 import SocialsList from "@/components/media/socials/socials";
 
 import "@/styles/pages/_voice-actor.scss";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default async function Page(
     props : {

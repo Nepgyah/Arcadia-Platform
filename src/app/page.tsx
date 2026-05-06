@@ -7,7 +7,7 @@ import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import ArcadiaSearch from "./arcadiaSearch";
 import { Media } from "@/types/base";
 import { Anime } from "@/types/miru";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 import '@/styles/pages/_home.scss';
 import { GraphqlResponse } from "@/types/api";

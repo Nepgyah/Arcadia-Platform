@@ -7,7 +7,7 @@ import Header from "@/components/custom/header";
 import Link from "next/link";
 import { videos } from "./videos";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default async function Page(
     {
