@@ -6,20 +6,20 @@ import { notFound } from "next/navigation";
 import { Sparkles, UserPlus } from "lucide-react";
 
 import { AsobuGame } from "@/types/asobu";
-
 import { Franchise } from "@/types/base";
 import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
 import Header from "@/components/ui/headers/header";
+import '@/styles/pages/asobu/_game-details.scss';
 
 import Metadata from "./metadata";
 import TabWrapper from "./gameTabWrapper";
 import CharactersTab from "./(tabs)/characters";
 import DLCTab from "./(tabs)/dlc";
 import Overviewtab from "./(tabs)/overview";
-import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./queries";
-import '@/styles/pages/asobu/_game-details.scss';
 import ReviewTab from "./(tabs)/reviews";
+import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./queries";
+import Image from "next/image";
 
 export default async function Page(
     props: {
@@ -70,7 +70,7 @@ function Hero({game}:{game: AsobuGame}) {
             <SetBreadcrumbs breadcrumbs={['Asobu', 'Game', `${game.title}`]} />
             <div id="hero" className="border-radius-md card">
                 <div className="mask"></div>
-                <img id="hero-image" src={`/storage/asobu/${game.id}/banner.jpg`} />
+                <img id="hero-image" src={`/storage/asobu/${game.id}/banner.jpg`} alt={game.title} />
                 <div id="titles">
                     <p className="clr-asobu-base txt-xxl">{game.title}</p>
                 </div>
@@ -113,7 +113,7 @@ function GameFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>
             {
                 franchise ?
                     <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} />
+                        <img src={`/storage/franchise/${franchise.id}.jpg`} alt={franchise.name} />
                         <div className="mask"></div>
                         <p>{franchise.name}</p>
                     </div>

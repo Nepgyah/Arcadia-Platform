@@ -8,47 +8,47 @@ export default function GlobalError() {
     const [apiHasError, setApiHasError] = useState< 'polling' | 'ok' | 'critical' >('polling')
 
     useEffect(() => {
+        const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+        
+        const callAPIHealthCheck = async () => {
+            try {
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_ARCADIA_API_URL}util/health-check/`,
+                    {
+                        method: 'GET'
+                    }
+                )
+                if (res.ok) {
+                    return true
+                } else {
+                    return false
+                }
+            } catch {
+                return false
+            }
+        }
+
+        const pollAPIStatus = async () => {
+            let attempts = 3;
+            while (attempts > 0) {
+                await delay(10000); 
+                const isUp = await callAPIHealthCheck();
+                if (isUp) {
+                    setApiHasError('ok')
+                    await delay(5000)
+                    window.location.href = '/'
+                    return; 
+                } else {
+                    attempts -= 1;
+                }
+            }
+            setApiHasError('critical')
+            setMessage('Server Unresponsive');
+        };
+
         pollAPIStatus();
     }, []);
 
-    const pollAPIStatus = async () => {
-        let attempts = 3;
-        while (attempts > 0) {
-            await delay(10000); 
-            const isUp = await callAPIHealthCheck();
-            console.log('UP?', isUp)
-            if (isUp) {
-                setApiHasError('ok')
-                await delay(5000)
-                window.location.href = '/'
-                return; 
-            } else {
-                attempts -= 1;
-            }
-        }
-        setApiHasError('critical')
-        setMessage('Server Unresponsive');
-    };
-
-    const callAPIHealthCheck = async () => {
-        try {
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_ARCADIA_API_URL}util/health-check/`,
-                {
-                    method: 'GET'
-                }
-            )
-            if (res.ok) {
-                return true
-            } else {
-                return false
-            }
-        } catch {
-            return false
-        }
-    }
-
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
     return (
         <html>

@@ -4,6 +4,10 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 Visit Arcadia: https://arcadia-platform.vercel.app
 
 ## Latest Release - Alpha 2.0 - 4/15/2026
+- **Dev**
+    - Add eslint
+    - Add github actions
+    
 - **General**
     - Add toaster helper functions
     - Add login required component

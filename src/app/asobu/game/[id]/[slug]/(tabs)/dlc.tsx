@@ -16,9 +16,10 @@ export default function DLCTab(
             <div id="dlc-tab">
                 {
                     dlcList.map((dlc: any, idx: number) => (
-                        <Card.Root className="card">
+                        <Card.Root className="card" key={idx}>
                             <Image 
                                 src={`/storage/asobu/${gameID}/dlc/${dlc.id}.jpg`}
+                                alt={dlc.title}
                             />
                             <Card.Body gap={2}>
                                 <Card.Title>{dlc.title}</Card.Title>

@@ -75,11 +75,11 @@ function Ranks({anime}:{anime:Anime}) {
                     <p>Arc Score: {anime.score == 0 ? 'NA' : anime.score}</p>
                 </div>
                 <div className="rank card">
-                   <img src="/icons/anilist-logo.svg" alt="" />
+                   <img src="/icons/anilist-logo.svg" alt="Anilist logo" />
                    <p>Score: {anime.anilistdata.rankScore ? anime.anilistdata.rankScore : 'N/A'} | Popularity: {anime.anilistdata.rankPopular ? anime.anilistdata.rankPopular : 'N/A'}</p>
                 </div>
                 <div className="rank card">
-                    <img src="/icons/mal-logo.svg" alt="" />
+                    <img src="/icons/mal-logo.svg" alt="Myanimelist logo" />
                    <p>Score: {anime.malData ? anime.malData.rankScore : 'N/A'} | Popularity: {anime.malData ? anime.malData.rankPopular : 'N/A'}</p>
                 </div>
             </div>
@@ -99,7 +99,7 @@ function Hero(
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
             <div id="hero" className="border-radius-md card">
                 <div className="mask"></div>
-                <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} />
+                <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} alt={anime.title} />
                 <div id="titles">
                     <p className="clr-miru-base txt-xxl">{anime.title}</p>
                     <p className="clr-txt-fadded">{anime.titleNative}</p>
@@ -118,7 +118,7 @@ function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise
             {
                 franchise ?
                     <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} />
+                        <img src={`/storage/franchise/${franchise.id}.jpg`} title={franchise.name} alt={franchise.name} />
                         <div className="mask"></div>
                         <p>{franchise.name}</p>
                     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
@@ -22,16 +22,8 @@ export default function Page() {
     const [animes, setAnimes] = useState<Anime []>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
-    
-    useEffect(() => {
-        FetchAnime(1)
-        .then(() => {
-            setLoading(false);
-        })
 
-    }, [])
-
-    const FetchAnime = async (page: number) => {
+    const FetchAnime = useCallback(async (page: number) => {
         const result = await FetchAllTimeAnimeAction(page)
 
         if (!result.success) {
@@ -43,17 +35,26 @@ export default function Page() {
             setAnimes(result.data.searchAnime.animes)
             setTotalCount(result.data.searchAnime.total)
         }
-    }
+    }, [])
+    
+    useEffect(() => {
+        const load = async () => {
+            FetchAnime(1)
+            .then(() => {
+                setLoading(false);
+            })
+        }
+
+        load();
+    }, [])
+
 
     const handlePageChange = (direction: 'prev' | 'next') => {
-        if (direction === 'next') {
-            FetchAnime(currentPage + 1)
-            setCurrentPage((prev) => prev + 1)
-        } else {
-            console.log('Going previous')
-            setCurrentPage((prev) => prev + -1)
-            FetchAnime(currentPage - 1)
-        }
+        setCurrentPage((prev) => {
+            const newPage = direction === 'next' ? prev + 1 : prev - 1
+            FetchAnime(newPage)
+            return newPage
+        })
     }
 
     return (
