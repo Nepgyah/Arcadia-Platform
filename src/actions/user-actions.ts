@@ -5,7 +5,7 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
 import { RESTResponse } from "@/types/api"
 import { cookies } from "next/headers"
 
-interface FetchUserResponse extends RESTResponse {
+interface FetchUserResponse extends RESTResponse<User> {
     user: User
 }
 
@@ -18,4 +18,10 @@ export async function FetchUser() {
         return response.user
     }
     return null;
+}
+
+export async function LogoutUser() {
+    const cookieStore = await cookies()
+    cookieStore.delete('access_token')
+    cookieStore.delete('refresh_token')
 }

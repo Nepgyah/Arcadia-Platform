@@ -9,7 +9,7 @@ import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, 
 
 import { useUserStore } from "@/app/store/store";
 import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
-import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import TableSkeleton from "@/components/custom/tableSkeleton";
 import LoginRequired from "@/components/custom/loginRequired";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";

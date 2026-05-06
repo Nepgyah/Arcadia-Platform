@@ -16,7 +16,7 @@ import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
 import { FetchAnimeListAction } from "./action";
 import { toaster } from "@/components/ui/toaster";
 import { AnimeListEntry } from "@/types/miru";
-import { CreateErrorToaster } from "@/utils/toasterHelpers";
+import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
 
 import '@/styles/pages/miru/_anilist.scss';
 

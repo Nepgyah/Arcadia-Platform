@@ -3,7 +3,7 @@
 import Breadcrumbs from "@/components/navigation/breadcrumbs";
 import SideNav from "@/components/navigation/sideNav"
 import TopNav from "@/components/navigation/topNav"
-import { asobuNav, mainboard, miruNav } from "@/utils/data/urls";
+import { asobuNav, mainboard, miruNav } from "@/lib/urls";
 import { usePathname } from "next/navigation"
 
 export default function WrapperUI({children}:{children:React.ReactNode}) {

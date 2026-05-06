@@ -5,7 +5,7 @@ import { useUserStore } from "@/app/store/store";
 import Header from "@/components/custom/header";
 import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { CreateGameListEntry, FetchUserGameListEntry, UpdateeGameListEntry } from "./actions";
-import { CreateErrorToaster, CreateWarningToaster } from "@/utils/toasterHelpers";
+import { CreateErrorToaster, CreateWarningToaster } from "@/lib/helper/toasterHelpers";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import z from "zod";

@@ -3,7 +3,7 @@
 import Breadcrumbs from "@/components/navigation/breadcrumbs";
 import SideNav from "@/components/navigation/sideNav"
 import TopNav from "@/components/navigation/topNav"
-import { mainboard, miruNav } from "@/utils/data/urls";
+import { mainboard, miruNav } from "@/lib/urls";
 import { usePathname } from "next/navigation"
 
 export default function Layout(

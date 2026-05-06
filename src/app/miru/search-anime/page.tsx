@@ -12,7 +12,7 @@ import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
 import React from "react";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 import { FetchAnimeSearchAction } from "./actions";
-import { CreateErrorToaster } from "@/utils/toasterHelpers";
+import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
 import { PaginationResults } from "@/types/pagination";
 
 export default function Page() {
