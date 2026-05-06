@@ -3,7 +3,7 @@
 import { Button } from "@chakra-ui/react";
 import { v4 as uuidv4 } from 'uuid'
 import { permanentRedirect} from "next/navigation";
-import { setOauthState } from "@/utils/actions/oauth";
+import { setOauthState } from "@/actions/oauth-actions";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
