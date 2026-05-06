@@ -11,6 +11,7 @@ Visit Arcadia: https://arcadia-platform.vercel.app
 - **Asobu**
     - Add gamelist page
     - Add create/update gamelist entry on game detail page
+    - Add reviews tab on game detail page
     
 ## Why I Started Arcadia
 See [API docs](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#why-i-started-arcadia) for information

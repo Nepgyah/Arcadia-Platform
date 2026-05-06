@@ -77,6 +77,30 @@ export async function FetchCharacters(id: string) {
     return response.data.charactersByGame
 }
 
+export async function FetchReviews(id: string) {
+    const query =
+    `
+    query ($gameID: ID!) {
+        asobuGameReviews(gameId: $gameID) {
+            user {
+                id,
+                username,
+                picturePreset
+            },
+            score,
+            review,
+            reviewUpdatedAt
+        }
+    }
+    `
+
+    const variables = {
+        gameID: id
+    }
+
+    const response = await arcadiaAPI.GraphQL<any>(query, variables);
+    return response.data.asobuGameReviews
+}
 export async function FetchFranchise(id: string) {
     const query =
     `
