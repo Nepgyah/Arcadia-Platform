@@ -8,7 +8,7 @@ import { redirect, RedirectType, useRouter } from "next/navigation";
 import { HamburgerIcon } from "lucide-react";
 import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 
-import { useUserStore } from "@/app/store/store";
+import { useUserStore } from "@/app/store/userStore";
 import { url } from "@/lib/urls";
 import { FetchUser, LogoutUser } from "@/actions/user-actions";
 

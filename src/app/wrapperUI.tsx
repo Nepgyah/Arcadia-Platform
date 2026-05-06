@@ -1,6 +1,6 @@
 'use client';
 
-import Breadcrumbs from "@/components/shared/breadcrumbs/breadcrumbs";
+import Breadcrumbs from "@/components/ui/breadcrumbs/breadcrumbs";
 import SideNav from "@/components/layout/sideNav"
 import TopNav from "@/components/layout/topNav"
 import { asobuNav, mainboard, miruNav } from "@/lib/urls";

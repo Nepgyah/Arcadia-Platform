@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { Table, Tabs } from "@chakra-ui/react";
 import { Binoculars, CheckCheck, CalendarClock, SquarePause } from "lucide-react";
 import Date from "@/lib/helper/date";
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
-import { useUserStore } from "@/app/store/store";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
+import { useUserStore } from "@/app/store/userStore";
 
 import StatCard from "@/components/shared/statsCard/statCard";
 

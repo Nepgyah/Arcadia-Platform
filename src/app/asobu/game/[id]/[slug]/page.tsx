@@ -8,7 +8,7 @@ import { Sparkles, UserPlus } from "lucide-react";
 import { AsobuGame } from "@/types/asobu";
 
 import { Franchise } from "@/types/base";
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
 import Header from "@/components/ui/headers/header";
 

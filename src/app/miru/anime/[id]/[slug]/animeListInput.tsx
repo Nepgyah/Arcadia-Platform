@@ -1,17 +1,14 @@
 'use client';
 
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
-import { useUserStore } from "@/app/store/store";
+import { useUserStore } from "@/app/store/userStore";
 import { Anime } from "@/types/miru";
 import Header from "@/components/ui/headers/header";
 import { toaster } from "@/components/ui/toaster";
-import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { AddAnimeListEntryAction, FetchAnimeListEntryAction, UpdateAnimeListEntryAction } from "./actions";
-
 
 export default function AnimeListInput(
     {

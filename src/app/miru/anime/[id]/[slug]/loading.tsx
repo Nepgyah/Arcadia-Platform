@@ -1,6 +1,5 @@
 import Header from "@/components/ui/headers/header"
 import { Skeleton, SkeletonText } from "@chakra-ui/react"
-import React from "react"
 
 export default function Loading() {
     return (

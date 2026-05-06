@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs"
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs"
 import { Avatar } from "@chakra-ui/react"
 import { Book, Gamepad2, Ticket, Tv } from "lucide-react"
 

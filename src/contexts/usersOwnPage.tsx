@@ -1,4 +1,4 @@
-import { useUserStore } from "@/app/store/store";
+import { useUserStore } from "@/app/store/userStore";
 import React, { createContext, use, useEffect, useState } from "react";
 
 export const UserOwnPageContext = createContext(false);

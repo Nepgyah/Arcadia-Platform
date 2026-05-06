@@ -1,12 +1,12 @@
 import { Suspense, use } from "react";
 
-import { Anime } from "@/types/miru";
 import Header from "@/components/ui/headers/header";
-import InfoItem from "@/components/shared/info-item/info-item";
-import { Franchise } from "@/types/base";
 import SocialsList from "@/components/shared/socials/socials";
 import SocialsSkeleton from "@/components/shared/socials/socialsSkeleton";
-import { SkeletonText } from "@chakra-ui/react";
+import InfoItem from "@/components/shared/info-item/info-item";
+import { Franchise } from "@/types/base";
+import { Anime } from "@/types/miru";
+
 import AnimeListInput from "../animeListInput";
 
 export default function MetaData(

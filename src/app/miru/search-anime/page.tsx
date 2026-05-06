@@ -7,7 +7,7 @@ import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSel
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import React from "react";
 import { FetchAnimeSearchAction } from "./actions";
 import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";

@@ -6,7 +6,7 @@ import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { toaster } from "@/components/ui/toaster";
 
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import { FetchPopularAnimeAction } from "./actions";
 import { Anime } from "@/types/miru";
 

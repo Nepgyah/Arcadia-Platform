@@ -7,6 +7,8 @@ Visit Arcadia: https://arcadia-platform.vercel.app
 - **General**
     - Add toaster helper functions
     - Add login required component
+    - Organize folder structure
+    - Organize import order for files
 
 - **Asobu**
     - Add gamelist page

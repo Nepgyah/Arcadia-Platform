@@ -1,12 +1,10 @@
 export const revalidate = 60;
 
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import Header from "@/components/ui/headers/header";
-
 import CharacterCard from "@/components/shared/characters/character-card";
 import SocialsList from "@/components/shared/socials/socials";
-
 import "@/styles/pages/_voice-actor.scss";
-import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default async function Page(
     props : {

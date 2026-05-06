@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useUserStore } from "@/app/store/store";
+import { useUserStore } from "@/app/store/userStore";
 import Header from "@/components/ui/headers/header";
 import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { CreateGameListEntry, FetchUserGameListEntry, UpdateeGameListEntry } from "./actions";

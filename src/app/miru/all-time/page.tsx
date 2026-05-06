@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";

@@ -1,10 +1,7 @@
 import { Suspense, use } from "react";
 
-import { Skeleton, Tag } from "@chakra-ui/react";
-
-import { Franchise } from "@/types/base";
+import { Skeleton } from "@chakra-ui/react";
 import { Anime } from "@/types/miru";
-
 import Header from "@/components/ui/headers/header";
 import CharacterCard from "@/components/shared/characters/character-card";
 import RelationMedia from "@/components/shared/relation-media";
