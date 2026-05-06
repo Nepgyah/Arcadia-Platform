@@ -1,15 +1,12 @@
 import { Suspense, use } from "react";
 
-import { Skeleton, Tag } from "@chakra-ui/react";
-
-import { Franchise } from "@/types/base";
+import { Skeleton } from "@chakra-ui/react";
 import { Anime } from "@/types/miru";
-
-import Header from "@/components/custom/header";
-import CharacterCard from "@/components/media/characters/character-card";
-import RelationMedia from "@/components/media/relation-media";
-import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
-import VideoCard from "@/components/media/video/videoCard";
+import Header from "@/components/ui/headers/header";
+import CharacterCard from "@/components/shared/characters/character-card";
+import RelationMedia from "@/components/shared/relation-media";
+import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
+import VideoCard from "@/components/shared/videoCard";
 
 export default function OverviewTab(
     {

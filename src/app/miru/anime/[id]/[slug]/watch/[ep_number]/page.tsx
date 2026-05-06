@@ -2,12 +2,12 @@ import { notFound } from "next/navigation"
 
 import "@/styles/pages/miru/_watch.scss";
 import { AnimeEpisode } from "@/types/miru";
-import VideoCard from "@/components/media/video/videoCard";
-import Header from "@/components/custom/header";
+import VideoCard from "@/components/shared/videoCard";
+import Header from "@/components/ui/headers/header";
 import Link from "next/link";
 import { videos } from "./videos";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default async function Page(
     {

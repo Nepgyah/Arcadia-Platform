@@ -1,4 +1,4 @@
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
 
 
 export async function FetchGame(id: string) {

@@ -3,7 +3,7 @@
 import { ActionResult, GraphqlResponse, Pagination } from "@/types/api";
 import { Anime } from "@/types/miru";
 import { PaginationResults } from "@/types/pagination";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 interface APIResponse {
     searchAnime: {

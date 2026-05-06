@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
-import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";
 import { FetchAllTimeAnimeAction } from "./actions";
 import { toaster } from "@/components/ui/toaster";
+import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
+import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
 
 
 export default function Page() {

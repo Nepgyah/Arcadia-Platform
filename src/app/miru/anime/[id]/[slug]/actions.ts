@@ -1,6 +1,6 @@
 'use server';
 
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { ActionResult, GraphqlResponse } from "@/types/api";
 
 interface FetchAnimeListEntryResponse {

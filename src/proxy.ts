@@ -1,4 +1,4 @@
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

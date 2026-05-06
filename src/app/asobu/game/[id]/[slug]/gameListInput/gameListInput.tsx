@@ -1,15 +1,15 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useUserStore } from "@/app/store/store";
-import Header from "@/components/custom/header";
+import { useUserStore } from "@/app/store/userStore";
+import Header from "@/components/ui/headers/header";
 import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { CreateGameListEntry, FetchUserGameListEntry, UpdateeGameListEntry } from "./actions";
-import { CreateErrorToaster, CreateWarningToaster } from "@/utils/toasterHelpers";
+import { CreateErrorToaster, CreateWarningToaster } from "@/lib/helper/toasterHelpers";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import z from "zod";
-import SelectScore from "@/components/custom/selectScore";
+import SelectScore from "@/components/ui/selectScore";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);

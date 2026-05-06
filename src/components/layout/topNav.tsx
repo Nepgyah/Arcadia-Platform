@@ -8,10 +8,9 @@ import { redirect, RedirectType, useRouter } from "next/navigation";
 import { HamburgerIcon } from "lucide-react";
 import { Avatar, Button, Drawer, VStack } from "@chakra-ui/react";
 
-import { useUserStore } from "@/app/store/store";
-import { handleGetUser, logoutUser } from "@/utils/actions/user";
-import { url } from "@/utils/data/urls";
-import { FetchUser } from "@/actions/user-actions";
+import { useUserStore } from "@/app/store/userStore";
+import { url } from "@/lib/urls";
+import { FetchUser, LogoutUser } from "@/actions/user-actions";
 
 export default function TopNav(
     {
@@ -51,7 +50,7 @@ export default function TopNav(
         setProfileOpen(false)
 
         try {
-            await logoutUser()
+            await LogoutUser()
             setUser(null)
             window.location.href = '/';
         } catch (error) {

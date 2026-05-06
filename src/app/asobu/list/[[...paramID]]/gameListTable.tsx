@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { IconButton, Table } from "@chakra-ui/react";
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
-import Date from "@/components/custom/date";
+import Date from "@/lib/helper/date";
 import { UserOwnPageContext } from "@/contexts/usersOwnPage";
 
 export default function GameListTable({

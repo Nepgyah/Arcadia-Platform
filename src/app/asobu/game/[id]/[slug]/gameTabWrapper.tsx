@@ -1,6 +1,6 @@
 'use client';
 
-import TabButton from "@/components/custom/tabButton";
+import TabButton from "@/components/ui/tabButton";
 import { Info, LayersPlus, Star, Tv, Users } from "lucide-react";
 import React, { Children, useState } from "react";
 

@@ -7,15 +7,15 @@ import { Button, Dialog, Portal, Tabs } from "@chakra-ui/react";
 import { DeleteUserListEntry, FetchUserGameList } from "./action";
 import { CalendarClock, CheckCheck, GamepadDirectional, RotateCcw, SquarePause, Trash2 } from "lucide-react";
 
-import { useUserStore } from "@/app/store/store";
+import { useUserStore } from "@/app/store/userStore";
 import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
-import { CreateErrorToaster, CreateSuccessToaster } from "@/utils/toasterHelpers";
-import TableSkeleton from "@/components/custom/tableSkeleton";
-import LoginRequired from "@/components/custom/loginRequired";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
-import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
-import StatCard from "@/components/custom/stat-card/statCard";
-import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
+import TableSkeleton from "@/components/ui/tableSkeleton";
+import LoginRequired from "@/components/shared/loginRequired";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
+import StatCardSkeleton from "@/components/shared/statsCard/statCardSkeleton";
+import StatCard from "@/components/shared/statsCard/statCard";
+import CopyToClipboardButton from "@/components/ui/copyClipboardButton";
 import UserOwnPageContextWrapper, { UserOwnPageContext } from "@/contexts/usersOwnPage";
 
 import GameListTable from "./gameListTable";

@@ -6,13 +6,13 @@ import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { toaster } from "@/components/ui/toaster";
 
-import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
-import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import { FetchPopularAnimeAction } from "./actions";
 import { Anime } from "@/types/miru";
 
 import '@/styles/pages/miru/_rankings.scss';
+import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
+import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
 
 export default function Page() {
     

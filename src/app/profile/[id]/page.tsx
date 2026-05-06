@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs"
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs"
 import { Avatar } from "@chakra-ui/react"
 import { Book, Gamepad2, Ticket, Tv } from "lucide-react"
 
-import Header from "@/components/custom/header"
-import StatCard from "@/components/custom/stat-card/statCard"
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI"
+import Header from "@/components/ui/headers/header"
+import StatCard from "@/components/shared/statsCard/statCard"
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
 import { Tooltip } from "@/components/ui/tooltip"
 import { User } from "@/types/user"
 

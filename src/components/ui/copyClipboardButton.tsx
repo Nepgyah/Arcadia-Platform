@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateSuccessToaster } from "@/utils/toasterHelpers";
+import { CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 

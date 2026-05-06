@@ -1,12 +1,12 @@
-import Header from "@/components/custom/header";
-import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
-import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import Header from "@/components/ui/headers/header";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import { AsobuGame } from "@/types/asobu";
 import { Suspense, use } from "react";
 
 import '@/styles/pages/asobu/_home.scss';
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
+import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
+import SimpleMediaCardSkeleton from "@/components/shared/mediaCards/simpleCard/simpleMediaCardSkeleton";
 
 export default function Page() {
 

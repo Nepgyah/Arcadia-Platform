@@ -1,26 +1,24 @@
 export const revalidate = 60;
 
+import React from "react";
 import { Suspense, use } from "react"
 import { notFound } from "next/navigation";
+import { Sparkles, UserPlus } from "lucide-react";
+
+import { Skeleton } from "@chakra-ui/react";
+import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
+import Header from "@/components/ui/headers/header";
+import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
+import '@/styles/pages/miru/_anime-details.scss';
 
-import { Button, Link, Skeleton } from "@chakra-ui/react";
-
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
-import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 import TabWrapper from "./(tabs)/animeTabWrapper";
 import EpisodesTab from "./(tabs)/episodesTab";
-
-import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
-import '@/styles/pages/miru/_anime-details.scss';
-import React from "react";
-import { Franchise } from "@/types/base";
-import Header from "@/components/custom/header";
-import { Sparkles, UserPlus } from "lucide-react";
-import VideoCard from "@/components/media/video/videoCard";
 
 export default async function Page(
     props: {

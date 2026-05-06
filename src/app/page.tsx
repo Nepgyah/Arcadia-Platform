@@ -1,18 +1,18 @@
 export const revalidate = 60;
 
-import Header from "@/components/custom/header";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import { GamepadIcon, TvMinimal } from "lucide-react";
 
-import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
-import ArcadiaSearch from "./arcadiaSearch";
+import Header from "@/components/ui/headers/header";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
+import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
+import StatCard from "@/components/shared/statsCard/statCard";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { Media } from "@/types/base";
 import { Anime } from "@/types/miru";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
-
-import '@/styles/pages/_home.scss';
 import { GraphqlResponse } from "@/types/api";
-import StatCard from "@/components/custom/stat-card/statCard";
-import { Book, GamepadIcon, TvMinimal } from "lucide-react";
+import '@/styles/pages/_home.scss';
+
+import ArcadiaSearch from "./arcadiaSearch";
 
 
 export default async function Home() {

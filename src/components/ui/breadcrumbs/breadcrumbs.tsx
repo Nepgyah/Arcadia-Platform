@@ -1,6 +1,6 @@
-import { useBreadcrumbStore } from "@/app/store/store";
-import { Breadcrumb } from "@chakra-ui/react";
 import React from "react";
+import { useBreadcrumbStore } from "@/app/store/breadcrumbStore";
+import { Breadcrumb } from "@chakra-ui/react";
 
 export default function Breadcrumbs() {
     const breadcrumbs = useBreadcrumbStore((state) => state.crumbs)

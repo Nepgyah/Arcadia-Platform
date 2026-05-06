@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-import { deleteOauthState, finalizeLogin, verifyOauthState } from '@/utils/actions/oauth'
+import { deleteOauthState, finalizeLogin, verifyOauthState } from '@/actions/oauth-actions'
 
 function CallbackContent() {
     const searchParams = useSearchParams()

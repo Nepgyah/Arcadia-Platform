@@ -1,5 +1,5 @@
 'use server';
-import { arcadiaAPI } from '@/utils/api/arcadiaAPI';
+import { arcadiaAPI } from '@/lib/api/arcadiaAPI';
 import { cookies } from 'next/headers'
 
 interface LoginAsAdminResponse {

@@ -1,4 +1,4 @@
-import { url } from "@/utils/data/urls"
+import { url } from "@/lib/urls"
 import Link from "next/link"
 
 export default function SideNav(

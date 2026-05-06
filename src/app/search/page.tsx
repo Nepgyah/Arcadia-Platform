@@ -1,15 +1,15 @@
 export const dynamic = 'force-dynamic';
 
-import Header from "@/components/custom/header";
-import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
+import Header from "@/components/ui/headers/header";
 
 import { GraphqlResponse } from "@/types/api";
 import { Media } from "@/types/base";
 import { Anime } from "@/types/miru";
-import { arcadiaAPI } from "@/utils/api/arcadiaAPI";
+import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 
 import '@/styles/pages/_search.scss';
+import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
 
 export default async function Page({
     searchParams,
