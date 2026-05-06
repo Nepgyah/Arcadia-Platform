@@ -1,24 +1,25 @@
 export const revalidate = 60;
 
+import React from "react";
+import { Suspense, use } from "react";
 import { notFound } from "next/navigation";
+import { Sparkles, UserPlus } from "lucide-react";
 
 import { AsobuGame } from "@/types/asobu";
-import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame } from "./queries";
 
+import { Franchise } from "@/types/base";
 import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
+import Header from "@/components/custom/header";
 
-import '@/styles/pages/asobu/_game-details.scss';
 import Metadata from "./metadata";
 import TabWrapper from "./gameTabWrapper";
-import Overviewtab from "./(tabs)/overview";
-import { Suspense, use } from "react";
-import CharacterCardSkeleton from "@/components/media/characters/characterCardSkeleton";
 import CharactersTab from "./(tabs)/characters";
 import DLCTab from "./(tabs)/dlc";
-import React from "react";
-import Header from "@/components/custom/header";
-import { Sparkles, UserPlus } from "lucide-react";
-import { Franchise } from "@/types/base";
+import Overviewtab from "./(tabs)/overview";
+import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./queries";
+import '@/styles/pages/asobu/_game-details.scss';
+import ReviewTab from "./(tabs)/reviews";
 
 export default async function Page(
     props: {
@@ -30,8 +31,8 @@ export default async function Page(
     const franchisePromise = FetchFranchise(id)
     const characterPromise = FetchCharacters(id)
     const dlcPromise = FetchDLC(id)
+    const reviews = FetchReviews(id)
     const game = await FetchGame(id);
-
     if (!game) notFound();
 
 
@@ -52,6 +53,9 @@ export default async function Page(
                         </Suspense>
                         <Suspense fallback={<CharacterCardSkeleton />} >
                             <DLCTab dlcPromise={dlcPromise} gameID={id}/>
+                        </Suspense>
+                        <Suspense fallback={<CharacterCardSkeleton />}>
+                            <ReviewTab reviewPromise={reviews} />
                         </Suspense>
                     </TabWrapper>
                 </div>

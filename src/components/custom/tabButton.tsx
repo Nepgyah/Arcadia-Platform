@@ -18,7 +18,7 @@ export default function TabButton(
             <div className="tab-button__icon border-radius-sm clickable" onClick={() => setTabFunc(value)}>
                 <Icon />
             </div>
-            <div className="tab-button__label clickable" onClick={() => setTabFunc(value)}>
+            <div className="shadow tab-button__label clickable" onClick={() => setTabFunc(value)}>
                 <p>{label}</p>
             </div>
         </div>

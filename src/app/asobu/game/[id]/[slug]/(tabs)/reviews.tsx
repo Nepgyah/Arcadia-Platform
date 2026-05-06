@@ -16,6 +16,7 @@ export default function ReviewTab(
             {
                 reviews.map((review: GameListEntry, idx: number) => (
                     <ReviewCard
+                        key={idx}
                         user={review.user}
                         reviewText={review.review}
                         score={review.score} 

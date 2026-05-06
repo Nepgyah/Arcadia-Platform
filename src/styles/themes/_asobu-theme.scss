@@ -2,6 +2,7 @@
 @use "sass:map";
 
 #asobu-theme {
+    .clr-app-emp { color: map.get($colors, asobu-base); }
     .header {
         border-color:  map.get($colors, asobu-base);
         &__box {
