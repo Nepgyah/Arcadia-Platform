@@ -15,7 +15,7 @@ export default function VideoCard(
     return (
         <Link href={href}>
             <Card.Root className={`shadow video-card animation-hover ${selected && 'selected'}`}>
-                <Image src={src} />
+                <Image src={src} alt={title} />
                 <Card.Body gap={2}>
                     <Card.Title>{title}</Card.Title>
                     <Card.Description>{subText}</Card.Description>

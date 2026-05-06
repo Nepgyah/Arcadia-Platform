@@ -39,7 +39,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
             console.log('fetching entry')
             fetchEntry(gameID)
         }
-    }, [user])
+    }, [user, gameID])
 
     const formatDetails = () => {
         try {

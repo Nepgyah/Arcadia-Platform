@@ -37,11 +37,13 @@ export default function Page(
     }
 ) {
     const { paramID } = use(params);
-    const isUsersOwnPage = useContext(UserOwnPageContext)
     const user = useUserStore((state) => state.user );
+    const isUsersOwnPage = useContext(UserOwnPageContext);
+
+    const showLogin = !user && !paramID;
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
-    const [showLogin, setShowLogin] = useState<boolean>(false)
+    // const [showLogin, setShowLogin] = useState<boolean>(false)
     const [username, setUsername] = useState<string>('Loading')
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
     const [gameLists, setGameLists] = useState<GameLists>(
@@ -60,6 +62,24 @@ export default function Page(
     } | null>(null)
 
     useEffect(() => {
+        const FetchListData = async (user_id: number) => {
+            const result = await FetchUserGameList(user_id)
+    
+            if (result.success) {
+                setUsername(result.data.userGameList.username)
+                setGameLists({
+                    playing: result.data.userGameList.playing,
+                    completed: result.data.userGameList.completed,
+                    planTo: result.data.userGameList.planTo,
+                    onHold: result.data.userGameList.onHold,
+                    replaying: result.data.userGameList.replaying
+                })
+                setIsLoading(false)
+            } else {
+                CreateErrorToaster(result.error)
+            }
+        }
+
         if (user !== undefined) {
             if (paramID) {
                 FetchListData(Number(paramID))
@@ -67,28 +87,9 @@ export default function Page(
                 FetchListData(user.id)
             } else {
                 CreateErrorToaster('Cannot find target user')
-                setShowLogin(true)
             }
         }
-    }, [user])
-
-    async function FetchListData(user_id: number) {
-        const result = await FetchUserGameList(user_id)
-
-        if (result.success) {
-            setUsername(result.data.userGameList.username)
-            setGameLists({
-                playing: result.data.userGameList.playing,
-                completed: result.data.userGameList.completed,
-                planTo: result.data.userGameList.planTo,
-                onHold: result.data.userGameList.onHold,
-                replaying: result.data.userGameList.replaying
-            })
-            setIsLoading(false)
-        } else {
-            CreateErrorToaster(result.error)
-        }
-    }
+    }, [user, paramID])
 
     const handleOpenPopup = (listType: GameListEntryStatus, entryID: number) => {
         setIsPopupOpen(true)

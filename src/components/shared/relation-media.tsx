@@ -1,7 +1,7 @@
 import { Media } from "@/types/base"
 import Link from "next/link"
 
-export default function(
+export default function RelatedMedia(
     {
         media, app, relation, link, src
     } : {
@@ -16,7 +16,7 @@ export default function(
     return (
         <div className="relation-media">
             <Link href={link}>
-                <img className="border-radius-md shadow animation-hover" src={src} alt="" />
+                <img className="border-radius-md shadow animation-hover" src={src} alt={media.title} />
             </Link>
             <div>
                 <Link href={link} className="hover-underline">{media.title}</Link>
