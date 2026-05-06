@@ -1,8 +1,8 @@
 'use client';
 
 import Breadcrumbs from "@/components/navigation/breadcrumbs";
-import SideNav from "@/components/navigation/sideNav"
-import TopNav from "@/components/navigation/topNav"
+import SideNav from "@/components/layout/sideNav"
+import TopNav from "@/components/layout/topNav"
 import { asobuNav, mainboard, miruNav } from "@/lib/urls";
 import { usePathname } from "next/navigation"
 
