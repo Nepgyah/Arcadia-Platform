@@ -6,7 +6,7 @@ import VideoCard from "@/components/media/video/videoCard";
 import Header from "@/components/custom/header";
 import Link from "next/link";
 import { videos } from "./videos";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 export default async function Page(

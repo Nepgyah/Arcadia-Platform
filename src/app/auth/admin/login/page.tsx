@@ -6,7 +6,7 @@ import { Button, Field, Input } from "@chakra-ui/react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { toaster, Toaster } from "@/components/ui/toaster";
 
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import { LoginAsAdmin } from "@/actions/auth-actions";
 
 import "@/styles/pages/auth/_admin-login.scss";

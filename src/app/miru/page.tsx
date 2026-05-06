@@ -5,7 +5,7 @@ import { Suspense, use } from "react";
 import Header from "@/components/custom/header";
 import { GetPopularAnime, GetRatedAnime } from "./miruHomeQueries"
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
 
 import '@/styles/pages/miru/_home.scss';

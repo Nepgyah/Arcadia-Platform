@@ -1,7 +1,7 @@
 import Header from "@/components/custom/header";
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import SimpleMediaCardSkeleton from "@/components/media/simpleCard/simpleMediaCardSkeleton";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import { AsobuGame } from "@/types/asobu";
 import { Suspense, use } from "react";
 

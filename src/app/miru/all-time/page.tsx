@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import DetailMediaCard from "@/components/media/detailedCard/detailedMediaCard";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 
 import '@/styles/pages/miru/_rankings.scss';
 import { Anime } from "@/types/miru";

@@ -1,7 +1,7 @@
 export const revalidate = 60;
 
 import Header from "@/components/custom/header";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 
 import SimpleMediaCard from "@/components/media/simpleCard/simpleMediaCard";
 import ArcadiaSearch from "./arcadiaSearch";

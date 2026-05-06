@@ -6,7 +6,7 @@ import { Anime } from "@/types/miru";
 
 import { Button, Link, Skeleton } from "@chakra-ui/react";
 
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";

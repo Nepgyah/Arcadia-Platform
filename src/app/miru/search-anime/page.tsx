@@ -8,7 +8,7 @@ import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSel
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import React from "react";
 import DetailMediaCardSkeleton from "@/components/media/detailedCard/detailedMediaCardSkeleton";
 import { FetchAnimeSearchAction } from "./actions";

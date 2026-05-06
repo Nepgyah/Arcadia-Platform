@@ -12,7 +12,7 @@ import { GameListEntry, GameListEntryStatus } from "@/types/asobu";
 import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import TableSkeleton from "@/components/custom/tableSkeleton";
 import LoginRequired from "@/components/custom/loginRequired";
-import SetBreadcrumbs from "@/components/navigation/setBreadcrumbs";
+import SetBreadcrumbs from "@/components/shared/breadcrumbs/setBreadcrumbs";
 import StatCardSkeleton from "@/components/custom/stat-card/statCardSkeleton";
 import StatCard from "@/components/custom/stat-card/statCard";
 import CopyToClipboardButton from "@/components/custom/copyClipboardButton";
