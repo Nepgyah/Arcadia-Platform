@@ -14,7 +14,8 @@ export async function FetchUserGameListEntry(gameID: number) : Promise<ActionRes
         gameListEntry(gameId: $gameID) {
             id,
             status,
-            score
+            score,
+            review
         }
     }
     `

@@ -10,6 +10,7 @@ import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import z from "zod";
 import SelectScore from "@/components/ui/selectScore";
+import ReviewDialog from "@/components/shared/reviewDialog";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -18,6 +19,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [score, setScore] = useState<number>(-1)
     const [entry, setEntry] = useState<GameListEntry | null>(null)
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
         const fetchEntry = async (gameID: number) => {
@@ -30,6 +32,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                     setStatus(result.data.gameListEntry.status)
                     setScore(result.data.gameListEntry.score)
                 }
+                console.log(result.data.gameListEntry)
             } else {
                 CreateErrorToaster(result.error)
             }
@@ -111,6 +114,12 @@ export default function GameListInput({gameID} : {gameID: number}) {
 
     return (
         <div id="game-list-input">
+            <ReviewDialog dialogState={{
+                    isOpen: isOpen,
+                    setIsOpen: setIsOpen
+                }} 
+                review={entry?.review ? entry.review : null}
+            />
             <Header text="Entry" />
             {
                 !user ? 
@@ -134,14 +143,22 @@ export default function GameListInput({gameID} : {gameID: number}) {
                     <div id="actions">
                         {
                             isEntryFound ?
-                            <Button 
-                                onClick={(e) => handleUpdateEntry(e)}
-                                loading={isLoading}
-                                variant={'subtle'} 
-                                className="btn-primary"
-                            >
-                                Update
-                            </Button>
+                            <>
+                                <Button 
+                                    onClick={(e) => handleUpdateEntry(e)}
+                                    loading={isLoading}
+                                    variant={'subtle'} 
+                                    className="btn-primary"
+                                >
+                                    Update
+                                </Button>
+                                <Button 
+                                    onClick={() => setIsOpen(true)}
+                                    variant={'ghost'}
+                                >
+                                    Add/Edit Review
+                                </Button>
+                            </>
                         :
                             <Button 
                                 onClick={(e) => handleNewEntry(e)} 
