@@ -13,6 +13,20 @@
     }
 }
 
+.col-gap {
+    &-sm {
+        column-gap: .5rem;
+    }
+
+    &-md {
+        column-gap: 1rem;
+    }
+
+    &-lg {
+        column-gap: 2rem;
+    }
+}
+
 .row-gap {
     &-sm {
         row-gap: .5rem;

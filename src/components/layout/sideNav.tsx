@@ -18,7 +18,10 @@ export default function SideNav(
             <div className="links">
                 {
                     urlSet.map((url, idx) => (
-                        <Link key={idx} href={url.path}>{url.title}</Link>
+                        <div key={url.path} className="flex col-gap-sm">
+                            <url.icon />
+                            <Link className="txt-md" key={idx} href={url.path}>{url.title}</Link>
+                        </div>
                     ))
                 }
             </div>
