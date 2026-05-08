@@ -123,23 +123,21 @@ export default function GameListInput({gameID} : {gameID: number}) {
     return (
         <MediaReviewContextWrapper hasReview={hasReview} setHasReview={setHasReview}>
             <div id="game-list-input">
-                {
-                    review &&
-                        <ReviewDialog 
-                            review={review}
-                            app="asobu"
-                            dialogState={{
-                                isOpen: isOpen,
-                                setIsOpen: setIsOpen,
-                            }} 
-                            serverActions={{
-                                create: CreateGameReview,
-                                update: UpdateGameReview,
-                                delete: DeleteGameReview
-                            }}
-                            mediaID={gameID}
-                        />
-                }
+                <ReviewDialog 
+                    key={review?.id}
+                    review={review}
+                    app="asobu"
+                    dialogState={{
+                        isOpen: isOpen,
+                        setIsOpen: setIsOpen,
+                    }} 
+                    serverActions={{
+                        create: CreateGameReview,
+                        update: UpdateGameReview,
+                        delete: DeleteGameReview
+                    }}
+                    mediaID={gameID}
+                />
                 <Header text="Entry" />
                 {
                     !user ? 
