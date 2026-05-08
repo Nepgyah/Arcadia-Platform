@@ -4,7 +4,6 @@ import { ActionResult, GraphqlResponse } from "@/types/api";
 import { GameListEntry, GameListEntryMetadata } from "@/types/asobu";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { MediaReview } from "@/types/base";
-import { success } from "zod";
 
 interface UserDataResponse {
     gameListEntry: GameListEntry,

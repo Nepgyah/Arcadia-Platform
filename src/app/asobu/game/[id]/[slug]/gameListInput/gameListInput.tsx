@@ -1,18 +1,19 @@
 'use client';
 
 import { useEffect, useState } from "react";
+
 import { useUserStore } from "@/app/store/userStore";
-import Header from "@/components/ui/headers/header";
-import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
-import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateeGameListEntry, UpdateGameReview } from "./actions";
-import { CreateErrorToaster, CreateWarningToaster } from "@/lib/helper/toasterHelpers";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
+import Header from "@/components/ui/headers/header";
+import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
 import { toaster } from "@/components/ui/toaster";
-import z from "zod";
 import SelectScore from "@/components/ui/selectScore";
 import ReviewDialog from "@/components/shared/reviewDialog";
-import { MediaReview } from "@/types/base";
 import MediaReviewContextWrapper from "@/contexts/hasReviewContext";
+import { GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
+import { MediaReview } from "@/types/base";
+
+import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateeGameListEntry, UpdateGameReview } from "./actions";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -23,7 +24,6 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
     const [review, setReview] = useState<MediaReview | null>(null)
     const [hasReview, setHasReview] = useState<boolean>(false)
-
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
@@ -123,20 +123,23 @@ export default function GameListInput({gameID} : {gameID: number}) {
     return (
         <MediaReviewContextWrapper hasReview={hasReview} setHasReview={setHasReview}>
             <div id="game-list-input">
-                <ReviewDialog 
-                    review={review}
-                    app="asobu"
-                    dialogState={{
-                        isOpen: isOpen,
-                        setIsOpen: setIsOpen,
-                    }} 
-                    serverActions={{
-                        create: CreateGameReview,
-                        update: UpdateGameReview,
-                        delete: DeleteGameReview
-                    }}
-                    mediaID={gameID}
-                />
+                {
+                    review &&
+                        <ReviewDialog 
+                            review={review}
+                            app="asobu"
+                            dialogState={{
+                                isOpen: isOpen,
+                                setIsOpen: setIsOpen,
+                            }} 
+                            serverActions={{
+                                create: CreateGameReview,
+                                update: UpdateGameReview,
+                                delete: DeleteGameReview
+                            }}
+                            mediaID={gameID}
+                        />
+                }
                 <Header text="Entry" />
                 {
                     !user ? 

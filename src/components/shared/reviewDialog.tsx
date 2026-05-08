@@ -1,13 +1,13 @@
 'use client';
-import * as z from 'zod';
 
+import * as z from 'zod';
 import {  useContext, useEffect, useState } from "react";
+
 import { Button, CloseButton, Dialog, Field, Portal, Textarea } from "@chakra-ui/react";
 import { MediaReviewContext } from "@/contexts/hasReviewContext";
 import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import { App, MediaReview } from "@/types/base";
 import { ActionResult } from "@/types/api";
-import { text } from 'stream/consumers';
 
 interface DialogProps {
     isOpen: boolean,
@@ -44,14 +44,8 @@ export default function ReviewDialog(
         throw new Error("ReviewDialog must be used within a MediaReviewContextWrapper");
     }
     const {hasReview, setHasReview} = context;
-    const [inputReview, setInputReview] = useState<string>('')
+    const [inputReview, setInputReview] = useState<string>(review?.text || "")
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    useEffect(() => {
-        if (review) {
-            setInputReview(review.text)
-        }
-    }, [review])
 
     const verifyReview = () : Boolean => {
       const result = ReviewText.safeParse({text: inputReview});
