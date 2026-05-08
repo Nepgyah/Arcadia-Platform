@@ -1,5 +1,7 @@
 import { User } from "./user"
 
+export type App = 'miru' | 'yomu' | 'asobu';
+
 export interface Franchise {
     id: number,
     name: string,

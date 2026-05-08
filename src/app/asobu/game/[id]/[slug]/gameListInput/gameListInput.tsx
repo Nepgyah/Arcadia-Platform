@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "@/app/store/userStore";
 import Header from "@/components/ui/headers/header";
 import { AsobuGame, GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
-import { CreateGameListEntry, FetchUserGameListEntry, UpdateeGameListEntry } from "./actions";
+import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateeGameListEntry, UpdateGameReview } from "./actions";
 import { CreateErrorToaster, CreateWarningToaster } from "@/lib/helper/toasterHelpers";
 import { Button, Field, NativeSelect } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
@@ -47,7 +47,6 @@ export default function GameListInput({gameID} : {gameID: number}) {
         }
 
         if (user && gameID) {
-            console.log('fetching entry')
             fetchEntry(gameID)
         }
     }, [user, gameID])
@@ -122,11 +121,19 @@ export default function GameListInput({gameID} : {gameID: number}) {
 
     return (
         <div id="game-list-input">
-            <ReviewDialog dialogState={{
+            <ReviewDialog 
+                app="asobu"
+                dialogState={{
                     isOpen: isOpen,
-                    setIsOpen: setIsOpen
+                    setIsOpen: setIsOpen,
                 }} 
+                serverActions={{
+                    create: CreateGameReview,
+                    update: UpdateGameReview,
+                    delete: DeleteGameReview
+                }}
                 review={review}
+                mediaID={gameID}
             />
             <Header text="Entry" />
             {

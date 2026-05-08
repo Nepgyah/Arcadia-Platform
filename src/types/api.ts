@@ -5,8 +5,14 @@ export interface GraphqlResponse<T> {
 }
 
 export type ActionResult<T> = 
-    | { success: true, data: T}
-    | { success: false, error: string}
+    | { 
+        success: true, 
+        data: T,
+    } | 
+    { 
+        success: false, 
+        error: string
+    }
 
 export interface RESTResponse<T> {
     detail?: string,

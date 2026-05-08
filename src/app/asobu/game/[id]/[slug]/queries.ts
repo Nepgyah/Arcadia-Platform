@@ -98,7 +98,6 @@ export async function FetchReviews(id: string) {
     }
 
     const response = await arcadiaAPI.GraphQL<any>(query, variables);
-    console.log(response.data.gameReviews)
     return response.data.gameReviews
 }
 
