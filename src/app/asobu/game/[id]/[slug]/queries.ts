@@ -81,15 +81,14 @@ export async function FetchReviews(id: string) {
     const query =
     `
     query ($gameID: ID!) {
-        asobuGameReviews(gameId: $gameID) {
+        gameReviews(gameId: $gameID) {
             user {
                 id,
                 username,
                 picturePreset
             },
-            score,
-            review,
-            reviewUpdatedAt
+            text,
+            updatedAt
         }
     }
     `
@@ -101,6 +100,7 @@ export async function FetchReviews(id: string) {
     const response = await arcadiaAPI.GraphQL<any>(query, variables);
     return response.data.asobuGameReviews
 }
+
 export async function FetchFranchise(id: string) {
     const query =
     `

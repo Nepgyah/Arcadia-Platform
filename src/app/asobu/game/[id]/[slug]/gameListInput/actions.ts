@@ -15,7 +15,6 @@ export async function FetchUserGameListEntry(gameID: number) : Promise<ActionRes
             id,
             status,
             score,
-            review
         }
     }
     `

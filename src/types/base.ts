@@ -21,10 +21,9 @@ export interface Media {
 
 export interface MediaReview {
     id: number,
-    review: string,
+    text: string,
     media: Media,
     user: User,
-    score: number
 }
 
 export interface Social {
