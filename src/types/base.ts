@@ -24,6 +24,7 @@ export interface MediaReview {
     text: string,
     media: Media,
     user: User,
+    updatedAt: string
 }
 
 export interface Social {

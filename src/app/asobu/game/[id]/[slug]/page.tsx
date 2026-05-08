@@ -55,7 +55,7 @@ export default async function Page(
                             <DLCTab dlcPromise={dlcPromise} gameID={id}/>
                         </Suspense>
                         <Suspense fallback={<CharacterCardSkeleton />}>
-                            {/* <ReviewTab reviewPromise={reviews} /> */}
+                            <ReviewTab reviewPromise={reviews} />
                         </Suspense>
                     </TabWrapper>
                 </div>

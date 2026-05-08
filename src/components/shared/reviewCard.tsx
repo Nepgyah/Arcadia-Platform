@@ -1,3 +1,4 @@
+import Date from "@/lib/helper/date";
 import { MediaReview } from "@/types/base";
 import { User } from "@/types/user";
 import { Avatar } from "@chakra-ui/react";
@@ -26,7 +27,7 @@ export default function ReviewCard(
                     </Link>
                 </div>
                 <div className="review-card__metadata">
-                    <p>{}</p>
+                    <p>Posted at: <Date dateString={review.updatedAt} /></p>
                 </div>
                 
             </div>
