@@ -3,8 +3,7 @@ import CharacterCard from "@/components/shared/characters/character-card"
 import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton"
 import RelationMedia from "@/components/shared/relation-media"
 import { AsobuGame } from "@/types/asobu"
-import { Franchise } from "@/types/base"
-import { Skeleton, Tag } from "@chakra-ui/react"
+import { Skeleton } from "@chakra-ui/react"
 import { Suspense, use } from "react"
 
 export default function Overviewtab(

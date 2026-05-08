@@ -11,6 +11,7 @@ import { toaster } from "@/components/ui/toaster";
 import z from "zod";
 import SelectScore from "@/components/ui/selectScore";
 import ReviewDialog from "@/components/shared/reviewDialog";
+import { MediaReview } from "@/types/base";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -19,6 +20,9 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [score, setScore] = useState<number>(-1)
     const [entry, setEntry] = useState<GameListEntry | null>(null)
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
+    const [review, setReview] = useState<MediaReview | null>(null)
+    const [isReviewFound, setIsReviewFound] = useState<boolean>(false);
+
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
@@ -32,7 +36,11 @@ export default function GameListInput({gameID} : {gameID: number}) {
                     setStatus(result.data.gameListEntry.status)
                     setScore(result.data.gameListEntry.score)
                 }
-                console.log(result.data.gameListEntry)
+
+                if (result.data.userGameReview) {
+                    setIsReviewFound(true)
+                    setReview(result.data.userGameReview)
+                }
             } else {
                 CreateErrorToaster(result.error)
             }
@@ -118,7 +126,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                     isOpen: isOpen,
                     setIsOpen: setIsOpen
                 }} 
-                review={entry?.review ? entry.review : null}
+                review={review}
             />
             <Header text="Entry" />
             {

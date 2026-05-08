@@ -3,11 +3,13 @@
 import { ActionResult, GraphqlResponse } from "@/types/api";
 import { GameListEntry, GameListEntryMetadata } from "@/types/asobu";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
+import { MediaReview } from "@/types/base";
 
-interface EntryResponse {
-    gameListEntry : GameListEntry
+interface UserDataResponse {
+    gameListEntry: GameListEntry,
+    userGameReview: MediaReview
 }
-export async function FetchUserGameListEntry(gameID: number) : Promise<ActionResult<EntryResponse>> {
+export async function FetchUserGameListEntry(gameID: number) : Promise<ActionResult<UserDataResponse>> {
     const query =
     `
     query ($gameID: ID!) {
@@ -15,6 +17,10 @@ export async function FetchUserGameListEntry(gameID: number) : Promise<ActionRes
             id,
             status,
             score,
+        },
+        userGameReview(gameId: $gameID) {
+            id,
+            text
         }
     }
     `
@@ -23,7 +29,7 @@ export async function FetchUserGameListEntry(gameID: number) : Promise<ActionRes
     }
 
     try {
-        const response = await arcadiaAPI.GraphQL<GraphqlResponse<EntryResponse>>(query, variables);
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<UserDataResponse>>(query, variables);
         return {
             success: true,
             data: response.data

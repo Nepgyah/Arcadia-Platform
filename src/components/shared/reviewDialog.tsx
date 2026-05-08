@@ -16,7 +16,7 @@ export default function ReviewDialog(
         review,
     } : {
         dialogState: DialogProps,
-        review: string | null
+        review: MediaReview | null
     }
 ) {
 
@@ -24,7 +24,7 @@ export default function ReviewDialog(
     
     useEffect(() => {
         if (review) {
-            setInputReview(review)
+            setInputReview(review.text)
         }
     }, [review])
 
