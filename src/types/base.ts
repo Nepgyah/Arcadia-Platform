@@ -1,3 +1,7 @@
+import { User } from "./user"
+
+export type App = 'miru' | 'yomu' | 'asobu';
+
 export interface Franchise {
     id: number,
     name: string,
@@ -15,6 +19,14 @@ export interface Media {
     created_at: string,
     updated_at: string,
     franchise: Franchise
+}
+
+export interface MediaReview {
+    id: number,
+    text: string,
+    media: Media,
+    user: User,
+    updatedAt: string
 }
 
 export interface Social {

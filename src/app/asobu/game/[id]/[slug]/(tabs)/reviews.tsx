@@ -1,12 +1,12 @@
 import ReviewCard from "@/components/shared/reviewCard"
-import { GameListEntry } from "@/types/asobu"
+import { MediaReview } from "@/types/base"
 import { use } from "react"
 
 export default function ReviewTab(
     {
         reviewPromise
     } : {
-        reviewPromise: Promise<any[]>
+        reviewPromise: Promise<MediaReview[]>
     }
 ) {
     const reviews = use(reviewPromise)
@@ -14,12 +14,11 @@ export default function ReviewTab(
     return (
         <div id="review-tab" className="flex flex-column row-gap-md">
             {
-                reviews.map((review: GameListEntry, idx: number) => (
+                reviews.map((review: MediaReview, idx: number) => (
                     <ReviewCard
                         key={idx}
                         user={review.user}
-                        reviewText={review.review}
-                        score={review.score} 
+                        review={review}
                     />
                 ))
             }

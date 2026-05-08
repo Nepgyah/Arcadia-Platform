@@ -31,7 +31,6 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
             status,
             score,
             note,
-            review,
             startPlayDate,
             endPlayDate,
             note
@@ -46,10 +45,8 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
             status,
             score,
             note,
-            review,
             startPlayDate,
             endPlayDate,
-            note
         },
         onHold {
             id,
@@ -61,10 +58,8 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
             status,
             score,
             note,
-            review,
             startPlayDate,
             endPlayDate,
-            note
         },
         planTo {
             id,
@@ -76,10 +71,8 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
             status,
             score,
             note,
-            review,
             startPlayDate,
             endPlayDate,
-            note 
         },
         replaying {
             id,
@@ -91,10 +84,8 @@ export async function FetchUserGameList(user_id: number) : Promise<ActionResult<
             status,
             score,
             note,
-            review,
             startPlayDate,
             endPlayDate,
-            note  
             }
         }
     }

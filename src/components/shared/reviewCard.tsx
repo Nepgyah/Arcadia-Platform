@@ -1,3 +1,5 @@
+import Date from "@/lib/helper/date";
+import { MediaReview } from "@/types/base";
 import { User } from "@/types/user";
 import { Avatar } from "@chakra-ui/react";
 import Link from "next/link";
@@ -5,12 +7,10 @@ import Link from "next/link";
 export default function ReviewCard(
     {
         user,
-        reviewText,
-        score
+        review,
     } : {
         user: User,
-        reviewText: string,
-        score: number
+        review: MediaReview,
     }
 ) {
     return (
@@ -27,13 +27,12 @@ export default function ReviewCard(
                     </Link>
                 </div>
                 <div className="review-card__metadata">
-                    <p>Score: <span className="clr-app-emp">{score}</span></p>
-                    <p>{}</p>
+                    <p>Posted at: <Date dateString={review.updatedAt} /></p>
                 </div>
                 
             </div>
             <div className="review-card__text txt-sm" style={{ whiteSpace: 'pre-line' }}>
-                {reviewText}
+                {review.text}
             </div>
         </div>
     )
