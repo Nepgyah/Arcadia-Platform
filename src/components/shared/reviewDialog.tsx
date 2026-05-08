@@ -1,11 +1,13 @@
 'use client';
+import * as z from 'zod';
 
-import { App, MediaReview } from "@/types/base";
-import { Button, Checkbox, CloseButton, Dialog, Field, Portal, Textarea } from "@chakra-ui/react";
-import SelectScore from "../ui/selectScore";
-import { useEffect, useState } from "react";
-import { ActionResult } from "@/types/api";
+import {  useContext, useEffect, useState } from "react";
+import { Button, CloseButton, Dialog, Field, Portal, Textarea } from "@chakra-ui/react";
+import { MediaReviewContext } from "@/contexts/hasReviewContext";
 import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
+import { App, MediaReview } from "@/types/base";
+import { ActionResult } from "@/types/api";
+import { text } from 'stream/consumers';
 
 interface DialogProps {
     isOpen: boolean,
@@ -17,22 +19,31 @@ interface ServerActionSet {
     update: (mediaID: number, text: string) => Promise<ActionResult<any>>,
     delete: (mediaID: number) => Promise<ActionResult<any>>
 }
+
+const ReviewText = z.object({
+  text: z.string().min(25, 'Minimum 25 letters for a review').max(2000, 'Maximum 2000 letters for a review')
+})
+
 export default function ReviewDialog(
     {
-        app,
-        dialogState,
-        review,
-        serverActions,
-        mediaID
+      review,
+      app,
+      dialogState,
+      serverActions,
+      mediaID
     } : {
-        app: App,
-        dialogState: DialogProps,
-        review: MediaReview | null,
-        serverActions: ServerActionSet,
-        mediaID: number
+      review: MediaReview | null,
+      app: App,
+      dialogState: DialogProps,
+      serverActions: ServerActionSet,
+      mediaID: number
     }
 ) {
-
+    const context = useContext(MediaReviewContext)
+    if (!context) {
+        throw new Error("ReviewDialog must be used within a MediaReviewContextWrapper");
+    }
+    const {hasReview, setHasReview} = context;
     const [inputReview, setInputReview] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -42,28 +53,57 @@ export default function ReviewDialog(
         }
     }, [review])
 
+    const verifyReview = () : Boolean => {
+      const result = ReviewText.safeParse({text: inputReview});
+      if (result.success) {
+        return true
+      } else {
+        CreateErrorToaster(result.error.issues[0].message)
+        return false
+      }
+    }
+    
+    const handleActionEnd = () => {
+      setIsLoading(false);
+      dialogState.setIsOpen(false)
+    }
+
     const handleCreateReview = async () => {
-        setIsLoading(true);
-        const result = await serverActions.create(mediaID, inputReview)
-        if (result.success) {
-          CreateSuccessToaster('You created a review');
-          setIsLoading(false);
-        } else {
-          CreateErrorToaster(result.error)
-        }
-        dialogState.setIsOpen(false)
+      setIsLoading(true);
+      const isValid = verifyReview()
+      if (!isValid) {
+        setIsLoading(false)
+        return
+      }
+
+      const result = await serverActions.create(mediaID, inputReview)
+      if (result.success) {
+        CreateSuccessToaster('You created a review');
+        setHasReview(true)
+      } else {
+        CreateErrorToaster(result.error)
+      }
+
+      handleActionEnd()
     }
     
     const handleUpdateReview = async () => {
       setIsLoading(true);
+      const isValid = verifyReview()
+      if (!isValid) {
+        setIsLoading(false)
+        return
+      }
+
       const result = await serverActions.update(mediaID, inputReview)
       if (result.success) {
         CreateSuccessToaster('You updated your review');
-        setIsLoading(false);
+        setHasReview(true)
       } else {
         CreateErrorToaster(result.error)
       }
-      dialogState.setIsOpen(false)
+
+      handleActionEnd()
     }
 
     const handleDeleteReview = async () => {
@@ -71,11 +111,13 @@ export default function ReviewDialog(
       const result = await serverActions.delete(mediaID)
       if (result.success) {
         CreateSuccessToaster('You deleted your review');
-        setIsLoading(false);
+        setHasReview(false);
+        setInputReview('')
       } else {
         CreateErrorToaster(result.error)
       }
-      dialogState.setIsOpen(false)
+
+      handleActionEnd()
     }
     return (
         <Dialog.Root 
@@ -100,7 +142,7 @@ export default function ReviewDialog(
                             value={inputReview}
                             onChange={(e) => setInputReview(e.target.value)}
                         />
-                        <Field.HelperText>Maximum 500 characters</Field.HelperText>
+                        <Field.HelperText>Minimum 25, Maximum 2000 characters</Field.HelperText>
                     </Field.Root>
                   </Dialog.Body>
                   <Dialog.Footer>
@@ -108,7 +150,7 @@ export default function ReviewDialog(
                       <Button variant="outline">Close</Button>
                     </Dialog.ActionTrigger>
                     {
-                      review == null ?
+                      !hasReview ?
                         <Button loading={isLoading} onClick={handleCreateReview} className="btn-primary">Create</Button>
                       :
                         <>

@@ -12,6 +12,7 @@ import z from "zod";
 import SelectScore from "@/components/ui/selectScore";
 import ReviewDialog from "@/components/shared/reviewDialog";
 import { MediaReview } from "@/types/base";
+import MediaReviewContextWrapper from "@/contexts/hasReviewContext";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -21,7 +22,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [entry, setEntry] = useState<GameListEntry | null>(null)
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
     const [review, setReview] = useState<MediaReview | null>(null)
-    const [isReviewFound, setIsReviewFound] = useState<boolean>(false);
+    const [hasReview, setHasReview] = useState<boolean>(false)
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -38,7 +39,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                 }
 
                 if (result.data.userGameReview) {
-                    setIsReviewFound(true)
+                    setHasReview(true)
                     setReview(result.data.userGameReview)
                 }
             } else {
@@ -120,74 +121,81 @@ export default function GameListInput({gameID} : {gameID: number}) {
     }
 
     return (
-        <div id="game-list-input">
-            <ReviewDialog 
-                app="asobu"
-                dialogState={{
-                    isOpen: isOpen,
-                    setIsOpen: setIsOpen,
-                }} 
-                serverActions={{
-                    create: CreateGameReview,
-                    update: UpdateGameReview,
-                    delete: DeleteGameReview
-                }}
-                review={review}
-                mediaID={gameID}
-            />
-            <Header text="Entry" />
-            {
-                !user ? 
-                    <p>Login to see your gamelist</p>
-                :
-                <form className="flex flex-column row-gap-md">
-                    <Field.Root>
-                        <Field.Label>Status</Field.Label>
-                        <NativeSelect.Root>
-                            <NativeSelect.Field value={status} onChange={(e) => setStatus(Number(e.target.value))}>
-                                <option value={-1} disabled>Select Status</option>
-                                <option value={0}>Playing</option>
-                                <option value={1}>Completed</option>
-                                <option value={2}>Plan To</option>
-                                <option value={3}>On Hold</option>
-                                <option value={4}>Replyaing</option>
-                            </NativeSelect.Field>
-                        </NativeSelect.Root>
-                    </Field.Root>
-                    <SelectScore currentValue={score} setFunction={setScore} />
-                    <div id="actions">
-                        {
-                            isEntryFound ?
-                            <>
+        <MediaReviewContextWrapper hasReview={hasReview} setHasReview={setHasReview}>
+            <div id="game-list-input">
+                <ReviewDialog 
+                    review={review}
+                    app="asobu"
+                    dialogState={{
+                        isOpen: isOpen,
+                        setIsOpen: setIsOpen,
+                    }} 
+                    serverActions={{
+                        create: CreateGameReview,
+                        update: UpdateGameReview,
+                        delete: DeleteGameReview
+                    }}
+                    mediaID={gameID}
+                />
+                <Header text="Entry" />
+                {
+                    !user ? 
+                        <p>Login to see your gamelist</p>
+                    :
+                    <form className="flex flex-column row-gap-md">
+                        <Field.Root>
+                            <Field.Label>Status</Field.Label>
+                            <NativeSelect.Root>
+                                <NativeSelect.Field value={status} onChange={(e) => setStatus(Number(e.target.value))}>
+                                    <option value={-1} disabled>Select Status</option>
+                                    <option value={0}>Playing</option>
+                                    <option value={1}>Completed</option>
+                                    <option value={2}>Plan To</option>
+                                    <option value={3}>On Hold</option>
+                                    <option value={4}>Replyaing</option>
+                                </NativeSelect.Field>
+                            </NativeSelect.Root>
+                        </Field.Root>
+                        <SelectScore currentValue={score} setFunction={setScore} />
+                        <div id="actions">
+                            {
+                                isEntryFound ?
+                                <>
+                                    <Button 
+                                        onClick={(e) => handleUpdateEntry(e)}
+                                        loading={isLoading}
+                                        variant={'subtle'} 
+                                        className="btn-primary"
+                                    >
+                                        Update
+                                    </Button>
+                                    <Button 
+                                        onClick={() => setIsOpen(true)}
+                                        variant={'ghost'}
+                                    >
+                                        {
+                                            hasReview ?
+                                                'Update Review'
+                                            :
+                                                'Add Review'
+                                        }
+                                    </Button>
+                                </>
+                            :
                                 <Button 
-                                    onClick={(e) => handleUpdateEntry(e)}
+                                    onClick={(e) => handleNewEntry(e)} 
                                     loading={isLoading}
                                     variant={'subtle'} 
                                     className="btn-primary"
                                 >
-                                    Update
+                                    Add
                                 </Button>
-                                <Button 
-                                    onClick={() => setIsOpen(true)}
-                                    variant={'ghost'}
-                                >
-                                    Add/Edit Review
-                                </Button>
-                            </>
-                        :
-                            <Button 
-                                onClick={(e) => handleNewEntry(e)} 
-                                loading={isLoading}
-                                variant={'subtle'} 
-                                className="btn-primary"
-                            >
-                                Add
-                            </Button>
 
-                        }
-                    </div>
-                </form>
-            }
-        </div>
+                            }
+                        </div>
+                    </form>
+                }
+            </div>
+        </MediaReviewContextWrapper>
     )
 }
