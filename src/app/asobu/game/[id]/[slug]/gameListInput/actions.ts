@@ -1,6 +1,6 @@
 'use server';
 
-import { ActionResult, GraphqlResponse } from "@/types/api";
+import { ActionResult, GraphqlResponse, MessagedActionResult } from "@/types/api";
 import { GameListEntry, GameListEntryMetadata } from "@/types/asobu";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { MediaReview } from "@/types/base";
@@ -131,7 +131,7 @@ interface CreateGameReviewResponse {
         review: MediaReview
     }
 }
-export async function CreateGameReview(gameID: number, text: string) : Promise<ActionResult<CreateGameReviewResponse>> {
+export async function CreateGameReview(gameID: number, text: string) : Promise<MessagedActionResult<CreateGameReviewResponse>> {
     const mutation = `
     mutation ($gameId: ID!, $reviewText: String!) {
         createGameReview(gameId: $gameId, reviewText: $reviewText) {
@@ -152,7 +152,8 @@ export async function CreateGameReview(gameID: number, text: string) : Promise<A
         const response = await arcadiaAPI.GraphQL<GraphqlResponse<CreateGameReviewResponse>>(mutation, variables)
         return {
             success: true,
-            data: response.data
+            data: response.data,
+            toasterMessage: response.data.createGameReview.message
         }
     } catch(error: any) {
         return {
@@ -169,7 +170,7 @@ interface UpdateGameReviewResponse {
         review: MediaReview
     }
 }
-export async function UpdateGameReview(gameID: number, text: string) : Promise<ActionResult<UpdateGameReviewResponse>> {
+export async function UpdateGameReview(gameID: number, text: string) : Promise<MessagedActionResult<UpdateGameReviewResponse>> {
     const mutation = `
     mutation ($gameId: ID!, $reviewText: String!) {
         updateGameReview(gameId: $gameId, reviewText: $reviewText) {
@@ -190,7 +191,8 @@ export async function UpdateGameReview(gameID: number, text: string) : Promise<A
         const response = await arcadiaAPI.GraphQL<GraphqlResponse<UpdateGameReviewResponse>>(mutation, variables)
         return {
             success: true,
-            data: response.data
+            data: response.data,
+            toasterMessage: response.data.updateGameReview.message
         }
     } catch(error: any) {
         return {
@@ -207,7 +209,7 @@ interface DeleteGameReviewResponse {
         review: MediaReview
     }
 }
-export async function DeleteGameReview(gameID: number) : Promise<ActionResult<DeleteGameReviewResponse>> {
+export async function DeleteGameReview(gameID: number) : Promise<MessagedActionResult<DeleteGameReviewResponse>> {
     const mutation = `
     mutation ($gameId: ID!) {
         deleteGameReview(gameId: $gameId) {
@@ -224,6 +226,7 @@ export async function DeleteGameReview(gameID: number) : Promise<ActionResult<De
         return {
             success: true,
             data: response.data,
+            toasterMessage: response.data.deleteGameReview.message
         }
     } catch(error: any) {
         return {

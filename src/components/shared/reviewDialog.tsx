@@ -7,7 +7,7 @@ import { Button, CloseButton, Dialog, Field, Portal, Textarea } from "@chakra-ui
 import { MediaReviewContext } from "@/contexts/hasReviewContext";
 import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import { App, MediaReview } from "@/types/base";
-import { ActionResult } from "@/types/api";
+import { ActionResult, MessagedActionResult } from "@/types/api";
 
 interface DialogProps {
     isOpen: boolean,
@@ -15,9 +15,9 @@ interface DialogProps {
 } 
 
 interface ServerActionSet {
-    create: (mediaID: number, text: string) => Promise<ActionResult<any>>,
-    update: (mediaID: number, text: string) => Promise<ActionResult<any>>,
-    delete: (mediaID: number) => Promise<ActionResult<any>>
+    create: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
+    update: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
+    delete: (mediaID: number) => Promise<MessagedActionResult<any>>
 }
 
 const ReviewText = z.object({

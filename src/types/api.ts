@@ -1,6 +1,5 @@
 export interface GraphqlResponse<T> {
     data: T,
-    message: string,
     errors: Array<{message: string}>
 }
 
@@ -13,6 +12,17 @@ export type ActionResult<T> =
         success: false, 
         error: string
     }
+
+export type MessagedActionResult<T> = | { 
+        success: true, 
+        toasterMessage: string,
+        data: T,
+    } | 
+    { 
+        success: false, 
+        error: string
+    }
+
 
 export interface RESTResponse<T> {
     detail?: string,
