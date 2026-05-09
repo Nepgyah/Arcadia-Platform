@@ -20,6 +20,7 @@ import Overviewtab from "./(tabs)/overview";
 import ReviewTab from "./(tabs)/reviews";
 import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./queries";
 import Image from "next/image";
+import { SetBackground } from "@/components/ui/setBackground";
 
 export default async function Page(
     props: {
@@ -38,6 +39,7 @@ export default async function Page(
 
     return (
         <div id="page-game-details" className="page-content media-detail">
+            <SetBackground bgUrl={game.bgUrl} />
             <Hero game={game}/>
             <div id="main-content">
                 <Metadata game={game} franchisePromise={franchisePromise} />

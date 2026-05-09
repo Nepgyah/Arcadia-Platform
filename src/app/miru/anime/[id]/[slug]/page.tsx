@@ -19,6 +19,7 @@ import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
 import TabWrapper from "./(tabs)/animeTabWrapper";
 import EpisodesTab from "./(tabs)/episodesTab";
+import { SetBackground } from "@/components/ui/setBackground";
 
 export default async function Page(
     props: {
@@ -36,6 +37,7 @@ export default async function Page(
 
     return (
         <div id="page-anime-details" className="page-content media-detail">
+            <SetBackground bgUrl={anime.bgUrl} />
             <Hero anime={anime}/>
             <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />

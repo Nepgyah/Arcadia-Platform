@@ -5,10 +5,12 @@ import SideNav from "@/components/layout/sideNav"
 import TopNav from "@/components/layout/topNav"
 import { asobuNav, mainboard, miruNav } from "@/lib/urls";
 import { usePathname } from "next/navigation"
+import { useBackgroundStore } from "./store/backgroundStore";
 
 export default function WrapperUI({children}:{children:React.ReactNode}) {
     const pathname = usePathname()
-    
+    const bgUrl = useBackgroundStore((state) => state.bgUrl);
+
     const getNav = () : any => {
         if (pathname.startsWith('/miru')) return miruNav
         if (pathname.startsWith('/asobu')) return asobuNav
@@ -22,6 +24,10 @@ export default function WrapperUI({children}:{children:React.ReactNode}) {
             <div id="inner-layout">
                 <TopNav urlSet={nav} />
                 <div id="content">
+                    {
+                        bgUrl &&
+                        <img id="content-wallpaper" src={bgUrl} alt="" />
+                    }
                     <div id="content-wrapper">
                         <Breadcrumbs />
                         {children}
