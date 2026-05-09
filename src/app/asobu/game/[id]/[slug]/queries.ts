@@ -15,6 +15,7 @@ export async function FetchGame(id: string) {
             esrbRating,
             pegiRating,
             trailerUrl,
+            bgUrl,
             tags {
                 name
             },

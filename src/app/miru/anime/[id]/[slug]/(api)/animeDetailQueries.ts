@@ -30,6 +30,7 @@ export async function GetAnime(id: string) {
             episodeCount,
             airingStartDate,
             airingEndDate,
+            bgUrl,
             genres {
                 name
             },

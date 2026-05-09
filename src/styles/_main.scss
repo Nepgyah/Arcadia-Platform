@@ -35,9 +35,14 @@ html {
                     flex: 1;
                     overflow-y: auto;
                     scrollbar-gutter: stable;
-                    padding: 1rem;
+                    position: relative;
+
+                    #content-wallpaper {
+                        display: none;
+                    }
 
                     #content-wrapper {
+                        padding: 1rem;
                         max-width: 1320px;
                         margin: 0 auto;
                         width: 100%;
@@ -69,6 +74,24 @@ html {
                     height: 100vh;
                     display: flex;
                     flex-direction: column;
+
+                    #content {
+                        #content-wallpaper {
+                            display: block;
+                            position: fixed;
+                            z-index: 1;
+                            height: 100%;
+                            width: 100%;
+                            object-fit: cover;
+                            opacity: 10%;
+                            pointer-events: none;
+                        }
+
+                        #content-wrapper {
+                            position: relative;
+                            z-index: 2;
+                        }
+                    }
                 }
             }
         }
