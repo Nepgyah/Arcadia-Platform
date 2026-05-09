@@ -6,6 +6,7 @@ import TopNav from "@/components/layout/topNav"
 import { asobuNav, mainboard, miruNav } from "@/lib/urls";
 import { usePathname } from "next/navigation"
 import { useBackgroundStore } from "./store/backgroundStore";
+import ContentBackground from "@/components/ui/contentBackground";
 
 export default function WrapperUI({children}:{children:React.ReactNode}) {
     const pathname = usePathname()
@@ -24,10 +25,7 @@ export default function WrapperUI({children}:{children:React.ReactNode}) {
             <div id="inner-layout">
                 <TopNav urlSet={nav} />
                 <div id="content">
-                    {
-                        bgUrl &&
-                        <img id="content-wallpaper" src={bgUrl} alt="" />
-                    }
+                    <ContentBackground />
                     <div id="content-wrapper">
                         <Breadcrumbs />
                         {children}

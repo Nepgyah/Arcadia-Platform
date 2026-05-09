@@ -37,7 +37,7 @@ export default async function Page(
 
     return (
         <div id="page-anime-details" className="page-content media-detail">
-            <SetBackground bgUrl={anime.bgUrl} />
+            <SetBackground bgUrl={anime.bgUrl ? anime.bgUrl : '/wallpaper/miru-default.jpg'} />
             <Hero anime={anime}/>
             <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />

@@ -39,7 +39,7 @@ export default async function Page(
 
     return (
         <div id="page-game-details" className="page-content media-detail">
-            <SetBackground bgUrl={game.bgUrl} />
+            <SetBackground bgUrl={game.bgUrl ? game.bgUrl : '/wallpaper/asobu-default.jpg'} />
             <Hero game={game}/>
             <div id="main-content">
                 <Metadata game={game} franchisePromise={franchisePromise} />
