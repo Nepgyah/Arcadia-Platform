@@ -3,7 +3,7 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
-## Latest Release - Alpha 2.0 - 4/15/2026
+## Latest Release - Alpha 2.0 - 5/12/2026
 - **Dev**
     - Add eslint
     - Add github actions
