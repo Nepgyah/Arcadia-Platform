@@ -38,7 +38,7 @@ export default function Page() {
             })
         } else {
             setAnimes(result.data.searchAnime.animes)
-            setTotalCount(result.data.searchAnime.total)
+            setTotalCount(result.data.searchAnime.paginationResults.totalItems)
         }
     }
 
