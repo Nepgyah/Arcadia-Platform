@@ -35,7 +35,7 @@ async function GetCSRFToken(request: NextRequest, response: NextResponse) {
                 value: apiResponse.token
             });
         } catch {
-            console.log('Proxy error')
+            console.log('Proxy error on getting csrf token')
             return NextResponse.rewrite(new URL('/service-unavailable', request.url))
         }
     }
@@ -63,7 +63,7 @@ async function RefreshToken(request: NextRequest, response: NextResponse) {
             request.cookies.set('access_token', refreshResponse.access_token.value)
             request.cookies.set('refresh_token', refreshResponse.refresh_token.value)
         } catch {
-            console.log('Proxy error')
+            console.log('Proxy error in refreshign tokens')
             return NextResponse.rewrite(new URL('/service-unavailable', request.url))
         }
     }
