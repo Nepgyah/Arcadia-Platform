@@ -110,51 +110,79 @@ async function FetchAnime() {
     const query = 
     `
     query {
-        animeByCategory(category: "score", count: 5) {
-            id,
-            title,
-            slug,
-            coverImgUrl
+        miru {
+            animes(sort: {
+                category: "score",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    coverImgUrl,
+                    score
+                }
+            }
         }
     }
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data.animeByCategory
+    return response.data.miru.animes.results
 }
 
 async function FetchGames() {
     const query = 
     `
     query {
-        gamesByCategory(category: "-score", count: 5) {
-            id,
-            title,
-            slug
+        asobu {
+            games(sort: {
+                category: "score",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    score
+                }
+            }
         }
     }
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data.gamesByCategory
+    return response.data.asobu.games.results
 }
 
 interface ArcadiaStatsResponse {
-    arcadiaStats: {
-        animeCount: number,
-        gameCount: number
-    }
+    animeCount: number,
+    gameCount: number
 }
 
 async function FetchStats() {
     const query =
     `
     query {
-        arcadiaStats {
-            animeCount,
+        asobu {
             gameCount
+        },
+        miru {
+            animeCount
         }
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<GraphqlResponse<ArcadiaStatsResponse>>(query)
-    return response.data.arcadiaStats
+    const response = await arcadiaAPI.GraphQL<GraphqlResponse<any>>(query)
+    let data: ArcadiaStatsResponse = {
+        animeCount: response.data.miru.animeCount,
+        gameCount: response.data.asobu.gameCount
+    }
+    return data
 }

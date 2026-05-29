@@ -10,6 +10,7 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 
 import '@/styles/pages/_search.scss';
 import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
+import { AsobuGame } from "@/types/asobu";
 
 export default async function Page({
     searchParams,
@@ -18,9 +19,9 @@ export default async function Page({
 }) {
     const query = (await searchParams).query
     const searchResult = await FetchArcadiaSearch(String(query))
-    const anime = searchResult.searchArcadia.anime
-    const games = searchResult.searchArcadia.games
-    const voiceActors = searchResult.searchArcadia.voiceActors
+    const anime = searchResult.miru.animes.results
+    const games = searchResult.asobu.games.results
+    // const voiceActors = searchResult.searchArcadia.voiceActors
 
     return (
         <div id="page-arcadia-search" className="page-content default-schema">
@@ -64,7 +65,7 @@ export default async function Page({
                     </div>
                 </div>
             }
-            {
+            {/* {
                 voiceActors.length > 0 &&
                 <div id="voice-actors">
                     <Header text="Voice Actors" />
@@ -83,17 +84,21 @@ export default async function Page({
                         }
                     </div>
                 </div>
-            }
+            } */}
         </div>
     )
 }
 
 interface APIResponse {
-    searchArcadia: {
-        anime: Anime[],
-        games: any[],
-        voiceActors: any[],
-        characters: any[]
+    asobu: {
+        games: {
+            results: AsobuGame[]
+        }
+    },
+    miru: {
+        animes: {
+            results: Anime[]
+        }
     }
 }
 async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
@@ -101,28 +106,23 @@ async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
     const query = 
     `
     query ($queryString: String!) {
-        searchArcadia(queryString: $queryString) {
-            anime {
+        miru {
+            animes (filters: {title: $queryString}) {
+            results {
                 id,
                 title,
                 slug,
                 coverImgUrl
-            },
-            games {
+            }
+            }
+        },
+        asobu {
+            games (filters: {title: $queryString}) {
+            results {
                 id,
                 title,
                 slug,
-            },
-            voiceActors {
-                id,
-                slug,
-                displayName,
-                lastName,
-                coverImgUrl
-            },
-            characters {
-                firstName,
-                lastName
+            }
             }
         }
     }
@@ -133,5 +133,6 @@ async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
     }
 
     const result = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables);
+    console.log(result)
     return result.data
 }
