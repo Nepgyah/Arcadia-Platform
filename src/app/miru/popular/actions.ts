@@ -6,62 +6,61 @@ import { ActionResult, GraphqlResponse } from "@/types/api";
 import { PaginationResults } from "@/types/pagination";
 
 interface APIResponse {
-    searchAnime: {
-        animes: Anime[],
-        paginationResults: PaginationResults
+    miru: {
+        animes: {
+            results: Anime[],
+            pagination: PaginationResults
+        }
     }
 }
 
-export async function FetchPopularAnimeAction(page: number) : Promise<ActionResult<APIResponse>> {
+export async function FetchPopularAnimeAction(targetPage: number) : Promise<ActionResult<APIResponse>> {
     const query = 
         `
-            query ($page: Int!) {
-                searchAnime(
-                    filterInput: {
-                        type: -1,
-                        status: -1,
-                        title: "",
-                    },
-                    sortInput: {
+        query($targetPage: Int!) {
+            miru {
+                animes(
+                    sort: {
                         category: "users",
                         direction: "desc"
                     },
-                    paginationInput: {
-                        perPage: 10,
-                        targetPage: $page
-                    }
-                ) {
-                    animes {
+                        pagination: {
+                        perPage: 12,
+                        targetPage: $targetPage
+                    }) {
+                    results {
                         id,
                         title,
+                        coverImgUrl,
                         score,
                         users,
                         summary,
                         slug,
                         franchise {
                             name
-                        },
-                        coverImgUrl
+                        }
                     },
-                    paginationResults {
+                    pagination {
                         perPage,
                         totalPages,
                         totalItems
                     }
                 }
             }
-        `
-        const variables = { 'page': page}
-        try {
-            const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables)
-            return {
-                success: true,
-                data: response.data
-            }
-        } catch (error: any) {
-            return {
-                success: false,
-                error: error.message
-            }
         }
+    `
+
+    const variables = { "targetPage": targetPage}
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables)
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
 }

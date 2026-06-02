@@ -14,6 +14,7 @@ import { FetchAllTimeAnimeAction } from "./actions";
 import { toaster } from "@/components/ui/toaster";
 import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
 import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
+import { PaginationResults } from "@/types/pagination";
 
 
 export default function Page() {
@@ -22,7 +23,11 @@ export default function Page() {
     const [animes, setAnimes] = useState<Anime []>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
-
+    const [pagination, setPagination] = useState<PaginationResults>({
+        perPage: 12,
+        totalPages: 1,
+        totalItems: 1
+    })
     const FetchAnime = useCallback(async (page: number) => {
         const result = await FetchAllTimeAnimeAction(page)
 
@@ -32,8 +37,9 @@ export default function Page() {
                 type: 'error'
             })
         } else {
-            setAnimes(result.data.searchAnime.animes)
-            setTotalCount(result.data.searchAnime.paginationResults.totalItems)
+            setPagination(result.data.miru.animes.pagination)
+            setAnimes(result.data.miru.animes.results)
+            setTotalCount(result.data.miru.animes.pagination.totalItems)
         }
     }, [])
     
@@ -50,18 +56,16 @@ export default function Page() {
 
 
     const handlePageChange = (direction: 'prev' | 'next') => {
-        setCurrentPage((prev) => {
-            const newPage = direction === 'next' ? prev + 1 : prev - 1
-            FetchAnime(newPage)
-            return newPage
-        })
+        const newPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
+        setCurrentPage(newPage);
+        FetchAnime(newPage);
     }
 
     return (
         <div id="page-miru-rankings">
             <SetBreadcrumbs breadcrumbs={['Miru', 'All-Time']} />
             <div>
-                <Pagination.Root count={totalCount} pageSize={10} defaultPage={1} maxW="240px">
+                <Pagination.Root count={pagination.totalItems} pageSize={pagination.perPage} defaultPage={1} maxW="240px">
                     <ButtonGroup variant="ghost" size="sm" w="full">
                         <Pagination.PageText format="long" flex="1" />
                         <Pagination.PrevTrigger asChild>

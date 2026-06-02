@@ -13,6 +13,7 @@ import { Anime } from "@/types/miru";
 import '@/styles/pages/miru/_rankings.scss';
 import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
 import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
+import { PaginationResults } from "@/types/pagination";
 
 export default function Page() {
     
@@ -20,7 +21,12 @@ export default function Page() {
     const [animes, setAnimes] = useState<Anime[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalCount, setTotalCount] = useState<number>(0)
-    
+    const [pagination, setPagination] = useState<PaginationResults>({
+            perPage: 12,
+            totalPages: 1,
+            totalItems: 1
+        })
+        
     useEffect(() => {
         FetchAnime(1)
         .then(() => {
@@ -37,26 +43,22 @@ export default function Page() {
                 type: 'error'
             })
         } else {
-            setAnimes(result.data.searchAnime.animes)
-            setTotalCount(result.data.searchAnime.paginationResults.totalItems)
+            setPagination(result.data.miru.animes.pagination)
+            setAnimes(result.data.miru.animes.results)
         }
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {
-        if (direction === 'next') {
-            FetchAnime(currentPage + 1)
-            setCurrentPage((prev) => prev + 1)
-        } else {
-            setCurrentPage((prev) => prev + -1)
-            FetchAnime(currentPage - 1)
-        }
+        const newPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
+        setCurrentPage(newPage);
+        FetchAnime(newPage);
     }
 
     return (
         <div id="page-miru-rankings">
             <SetBreadcrumbs breadcrumbs={['Miru', 'Popular']} />
             <div>
-                <Pagination.Root count={totalCount} pageSize={10} defaultPage={1} maxW="240px">
+                <Pagination.Root count={pagination.totalItems} pageSize={pagination.perPage} defaultPage={1} maxW="240px">
                     <ButtonGroup variant="ghost" size="sm" w="full">
                         <Pagination.PageText format="long" flex="1" />
                         <Pagination.PrevTrigger asChild>
