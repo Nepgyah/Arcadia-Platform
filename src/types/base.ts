@@ -6,7 +6,8 @@ export interface Franchise {
     id: number,
     name: string,
     slug: string,
-    socials: Socials
+    socials: Socials,
+    coverImage: string
 }
 
 export interface Media {

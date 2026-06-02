@@ -25,7 +25,7 @@ export interface Anime extends Media {
     airingStartDate: string,
     airingEndDate: string,
     malData: Rankings,
-    anilistdata: Rankings
+    anilistData: Rankings
 }
 
 export interface AnimeEpisode {

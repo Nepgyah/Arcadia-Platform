@@ -13,7 +13,7 @@ import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
 import '@/styles/pages/miru/_anime-details.scss';
 
-import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
+import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./query"
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
@@ -28,13 +28,13 @@ export default async function Page(
 ) {
 
     const { id, slug } = await props.params
+    const anime = await GetAnime(id);
+    if (!anime) notFound();
+    
     const charactersPromise = GetAnimeCharacters(id);
     const franchisePromise = GetAnimeFranchise(id);
     const episodesPromise = GetAnimeEpisodes(id)
-    const anime = await GetAnime(id);
-
-    if (!anime) notFound();
-
+    
     return (
         <div id="page-anime-details" className="page-content media-detail">
             <SetBackground bgUrl={anime.bgUrl ? anime.bgUrl : '/wallpaper/miru-default.jpg'} />
@@ -78,7 +78,7 @@ function Ranks({anime}:{anime:Anime}) {
                 </div>
                 <div className="rank card">
                    <img src="/icons/anilist-logo.svg" alt="Anilist logo" />
-                   <p>Score: {anime.anilistdata.rankScore ? anime.anilistdata.rankScore : 'N/A'} | Popularity: {anime.anilistdata.rankPopular ? anime.anilistdata.rankPopular : 'N/A'}</p>
+                   <p>Score: {anime.anilistData.rankScore ? anime.anilistData.rankScore : 'N/A'} | Popularity: {anime.anilistData.rankPopular ? anime.anilistData.rankPopular : 'N/A'}</p>
                 </div>
                 <div className="rank card">
                     <img src="/icons/mal-logo.svg" alt="Myanimelist logo" />
@@ -120,7 +120,7 @@ function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise
             {
                 franchise ?
                     <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} title={franchise.name} alt={franchise.name} />
+                        <img src={franchise.coverImage ? franchise.coverImage : ''} alt="" />
                         <div className="mask"></div>
                         <p>{franchise.name}</p>
                     </div>
