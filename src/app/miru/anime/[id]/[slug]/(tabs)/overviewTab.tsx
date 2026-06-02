@@ -7,25 +7,26 @@ import CharacterCard from "@/components/shared/characters/character-card";
 import RelationMedia from "@/components/shared/relation-media";
 import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
 import VideoCard from "@/components/shared/videoCard";
+import { Franchise } from "@/types/base";
 
 export default function OverviewTab(
     {
-        anime, charactersPromise, episodesPromise
+        anime, charactersPromise, episodesPromise, franchisePromise
     } : {
         anime: Anime,
         charactersPromise: Promise<any[]>,
-        episodesPromise: Promise<any[]>
+        episodesPromise: Promise<any[]>,
+        franchisePromise: Promise<any>
     }
 ) {
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise" className="two-column">
-                <div id="summary">
-                    <Header text="Summary" />
-                    <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
-                </div>
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <LatestEpisode episodesPromise={episodesPromise} animeID={anime.id} animeSlug={anime.slug} />
+                </Suspense>
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <AnimeFranchise franchisePromise={franchisePromise} />
                 </Suspense>
             </div>
             <div id="overview-characters">
@@ -157,5 +158,25 @@ function LatestEpisode({
                     <p>Episodes not found</p>
             }
         </div>  
+    )
+}
+
+function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
+    const franchise = use(franchisePromise)
+
+    return (
+        <div id="franchise">
+            <Header text="Franchise"/>
+            {
+                franchise ?
+                    <div className="card">
+                        <img src={franchise.coverImage ? franchise.coverImage : ''} alt="" />
+                        <div className="mask"></div>
+                        <p>{franchise.name}</p>
+                    </div>
+                :
+                    <p>No Franchise found</p>
+            }
+        </div>
     )
 }

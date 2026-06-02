@@ -62,6 +62,9 @@ export async function GetAnime(id: string) {
                 anilistData {
                     rankScore,
                     rankPopular
+                },
+                franchise {
+                    id
                 }
             }
         }
@@ -102,7 +105,7 @@ export async function GetAnimeCharacters(id: string) {
     return response.data.miru.anime.cast
 }
 
-export async function GetAnimeFranchise(id: string) {
+export async function GetAnimeFranchise(id: number) {
     const query = 
     `
     query($pk: Int!) {
@@ -118,6 +121,7 @@ export async function GetAnimeFranchise(id: string) {
     `
     const variables = { "pk": Number(id) }
     const response = await arcadiaAPI.GraphQL<any>(query, variables)
+    console.log("YEET", response.data.base.franchise)
     return response.data.base.franchise
 }
 

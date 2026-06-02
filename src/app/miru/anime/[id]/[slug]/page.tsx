@@ -20,6 +20,7 @@ import CharactersTab from "./(tabs)/charactersTab";
 import TabWrapper from "./(tabs)/animeTabWrapper";
 import EpisodesTab from "./(tabs)/episodesTab";
 import { SetBackground } from "@/components/ui/setBackground";
+import { string } from "zod";
 
 export default async function Page(
     props: {
@@ -30,9 +31,9 @@ export default async function Page(
     const { id, slug } = await props.params
     const anime = await GetAnime(id);
     if (!anime) notFound();
-    
+
     const charactersPromise = GetAnimeCharacters(id);
-    const franchisePromise = GetAnimeFranchise(id);
+    const franchisePromise = GetAnimeFranchise(anime.franchise.id);
     const episodesPromise = GetAnimeEpisodes(id)
     
     return (
@@ -43,13 +44,19 @@ export default async function Page(
                 <MetaData anime={anime} franchisePromise={franchisePromise} />
                 <div>
                     <div id="ranks-franchise">
+                        <div id="summary">
+                            <Header text="Summary" />
+                            <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
+                        </div>
                         <Ranks anime={anime} />
-                        <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                            <AnimeFranchise franchisePromise={franchisePromise} />
-                        </Suspense>
                     </div>
                     <TabWrapper>
-                        <OverviewTab anime={anime} charactersPromise={charactersPromise} episodesPromise={episodesPromise} />
+                        <OverviewTab 
+                            anime={anime} 
+                            charactersPromise={charactersPromise} 
+                            episodesPromise={episodesPromise} 
+                            franchisePromise={franchisePromise}
+                        />
                         <Suspense fallback={<CharacterCardSkeleton />} >
                             <CharactersTab charactersPromise={charactersPromise} />
                         </Suspense>
@@ -110,24 +117,3 @@ function Hero(
         </React.Fragment>
     )
 }
-
-function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
-    return (
-        <div id="franchise">
-            <Header text="Franchise"/>
-            {
-                franchise ?
-                    <div className="card">
-                        <img src={franchise.coverImage ? franchise.coverImage : ''} alt="" />
-                        <div className="mask"></div>
-                        <p>{franchise.name}</p>
-                    </div>
-                :
-                    <p>No Franchise found</p>
-            }
-        </div>
-    )
-}
-
