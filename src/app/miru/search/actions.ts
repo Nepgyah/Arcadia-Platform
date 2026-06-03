@@ -54,7 +54,6 @@ export async function FetchAnimeSearchAction(
             }
         }
     `
-
     const variables = {
         filterInput: filterInput,
         sortInput: sortInput,

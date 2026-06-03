@@ -3,7 +3,7 @@
 import Header from "@/components/ui/headers/header";
 import { useEffect, useState } from "react";
 
-import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
+import { Button, ButtonGroup, createListCollection, Field, IconButton, Input, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
@@ -17,7 +17,7 @@ import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard
 import { AnimeFilterInput } from "@/types/miru";
 import { PaginationInput } from "@/types/api";
 
-const DEFAULT_PER_PAGE = 9
+const DEFAULT_PER_PAGE = 2
 export default function Page() {
 
     const [loading, setLoading] = useState(true)
@@ -43,8 +43,12 @@ export default function Page() {
         SearchAnime(1)
     }, [])
 
-    async function SearchAnime(currentPage: number) {
-        const result = await FetchAnimeSearchAction(filterInput, sortInput, paginationInput)
+    async function SearchAnime(targetPage: number) {
+        const updatedPagination: PaginationInput = {
+            perPage: paginationInput.perPage,
+            targetPage: targetPage
+        }
+        const result = await FetchAnimeSearchAction(filterInput, sortInput, updatedPagination)
 
         if (!result.success) {
             CreateErrorToaster(result.error)
@@ -59,7 +63,7 @@ export default function Page() {
         const newPage = direction === 'next' ? paginationInput.targetPage + 1 : paginationInput.targetPage - 1;
         setPaginationInput((prevState) => ({
             ...prevState,
-            currentPage: newPage
+            targetPage: newPage
         }))
         SearchAnime(newPage);
     }
@@ -87,7 +91,7 @@ export default function Page() {
         }
     }
 
-    const handleReset = () => {
+    const handleReset = async () => {
         setFilterInput({
             type: -1,
             status: -1,
@@ -101,7 +105,27 @@ export default function Page() {
             perPage: DEFAULT_PER_PAGE,
             targetPage: 1
         })
-        SearchAnime(1)
+        const result = await FetchAnimeSearchAction(
+            {
+            type: -1,
+            status: -1,
+            title: ""
+        },
+        {
+            direction: "asc",
+            category: ""
+        }, {
+            perPage: DEFAULT_PER_PAGE,
+            targetPage: 1
+        })
+
+        if (!result.success) {
+            CreateErrorToaster(result.error)
+        } else {
+            setLoading(false);
+            setAnimes(result.data.miru.animes.results)
+            setPaginationResults(result.data.miru.animes.pagination)
+        }
     }
 
     return (
@@ -134,6 +158,15 @@ export default function Page() {
                                 <option value={2}>Finished</option>
                             </NativeSelect.Field>
                         </NativeSelect.Root>
+                    </Field.Root>
+
+                    <Field.Root>
+                        <Field.Label>Title</Field.Label>
+                        <Input 
+                            value={filterInput.title} 
+                            onChange={(e) => handleChangeFilter('title', e.target.value)}
+                            placeholder="Uma, Fate, etc" 
+                        />
                     </Field.Root>
                 </div>
                 <div id="sort" className="flex flex-column row-gap-md">
@@ -188,7 +221,7 @@ export default function Page() {
                 </div>
                 <Button
                     className="btn-primary" 
-                    onClick={() => SearchAnime(paginationInput.targetPage)}
+                    onClick={() => SearchAnime(1)}
                 >
                     Search
                 </Button>
