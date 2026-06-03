@@ -22,7 +22,6 @@ export default function Page() {
     const [loading, setLoading] = useState(true)
     const [animes, setAnimes] = useState<Anime []>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
-    const [totalCount, setTotalCount] = useState<number>(0)
     const [pagination, setPagination] = useState<PaginationResults>({
         perPage: 12,
         totalPages: 1,
@@ -39,7 +38,6 @@ export default function Page() {
         } else {
             setPagination(result.data.miru.animes.pagination)
             setAnimes(result.data.miru.animes.results)
-            setTotalCount(result.data.miru.animes.pagination.totalItems)
         }
     }, [])
     

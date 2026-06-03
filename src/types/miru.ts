@@ -42,3 +42,9 @@ export interface AnimeListEntry {
     startWatchDate: string,
     endWatchDate: string
 }
+
+export interface AnimeFilterInput {
+    status: number,
+    type: number,
+    title: string
+}
