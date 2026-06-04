@@ -14,8 +14,6 @@ interface APIResponse {
     }
 }
 
-
-
 export async function FetchAnimeSearchAction(
     filterInput: AnimeFilterInput,
     sortInput: SortInput,

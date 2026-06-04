@@ -19,7 +19,9 @@ export interface Media {
     summary: string,
     created_at: string,
     updated_at: string,
-    franchise: Franchise
+    franchise: Franchise,
+    coverImageUrl: string,
+    bannerImageUrl: string,
 }
 
 export interface MediaReview {
