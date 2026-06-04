@@ -14,10 +14,16 @@ export interface AsobuGame extends Media {
     characterRelations: [],
     developers: any[],
     publishers: any[],
-    platforms: any[],
     steam_id: number,
+    release: Release[]
 }
 
+interface Release {
+    platform: {
+        name: string
+    },
+    releaseDate: string
+}
 export interface GameListEntry {
     id: number,
     game: AsobuGame,

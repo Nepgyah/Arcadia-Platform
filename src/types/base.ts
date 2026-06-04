@@ -22,8 +22,24 @@ export interface Media {
     franchise: Franchise,
     coverImageUrl: string,
     bannerImageUrl: string,
+    bgImageUrl: string,
+    cast: MediaCast[]
 }
 
+export interface MediaCast {
+    character: {
+        id: number,
+        coverImgUrl: string,
+        fullName: string
+    },
+    voiceActor: {
+        id: number,
+        fullName: string,
+        slug: string,
+        coverImgUrl: string
+    },
+    role: string
+}
 export interface MediaReview {
     id: number,
     text: string,

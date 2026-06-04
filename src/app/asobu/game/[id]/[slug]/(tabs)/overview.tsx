@@ -5,6 +5,7 @@ import RelationMedia from "@/components/shared/relation-media"
 import { AsobuGame } from "@/types/asobu"
 import { Skeleton } from "@chakra-ui/react"
 import { Suspense, use } from "react"
+import { Franchise, MediaCast } from "@/types/base"
 
 export default function Overviewtab(
     {
@@ -18,10 +19,6 @@ export default function Overviewtab(
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="summary-news" className="two-column">
-                <div id="summary">
-                    <Header text="Summary" />
-                    <div id="summary-text" dangerouslySetInnerHTML={{ __html: game.summary }}></div>
-                </div>
                 <div id="news">
                     <Header text="Trailer" />
                     <div>
@@ -40,6 +37,7 @@ export default function Overviewtab(
                         }
                     </div>
                 </div>
+                <GameFranchise franchisePromise={franchisePromise} />
             </div>
             <div id="overview-characters">
                 <Header text="Main Characters" />
@@ -57,35 +55,35 @@ export default function Overviewtab(
     )
 }
 
-function Characters({charactersPromise}:{charactersPromise : Promise<any[]>}) {
+function Characters({charactersPromise}:{charactersPromise : Promise<MediaCast[]>}) {
     const characters = use(charactersPromise)
     const mainCharacters = characters.filter((character) => character.role === "Main")
 
     return (
         <div className="character-container">
             {
-                mainCharacters.map((entry: any, idx: number) => {
+                mainCharacters.map((entry: MediaCast, idx: number) => {
                     if(idx < 6) {
                         let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
                         let rSideSrc = null
     
-                        if (entry.character.voiceActor) {
-                            if (entry.character.voiceActor.coverImgUrl) {
-                                rSideSrc = entry.character.voiceActor.coverImgUrl
+                        if (entry.voiceActor) {
+                            if (entry.voiceActor.coverImgUrl) {
+                                rSideSrc = entry.voiceActor.coverImgUrl
                             } else {
-                                rSideSrc = `/storage/voice-actors/${entry.character.voiceActor.id}.jpg`
+                                rSideSrc = `/storage/voice-actors/${entry.voiceActor.id}.jpg`
                             }
                         }
                         return <CharacterCard 
                                     key={idx} 
-                                    lSideTitle={`${entry.character.firstName} ${entry.character.lastName ? entry.character.lastName : ''}`}
+                                    lSideTitle={`${entry.character.fullName}`}
                                     lSideNote={entry.role}
                                     lSideSrc={lSideSrc}
                                     lSideLink={null}
-                                    rSideTitle={entry.character.voiceActor ? `${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}` : 'N/A'}
+                                    rSideTitle={entry.voiceActor ? `${entry.voiceActor.fullName}` : 'N/A'}
                                     rSideNote="Japanese"
                                     rSideSrc={rSideSrc}
-                                    rSideLink={entry.character.voiceActor ? `/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}` : null}
+                                    rSideLink={entry.voiceActor ? `/voice-actor/${entry.voiceActor.id}/${entry.voiceActor.slug}` : null}
                                 />
                     }
                 })
@@ -136,6 +134,26 @@ function Relationships({game}:{game : AsobuGame}) {
                     
                 </div>
             </div>
+        </div>
+    )
+}
+
+function GameFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
+    const franchise = use(franchisePromise)
+
+    return (
+        <div id="franchise">
+            <Header text="Franchise"/>
+            {
+                franchise ?
+                    <div className="card">
+                        <img src={franchise.coverImage} alt={franchise.name} />
+                        <div className="mask"></div>
+                        <p>{franchise.name}</p>
+                    </div>
+                :
+                    <p>No Franchise found</p>
+            }
         </div>
     )
 }
