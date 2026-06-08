@@ -44,8 +44,8 @@ export async function FetchAnimeListEntryAction(animeID: number) : Promise<Actio
 
 export async function AddAnimeListEntryAction(
     animeID: number,
-    status: number,
     details: {
+        status: number,
         score: number | null,
         currentEpisode: number,
         startWatchDate: string | null,
@@ -56,12 +56,10 @@ export async function AddAnimeListEntryAction(
     `
     mutation (
         $animeID: ID!, 
-        $status: Int!, 
-        $details: AnimeListEntryMetaData
+        $details: AnimeListDetails!
     ) {
         addAnimeListEntry(
             animeId: $animeID,
-            status: $status,
             details: $details
         ) {
             message,
@@ -73,8 +71,8 @@ export async function AddAnimeListEntryAction(
     `
     const variables = {
         animeID: animeID,
-        status: status,
         details: {
+            status: details.status,
             score: details.score,
             currentEpisode: details.currentEpisode,
             startWatchDate: details.startWatchDate,

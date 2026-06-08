@@ -2,11 +2,13 @@
 
 import { User } from "@/types/user"
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI"
-import { RESTResponse } from "@/types/api"
+import { GraphqlResponse } from "@/types/api"
 import { cookies } from "next/headers"
 
-interface FetchUserResponse extends RESTResponse<User> {
-    user: User
+interface FetchUserResponse {
+    account: {
+        profile: User
+    }
 }
 
 export async function FetchUser() {
@@ -14,8 +16,18 @@ export async function FetchUser() {
     const access_token = cookieStore.get('access_token')
 
     if (access_token) {
-        const response = await arcadiaAPI.GET<FetchUserResponse>('user/')
-        return response.user
+        const query = `
+        query {
+            account {
+                profile {
+                    id,
+                    picturePreset
+                }
+            }
+        }
+        `
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<FetchUserResponse>>(query)
+        return response.data.account.profile
     }
     return null;
 }

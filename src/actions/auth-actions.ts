@@ -3,39 +3,46 @@ import { arcadiaAPI } from '@/lib/api/arcadiaAPI';
 import { cookies } from 'next/headers'
 
 interface LoginAsAdminResponse {
-    refresh_token: {
-        value: string,
-        expiry: string
-    },
-    access_token: {
-        value: string,
-        expiry: string
-    },
+    data: {
+        refresh: {
+            value: string,
+            expiry: string
+        },
+        access: {
+            value: string,
+            expiry: string
+        },
+    }
     message: string
 }
 
-export async function LoginAsAdmin(email: string, password: string) : Promise<string> {
-    const response = await arcadiaAPI.POST<LoginAsAdminResponse>(
-        'auth/admin-login/',
-        {
-            email: email,
-            password: password
-        }
-    )
+export async function LoginAsAdmin(email: string, password: string) : Promise<any> {
+    try {
+        const response = await arcadiaAPI.POST<LoginAsAdminResponse>(
+            'accounts/admin/login/',
+            {
+                email: email,
+                password: password
+            }
+        )
 
-    const cookieStore = await cookies()
-    
-    cookieStore.set({
-        name: 'access_token',
-        value: response.access_token.value,
-        expires: new Date(response.access_token.expiry)
-    })
+        const cookieStore = await cookies()
+        console.log(response)
+        cookieStore.set({
+            name: 'access_token',
+            value: response.data.access.value,
+            expires: new Date(response.data.access.expiry)
+        })
 
-    cookieStore.set({
-        name: 'refresh_token',
-        value: response.refresh_token.value,
-        expires: new Date(response.refresh_token.expiry)
-    })
+        cookieStore.set({
+            name: 'refresh_token',
+            value: response.data.refresh.value,
+            expires: new Date(response.data.refresh.expiry)
+        })
 
-    return response.message
+        return response.message
+    } catch(e: any) {
+        console.log(e)
+        throw "Invalid credentials"
+    }
 }

@@ -47,6 +47,7 @@ export default function AnimeListInput(
 
     const formatDetails = () => {
         return {
+            status: status,
             score: score == -1 ? null : score,
             currentEpisode: 0,
             startWatchDate: null,
@@ -64,7 +65,7 @@ export default function AnimeListInput(
             })
         } else {
             const details = formatDetails()
-            const result = await AddAnimeListEntryAction(anime.id, status, details)
+            const result = await AddAnimeListEntryAction(anime.id, details)
             
             if (!result.success) {
                 toaster.create({
