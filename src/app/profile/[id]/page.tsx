@@ -18,7 +18,6 @@ export default async function Page(
 ) {
     const { id, username } = await params
     const user = await FetchUser(id)
-
     if (!user) notFound();
     
     return (
@@ -37,7 +36,7 @@ export default async function Page(
                     </div>
                 </div>
                 <div id="overview">
-                    <div id="stats">
+                    {/* <div id="stats">
                         <Header text="Stats" />
                         <div className="container">
                             <Link href={`/miru/list/${user.id}`}>
@@ -67,7 +66,7 @@ export default async function Page(
                                 value={0}
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
@@ -78,15 +77,16 @@ async function FetchUser(userId: string) {
     const query =
     `
     query {
-        User(userId: ${userId}){
-            id,
-            username,
-            picturePreset,
-            listData
+        account {
+            profile {
+                id,
+                picturePreset,
+                username
+            }
         }
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<{ data: { User: User}}>(query)
-    return response.data.User
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.account.profile
 }
