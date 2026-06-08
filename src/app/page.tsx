@@ -54,7 +54,7 @@ export default async function Home() {
                                     id={media.id}
                                     app='miru'
                                     title={media.title}
-                                    imagePath={media.coverImgUrl ? media.coverImgUrl : `/storage/miru/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl ? media.coverImageUrl : `/storage/miru/${media.id}/cover.jpg`}
                                     href={`miru/anime/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -76,7 +76,7 @@ export default async function Home() {
                                     id={media.id}
                                     app='asobu'
                                     title={media.title}
-                                    imagePath={`/storage/asobu/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl}
                                     href={`asobu/game/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -123,7 +123,7 @@ async function FetchAnime() {
                     id,
                     title,
                     slug,
-                    coverImgUrl,
+                    coverImageUrl,
                     score
                 }
             }
@@ -151,7 +151,8 @@ async function FetchGames() {
                     id,
                     title,
                     slug,
-                    score
+                    score,
+                    coverImageUrl
                 }
             }
         }
