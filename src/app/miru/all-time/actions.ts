@@ -31,7 +31,7 @@ export async function FetchAllTimeAnimeAction(targetPage: number) : Promise<Acti
                     results {
                         id,
                         title,
-                        coverImgUrl,
+                        coverImageUrl,
                         score,
                         users,
                         summary,

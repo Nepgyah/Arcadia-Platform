@@ -33,7 +33,10 @@ export default async function Page(
     if (!anime) notFound();
 
     const charactersPromise = GetAnimeCharacters(id);
-    const franchisePromise = GetAnimeFranchise(anime.franchise.id);
+    let franchisePromise = null
+    if (anime.franchise) {
+        franchisePromise = GetAnimeFranchise(anime.franchise.id);
+    }
     const episodesPromise = GetAnimeEpisodes(id)
     
     return (

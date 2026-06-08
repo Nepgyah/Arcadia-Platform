@@ -16,7 +16,7 @@ export default function OverviewTab(
         anime: Anime,
         charactersPromise: Promise<any[]>,
         episodesPromise: Promise<any[]>,
-        franchisePromise: Promise<any>
+        franchisePromise: Promise<any> | null
     }
 ) {
     return (
@@ -98,7 +98,7 @@ function Relationships({anime}:{anime : Anime}) {
                                 app="miru" 
                                 relation="Prequel"
                                 link={`/miru/anime/${anime.prequel.id}/${anime.prequel.slug}`}
-                                src={anime.prequel.coverImgUrl ? anime.prequel.coverImgUrl : `/storage/miru/${anime.prequel.id}/cover.jpg`}
+                                src={anime.prequel.coverImageUrl ? anime.prequel.coverImageUrl : `/storage/miru/${anime.prequel.id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>
@@ -116,7 +116,7 @@ function Relationships({anime}:{anime : Anime}) {
                                             app="miru" 
                                             relation="Sequel"
                                             link={`/miru/anime/${anime.id}/${anime.slug}`}
-                                            src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
+                                            src={anime.coverImageUrl ? anime.coverImageUrl : `/storage/miru/${anime.id}/cover.jpg`}
                                         />
                                     ))
                                 }
@@ -161,9 +161,11 @@ function LatestEpisode({
     )
 }
 
-function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
+function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise> | null}) {
+    let franchise = null
+    if(franchisePromise) {
+        franchise = use(franchisePromise)
+    }
     return (
         <div id="franchise">
             <Header text="Franchise"/>

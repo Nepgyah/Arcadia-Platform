@@ -41,7 +41,7 @@ export async function FetchAnimeSearchAction(
                         franchise {
                             name
                         },
-                        coverImgUrl
+                        coverImageUrl
                     },
                     pagination {
                         perPage,

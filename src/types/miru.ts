@@ -9,7 +9,7 @@ export interface Anime extends Media {
     titleNative: string,
     titleJa: string,
     bannerImgUrl: string,
-    coverImgUrl: string,
+    coverImageUrl: string,
     bgUrl: string,
     season: string,
     status: string,

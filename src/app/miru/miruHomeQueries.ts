@@ -19,7 +19,7 @@ export async function GetRatedAnime() {
                     id,
                     title,
                     slug,
-                    coverImgUrl
+                    coverImageUrl
                 }
             }
         }
@@ -49,7 +49,7 @@ export async function GetPopularAnime() {
                     id,
                     title,
                     slug,
-                    coverImgUrl
+                    coverImageUrl
                 }
             }
         }

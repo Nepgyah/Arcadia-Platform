@@ -31,7 +31,7 @@ export async function FetchPopularAnimeAction(targetPage: number) : Promise<Acti
                     results {
                         id,
                         title,
-                        coverImgUrl,
+                        coverImageUrl,
                         score,
                         users,
                         summary,
