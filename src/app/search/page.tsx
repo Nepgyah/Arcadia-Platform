@@ -11,6 +11,7 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import '@/styles/pages/_search.scss';
 import SimpleMediaCard from "@/components/shared/mediaCards/simpleCard/simpleMediaCard";
 import { AsobuGame } from "@/types/asobu";
+import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 
 export default async function Page({
     searchParams,
@@ -21,10 +22,11 @@ export default async function Page({
     const searchResult = await FetchArcadiaSearch(String(query))
     const anime = searchResult.miru.animes.results
     const games = searchResult.asobu.games.results
-    // const voiceActors = searchResult.searchArcadia.voiceActors
+    const voiceActors = searchResult.talent.voiceActors
 
     return (
         <div id="page-arcadia-search" className="page-content default-schema">
+            <SetBreadcrumbs breadcrumbs={['Search', String(query)]} />
             {
                 anime.length > 0 &&
                 <div id="miru">
@@ -57,7 +59,7 @@ export default async function Page({
                                     id={media.id}
                                     app='asobu'
                                     title={media.title}
-                                    imagePath={`/storage/asobu/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl}
                                     href={`asobu/game/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -65,7 +67,7 @@ export default async function Page({
                     </div>
                 </div>
             }
-            {/* {
+            {
                 voiceActors.length > 0 &&
                 <div id="voice-actors">
                     <Header text="Voice Actors" />
@@ -77,14 +79,14 @@ export default async function Page({
                                     id={actor.id}
                                     app='asobu'
                                     title={actor.displayName}
-                                    imagePath={actor.coverImageUrl ? actor.coverImageUrl : `/storage/voice-actors/${actor.id}.jpg`}
+                                    imagePath={actor.coverImageUrl ? actor.coverImageUrl : `/person-not-found.jpg`}
                                     href={`/voice-actor/${actor.id}/${actor.slug}`}
                                 />
                             ))
                         }
                     </div>
                 </div>
-            } */}
+            }
         </div>
     )
 }
@@ -99,6 +101,9 @@ interface APIResponse {
         animes: {
             results: Anime[]
         }
+    },
+    talent: {
+        voiceActors: any
     }
 }
 async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
@@ -107,32 +112,54 @@ async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
     `
     query ($queryString: String!) {
         miru {
-            animes (filters: {title: $queryString}) {
-            results {
-                id,
-                title,
-                slug,
-                coverImageUrl
-            }
+            animes (
+                filters: {
+                    title: $queryString
+                },
+                pagination: {
+                    targetPage: 1,
+                    perPage: 12
+                }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    coverImageUrl
+                }
             }
         },
         asobu {
-            games (filters: {title: $queryString}) {
-            results {
-                id,
-                title,
-                slug,
+            games (filters: {
+                title: $queryString
+                },
+                pagination: {
+                    targetPage: 1,
+                    perPage: 12
+                }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    coverImageUrl
+                }
             }
+        },
+        talent {
+            characters(name: $queryString) {
+                firstName,
+                lastName
+            },
+            voiceActors(name: $queryString) {
+                id,
+                fullName,
+                coverImageUrl,
             }
         }
     }
     `
 
-    const variables = {
-        'queryString': queryString
-    }
+    const variables = { 'queryString': queryString }
 
     const result = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables);
-    console.log(result)
     return result.data
 }
