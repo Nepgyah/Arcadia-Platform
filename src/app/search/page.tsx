@@ -37,7 +37,7 @@ export default async function Page({
                                     id={media.id}
                                     app='miru'
                                     title={media.title}
-                                    imagePath={media.coverImgUrl ? media.coverImgUrl : `/storage/miru/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl ? media.coverImageUrl : `/storage/miru/${media.id}/cover.jpg`}
                                     href={`miru/anime/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -77,7 +77,7 @@ export default async function Page({
                                     id={actor.id}
                                     app='asobu'
                                     title={actor.displayName}
-                                    imagePath={actor.coverImgUrl ? actor.coverImgUrl : `/storage/voice-actors/${actor.id}.jpg`}
+                                    imagePath={actor.coverImageUrl ? actor.coverImageUrl : `/storage/voice-actors/${actor.id}.jpg`}
                                     href={`/voice-actor/${actor.id}/${actor.slug}`}
                                 />
                             ))
@@ -112,7 +112,7 @@ async function FetchArcadiaSearch(queryString: string) : Promise<APIResponse> {
                 id,
                 title,
                 slug,
-                coverImgUrl
+                coverImageUrl
             }
             }
         },

@@ -70,14 +70,14 @@ export async function FetchCharacters(id: number) {
                 cast {
                     character {
                         id,
-                        coverImgUrl,
+                        coverImageUrl,
                         fullName
                     },
                     voiceActor {
                         id,
                         fullName,
                         slug,
-                        coverImgUrl
+                        coverImageUrl
                     },
                     role
                 }

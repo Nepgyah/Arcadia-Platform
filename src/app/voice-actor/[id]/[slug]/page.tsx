@@ -20,7 +20,7 @@ export default async function Page(
         <div id="page-va-details" className="page-content default-schema">
             <div id="two-col">
                 <div id="va-metadata">
-                    <img id="va-photo" className="card border-radius-sm" src={voiceActor.coverImgUrl ? voiceActor.coverImgUrl : `/person-not-found.jpg`} alt="" />
+                    <img id="va-photo" className="card border-radius-sm" src={voiceActor.coverImageUrl ? voiceActor.coverImageUrl : `/person-not-found.jpg`} alt="" />
                     <div>
                         <div id="name">
                             <p className="txt-lg">{voiceActor.firstName}</p>
@@ -94,7 +94,7 @@ function MediaRoles(
             mediaRoles.map((entry: any, idx: number) => (
                 <div key={idx} className="character-details p-b-sm">
                     <div className="character-overview">
-                        <img className="border-radius-md shadow" src={entry.character.coverImgUrl} alt="" />
+                        <img className="border-radius-md shadow" src={entry.character.coverImageUrl} alt="" />
                         <p className="m-t-sm">{entry.character.fullName}</p>
                     </div>
                     <div className="appearances">
@@ -134,7 +134,7 @@ async function FetchVoiceActor(id: number) {
                 lastName,
                 bio,
                 socials,
-                coverImgUrl
+                coverImageUrl
             }
         },
         miru {
@@ -142,7 +142,7 @@ async function FetchVoiceActor(id: number) {
                 character {
                     id,
                     fullName,
-                    coverImgUrl
+                    coverImageUrl
                 },
                 appearances {
                     anime {
@@ -160,7 +160,7 @@ async function FetchVoiceActor(id: number) {
                 character {
                     id,
                     fullName,
-                    coverImgUrl
+                    coverImageUrl
                 },
                 appearances {
                     game {

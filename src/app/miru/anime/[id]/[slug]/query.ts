@@ -21,7 +21,7 @@ export async function GetAnime(id: string) {
                 score,
                 users,
                 slug,
-                bannerImgUrl,
+                bannerImageUrl,
                 coverImageUrl,
                 score,
                 users,
@@ -33,7 +33,7 @@ export async function GetAnime(id: string) {
                 episodeCount,
                 airingStartDate,
                 airingEndDate,
-                bgUrl,
+                bgImageUrl,
                 genres {
                     name
                 },
@@ -84,14 +84,14 @@ export async function GetAnimeCharacters(id: string) {
                 cast {
                     character {
                         id,
-                        coverImgUrl,
+                        coverImageUrl,
                         fullName
                     },
                     voiceActor {
                         id,
                         fullName,
                         slug,
-                        coverImgUrl
+                        coverImageUrl
                     },
                     role
                 }
@@ -121,7 +121,6 @@ export async function GetAnimeFranchise(id: number) {
     `
     const variables = { "pk": Number(id) }
     const response = await arcadiaAPI.GraphQL<any>(query, variables)
-    console.log("YEET", response.data.base.franchise)
     return response.data.base.franchise
 }
 
@@ -135,7 +134,7 @@ export async function GetAnimeEpisodes(id: string) {
                     id,
                     title,
                     number,
-                    coverImgUrl,
+                    coverImageUrl,
                     url
                 }
             }

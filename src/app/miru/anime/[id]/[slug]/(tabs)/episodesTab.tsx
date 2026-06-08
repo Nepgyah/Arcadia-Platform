@@ -22,7 +22,7 @@ export default function EpisodesTab(
                     episodes.map((episode: AnimeEpisode, idx: number) => (
                         <VideoCard 
                             key={idx}
-                            src={episode.coverImgUrl ? episode.coverImgUrl : `/storage/miru/${animeID}/episodes/${episode.number}.jpg`} 
+                            src={episode.coverImageUrl ? episode.coverImageUrl : `/storage/miru/${animeID}/episodes/${episode.number}.jpg`} 
                             href={`/miru/anime/${animeID}/${animeSlug}/watch/${episode.number}`}
                             title={`Ep: ${episode.number} - ${episode.title}`} 
                             subText={''}                            

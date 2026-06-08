@@ -54,12 +54,12 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
             {
                 characters.map((entry: any, idx: number) => {
                     if(idx < 6) {
-                        let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
+                        let lSideSrc = (entry.character.coverImageUrl) ? entry.character.coverImageUrl : `/storage/characters/${entry.character.id}.jpg`
                         let rSideSrc = null
     
                         if (entry.voiceActor) {
-                            if (entry.voiceActor.coverImgUrl) {
-                                rSideSrc = entry.voiceActor.coverImgUrl
+                            if (entry.voiceActor.coverImageUrl) {
+                                rSideSrc = entry.voiceActor.coverImageUrl
                             } else {
                                 rSideSrc = `/storage/voice-actors/${entry.voiceActor.id}.jpg`
                             }
@@ -149,7 +149,7 @@ function LatestEpisode({
             {
                 latestEpisode ?
                     <VideoCard 
-                        src={latestEpisode.coverImgUrl ? latestEpisode.coverImgUrl : `/storage/miru/${animeID}/episodes/${latestEpisode.number}.jpg`} 
+                        src={latestEpisode.coverImageUrl ? latestEpisode.coverImageUrl : `/storage/miru/${animeID}/episodes/${latestEpisode.number}.jpg`} 
                         href={`/miru/anime/${animeID}/${animeSlug}/watch/${latestEpisode.number}`}
                         title={`Ep: ${latestEpisode.number} - ${latestEpisode.title}`} 
                         subText=''                            

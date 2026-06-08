@@ -41,7 +41,7 @@ export default async function Page(
     
     return (
         <div id="page-anime-details" className="page-content media-detail">
-            <SetBackground bgUrl={anime.bgUrl ? anime.bgUrl : '/wallpaper/miru-default.jpg'} />
+            <SetBackground bgUrl={anime.bgImageUrl ? anime.bgImageUrl : '/wallpaper/miru-default.jpg'} />
             <Hero anime={anime}/>
             <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />
@@ -111,7 +111,7 @@ function Hero(
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
             <div id="hero" className="border-radius-md card">
                 <div className="mask"></div>
-                <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} alt={anime.title} />
+                <img id="hero-image" src={anime.bannerImageUrl ? anime.bannerImageUrl : `/storage/miru/${anime.id}/cover.jpg`} alt={anime.title} />
                 <div id="titles">
                     <p className="clr-miru-base txt-xxl">{anime.title}</p>
                     <p className="clr-txt-fadded">{anime.titleNative}</p>

@@ -29,14 +29,14 @@ export interface Media {
 export interface MediaCast {
     character: {
         id: number,
-        coverImgUrl: string,
+        coverImageUrl: string,
         fullName: string
     },
     voiceActor: {
         id: number,
         fullName: string,
         slug: string,
-        coverImgUrl: string
+        coverImageUrl: string
     },
     role: string
 }

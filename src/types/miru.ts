@@ -8,8 +8,6 @@ interface Rankings {
 export interface Anime extends Media {
     titleNative: string,
     titleJa: string,
-    bannerImgUrl: string,
-    coverImageUrl: string,
     bgUrl: string,
     season: string,
     status: string,
@@ -33,7 +31,7 @@ export interface AnimeEpisode {
     number: number,
     title: string,
     description: string,
-    coverImgUrl: string
+    coverImageUrl: string
 }
 
 export interface AnimeListEntry {
