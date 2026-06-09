@@ -41,9 +41,9 @@ export interface GameListEntry {
 export type GameListEntryStatus = 'playing' | 'completed' | 'onHold' | 'planTo' | 'replaying'
 
 export const GameListEntryMetadataSchema = z.object({
+    status: z.number(),
     score: z.number().min(-1).max(10).optional(),
     note: z.string().nullable(),
-    review: z.string().nullable(),
     startPlayDate: z.date().nullable(),
     endPlayDate: z.date().nullable()
 })

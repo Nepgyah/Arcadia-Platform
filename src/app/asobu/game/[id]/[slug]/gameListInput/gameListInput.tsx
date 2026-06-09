@@ -13,7 +13,7 @@ import MediaReviewContextWrapper from "@/contexts/hasReviewContext";
 import { GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { MediaReview } from "@/types/base";
 
-import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateeGameListEntry, UpdateGameReview } from "./actions";
+import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateGameListEntry, UpdateGameReview } from "./actions";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -31,16 +31,11 @@ export default function GameListInput({gameID} : {gameID: number}) {
             const result = await FetchUserGameListEntry(gameID);
 
             if (result.success) {
-                if (result.data.gameListEntry) {
+                if (result.data.asobu.userGameListEntry) {
                     setIsEntryFound(true)
-                    setEntry(result.data.gameListEntry)
-                    setStatus(result.data.gameListEntry.status)
-                    setScore(result.data.gameListEntry.score)
-                }
-
-                if (result.data.userGameReview) {
-                    setHasReview(true)
-                    setReview(result.data.userGameReview)
+                    setEntry(result.data.asobu.userGameListEntry)
+                    setStatus(result.data.asobu.userGameListEntry.status)
+                    setScore(result.data.asobu.userGameListEntry.score)
                 }
             } else {
                 CreateErrorToaster(result.error)
@@ -48,16 +43,16 @@ export default function GameListInput({gameID} : {gameID: number}) {
         }
 
         if (user && gameID) {
-            fetchEntry(gameID)
+            fetchEntry(Number(gameID))
         }
     }, [user, gameID])
 
     const formatDetails = () => {
         try {
             let details = GameListEntryMetadataSchema.parse({
+                status: status,
                 score: score,
                 note: null,
-                review: null,
                 startPlayDate: null,
                 endPlayDate: null
             })
@@ -78,7 +73,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
         } else {
             const formattedDetails = formatDetails()
             if (formattedDetails) {
-                const result = await CreateGameListEntry(gameID, status, formattedDetails)
+                const result = await CreateGameListEntry(Number(gameID), formattedDetails)
 
                 if (result.success) {
                     toaster.create({
@@ -105,7 +100,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
         } else {
             const formattedDetails = formatDetails()
             if (formattedDetails) {
-                const result = await UpdateeGameListEntry(gameID, status, formattedDetails)
+                const result = await UpdateGameListEntry(Number(gameID), formattedDetails)
 
                 if (result.success) {
                     toaster.create({
@@ -170,7 +165,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                                     >
                                         Update
                                     </Button>
-                                    <Button 
+                                    {/* <Button 
                                         onClick={() => setIsOpen(true)}
                                         variant={'ghost'}
                                     >
@@ -180,7 +175,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
                                             :
                                                 'Add Review'
                                         }
-                                    </Button>
+                                    </Button> */}
                                 </>
                             :
                                 <Button 
