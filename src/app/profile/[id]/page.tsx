@@ -36,7 +36,7 @@ export default async function Page(
                     </div>
                 </div>
                 <div id="overview">
-                    {/* <div id="stats">
+                    <div id="stats">
                         <Header text="Stats" />
                         <div className="container">
                             <Link href={`/miru/list/${user.id}`}>
@@ -46,19 +46,19 @@ export default async function Page(
                                     <StatCard
                                         icon={Tv}
                                         label="Anime Watched"
-                                        value={user.listData.anime}
+                                        value={user.animeListCount}
                                     />
                                 </Tooltip>
                             </Link>
                             <StatCard
                                 icon={Book}
                                 label="Manga Read"
-                                value={user.listData.manga}
+                                value={0}
                             />
                             <StatCard
                                 icon={Gamepad2}
                                 label="Games Played"
-                                value={user.listData.games}
+                                value={0}
                             />
                             <StatCard
                                 icon={Ticket}
@@ -66,7 +66,7 @@ export default async function Page(
                                 value={0}
                             />
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,7 +81,8 @@ async function FetchUser(userId: string) {
             profile {
                 id,
                 picturePreset,
-                username
+                username,
+                animeListCount
             }
         }
     }
