@@ -36,6 +36,7 @@ export interface AnimeEpisode {
 
 export interface AnimeListEntry {
     anime: Anime,
+    status: number,
     score: number,
     startWatchDate: string,
     endWatchDate: string

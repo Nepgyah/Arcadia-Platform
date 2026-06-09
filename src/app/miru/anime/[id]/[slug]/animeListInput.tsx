@@ -25,18 +25,13 @@ export default function AnimeListInput(
 
     useEffect(() => {
         const fetchEntry = async (animeID: number) => {
-            const result = await FetchAnimeListEntryAction(animeID)
+            const result = await FetchAnimeListEntryAction(Number(animeID))
             
-            if (!result.success) {
-                toaster.create({
-                    title: result.error,
-                    type: 'error'
-                })
-            } else {
+            if (result.success) {
                 if (result.data) {
                     setIsAnimeAlreadyListed(true)
-                    setStatus(result.data.getAnimeListEntry.status)
-                    setScore(result.data.getAnimeListEntry.score ? result.data.getAnimeListEntry.score : -1)
+                    setStatus(result.data.miru.animeEntry.status)
+                    setScore(result.data.miru.animeEntry.score)
                 }
             }
         }
@@ -65,7 +60,7 @@ export default function AnimeListInput(
             })
         } else {
             const details = formatDetails()
-            const result = await AddAnimeListEntryAction(anime.id, details)
+            const result = await AddAnimeListEntryAction(Number(anime.id), details)
             
             if (!result.success) {
                 toaster.create({
@@ -77,7 +72,8 @@ export default function AnimeListInput(
                     title: 'Entry added successfully',
                     type: 'success'
                 })
-                setLoading(false)
+                setLoading(false);
+                setIsAnimeAlreadyListed(true)
             }
         }
     }
@@ -87,7 +83,7 @@ export default function AnimeListInput(
         setLoading(true)
 
         const details = formatDetails()
-        const result = await UpdateAnimeListEntryAction(anime.id, status, details)
+        const result = await UpdateAnimeListEntryAction(Number(anime.id), details)
             
         if (!result.success) {
             toaster.create({
@@ -126,17 +122,17 @@ export default function AnimeListInput(
                         <Field.Label>Score</Field.Label>
                         <NativeSelect.Root>
                             <NativeSelect.Field value={score} onChange={(e) => setScore(Number(e.target.value))}>
-                                <option value={-1} disabled>Select Score</option>
-                                <option value={1}>1 - Actual Trash</option>
-                                <option value={2}>2 - Appaling</option>
-                                <option value={3}>3 - Very Bad</option>
-                                <option value={4}>4 - Watchable Trash</option>
-                                <option value={5}>5 - Mid</option>
-                                <option value={6}>6 - Good Trash</option>
-                                <option value={7}>7 - Actually Good</option>
-                                <option value={8}>8 - Great</option>
-                                <option value={9}>9 - Amazing</option>
                                 <option value={10}>10 - Cinema</option>
+                                <option value={9}>9 - Amazing</option>
+                                <option value={8}>8 - Great</option>
+                                <option value={7}>7 - Actually Good</option>
+                                <option value={6}>6 - Good Trash</option>
+                                <option value={5}>5 - Mid</option>
+                                <option value={4}>4 - Watchable Trash</option>
+                                <option value={3}>3 - Very Bad</option>
+                                <option value={2}>2 - Appaling</option>
+                                <option value={1}>1 - Actual Trash</option>
+                                <option value={-1} disabled>Select Score</option>
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>

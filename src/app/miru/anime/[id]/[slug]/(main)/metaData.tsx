@@ -20,7 +20,7 @@ export default function MetaData(
 ) {
     return (
         <div id="metadata-column">
-            {/* <AnimeListInput anime={anime} /> */}
+            <AnimeListInput anime={anime} />
             <div>
                 <Header text="Socials" />
                 <Suspense fallback={<SocialsSkeleton />}>

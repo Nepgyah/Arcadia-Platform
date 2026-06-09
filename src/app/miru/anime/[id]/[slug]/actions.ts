@@ -2,27 +2,24 @@
 
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { ActionResult, GraphqlResponse } from "@/types/api";
+import { AnimeListEntry } from "@/types/miru";
 
 interface FetchAnimeListEntryResponse {
-    getAnimeListEntry: {
-        status: number,
-        currentEpisode: number,
-        startWatchDate: string,
-        endWatchDate: string,
-        score: number
+    miru: {
+        animeEntry: AnimeListEntry
     }
 }
 
 export async function FetchAnimeListEntryAction(animeID: number) : Promise<ActionResult<FetchAnimeListEntryResponse>> {
     const query =
     `
-    query ($animeID: ID!) {
-        getAnimeListEntry(animeId: $animeID) {
-            status,
-            currentEpisode,
-            startWatchDate,
-            endWatchDate,
-            score
+    query ($animeID: Int!) {
+        miru {
+            animeEntry(animeId: $animeID) {
+                status,
+                score,
+                currentEpisode
+            }
         }
     }
     `
@@ -55,15 +52,15 @@ export async function AddAnimeListEntryAction(
     const mutation =
     `
     mutation (
-        $animeID: ID!, 
+        $animeID: Int!, 
         $details: AnimeListDetails!
     ) {
-        addAnimeListEntry(
+        createAnimeListEntry(
             animeId: $animeID,
             details: $details
         ) {
             message,
-            animeEntry {
+            entry {
                 id
             }
         }
@@ -103,8 +100,8 @@ interface UpdateAnimeListData {
 }
 export async function UpdateAnimeListEntryAction(
     animeID: number,
-    status: number,
     details: {
+        status: number,
         score: number | null,
         currentEpisode: number,
         startWatchDate: string | null,
@@ -114,17 +111,15 @@ export async function UpdateAnimeListEntryAction(
     const mutation =
     `
     mutation (
-        $animeID: ID!, 
-        $status: Int!, 
-        $details: AnimeListEntryMetaData
+        $animeID: Int!, 
+        $details: AnimeListDetails!
     ) {
         updateAnimeListEntry(
             animeId: $animeID,
-            status: $status,
             details: $details
         ) {
             message,
-            animeEntry {
+            entry {
                 id
             }
         }
@@ -132,8 +127,8 @@ export async function UpdateAnimeListEntryAction(
     `
     const variables = {
         animeID: animeID,
-        status: status,
         details: {
+            status: details.status,
             score: details.score,
             currentEpisode: details.currentEpisode,
             startWatchDate: details.startWatchDate,
