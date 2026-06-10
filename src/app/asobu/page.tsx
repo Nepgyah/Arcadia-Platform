@@ -48,7 +48,7 @@ function GameList({gamePromise}:{gamePromise: Promise<any>}) {
                         key={idx} app="miru" 
                         title={game.title} 
                         id={game.id} 
-                        imagePath={`/storage/asobu/${game.id}/cover.jpg`}
+                        imagePath={game.coverImageUrl}
                         href={`asobu/game/${game.id}/${game.slug}`}
                     />
                 )) 
@@ -73,34 +73,62 @@ async function FetchTopGames() {
     const query = 
     `
     query {
-        gamesByCategory(category: "-score", count: 5) {
-            id,
-            slug,
-            title,
-            score,
-            users
+        asobu {
+            games (
+            sort: {
+                category: "score",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }
+            ){
+            results {
+                id,
+                slug,
+                title,
+                score,
+                users,
+                coverImageUrl
+            }
+            }
         }
     }
     `
 
     const response = await arcadiaAPI.GraphQL<any>(query);
-    return response.data.gamesByCategory
+    return response.data.asobu.games.results
 }
 
 async function FetchPopularGames() {
     const query = 
     `
     query {
-        gamesByCategory(category: "-users", count: 5) {
-            id,
-            slug,
-            title,
-            score,
-            users
+        asobu {
+            games (
+            sort: {
+                category: "users",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }
+            ){
+                results {
+                    id,
+                    slug,
+                    title,
+                    score,
+                    users,
+                    coverImageUrl
+                }
+            }
         }
     }
     `
 
     const response = await arcadiaAPI.GraphQL<any>(query);
-    return response.data.gamesByCategory
+    return response.data.asobu.games.results
 }

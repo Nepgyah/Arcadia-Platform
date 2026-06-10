@@ -1,3 +1,6 @@
+@use "../utils/variables" as *;
+@use "sass:map";
+
 #page-va-details {
 
     #two-col {
@@ -7,27 +10,38 @@
                 height: 300px;
                 width: 200px;
             }
+            margin-bottom: 2rem;
         }
 
         #va-content {
-            #bio-statistics {
-                display: flex;
-                flex-direction: column;
-                row-gap: 2rem;
-
-                #bio {
-                    p {
-                        max-height: 350px;
-                        overflow-y: auto;
-                    }
-                }
-            }
-
             .characters {
                 .container {
                     display: flex;
                     flex-direction: column;
-                    row-gap: 1rem;
+                    row-gap: 2rem;
+
+                    .character-details {
+                        display: grid;
+                        grid-template-columns: 150px 1fr;
+                        column-gap: 2rem;
+                        border-bottom: 2px solid map.get($colors, txt-fadded);
+
+                        .character-overview {
+                            img {
+                                object-fit: cover;
+                                height: 200px;
+                            }
+                        }
+                        .appearances {
+                            display: flex;
+                            flex-direction: column;
+                            row-gap: 1rem;
+
+                            .relation-media {
+                                height: 200px;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -49,15 +63,7 @@
 @media only screen and (min-width: 768px) {
     #page-va-details {
         #two-col {
-            #va-content {
-                .characters {
-                    .container {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 1rem;
-                    }
-                }
-            }
+           
         }
     }
 }
@@ -65,19 +71,21 @@
 @media only screen and (min-width: 900px) {
     #page-va-details {
         #two-col {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            column-gap: 2rem;
-            
             #va-metadata {
-                display: flex;
-                flex-direction: column;
-                row-gap: 1rem;
-
                 #va-photo {
                     width: 100%;
                     object-fit: cover;
                     height: 350px;
+                }
+            }
+
+            #va-content {
+                #tab-container {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 1rem;
                 }
             }
         }
@@ -87,13 +95,23 @@
 @media only screen and (min-width: 1200px) {
     #page-va-details {
         #two-col {
-            grid-template-columns: 1fr 4fr;
             
             #va-content {
                 #bio-statistics {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
                     gap: 2rem;
+                }
+                .characters {
+                    .container {
+                        .character-details {
+                            .appearances {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                column-gap: 2rem;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -103,12 +121,27 @@
 @media only screen and (min-width: 1440px) {
     #page-va-details {
         #two-col {
+            display: grid;
+            column-gap: 2rem;
+            grid-template-columns: 1fr 4fr;
+
+            #va-metadata {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
             #va-content {
-                .characters {
-                    .container {
-                        grid-template-columns: 1fr 1fr 1fr;
-                    }
-                }
+                // .characters {
+                //     .container {
+                //         .character-details {
+                //             .appearances {
+                //                 display: grid;
+                //                 grid-template-columns: 1fr 1fr;
+                //                 gap: 1rem;
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }

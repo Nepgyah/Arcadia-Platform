@@ -6,21 +6,19 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { MediaReview } from "@/types/base";
 
 interface UserDataResponse {
-    gameListEntry: GameListEntry,
-    userGameReview: MediaReview
+    asobu: {
+        userGameListEntry: GameListEntry
+    }
 }
 export async function FetchUserGameListEntry(gameID: number) : Promise<ActionResult<UserDataResponse>> {
     const query =
     `
-    query ($gameID: ID!) {
-        gameListEntry(gameId: $gameID) {
-            id,
-            status,
-            score,
-        },
-        userGameReview(gameId: $gameID) {
-            id,
-            text
+    query($gameID: Int!) {
+        asobu {
+            userGameListEntry(gameId: $gameID) {
+                status,
+                score
+            }
         }
     }
     `
@@ -48,16 +46,17 @@ interface CreateResponse {
         gameEntry: GameListEntry
     }
 }
-export async function CreateGameListEntry(gameID: number, status: number, details: GameListEntryMetadata) : Promise<ActionResult<CreateResponse>> {
+export async function CreateGameListEntry(gameID: number, details: GameListEntryMetadata) : Promise<ActionResult<CreateResponse>> {
     const mutation = 
     `
-    mutation ($gameID: ID!, $status: Int!, $details: GameListEntryMetadata!) {
-        createGameListEntry(gameId: $gameID, status: $status, details: $details) {
+    mutation($gameID: Int!, $details: GameListDetails!){
+        createGameListEntry(
+            gameId: $gameID,
+            details: $details
+        ) {
             message,
-            detail,
-            gameEntry {
-                status,
-                score
+            entry {
+            id
             }
         }
     }
@@ -65,7 +64,6 @@ export async function CreateGameListEntry(gameID: number, status: number, detail
 
     const variables = {
         'gameID': gameID,
-        'status': status,
         'details': details
     }
 
@@ -89,16 +87,17 @@ interface UpdateResponse {
         gameEntry: GameListEntry
     }
 }
-export async function UpdateeGameListEntry(gameID: number, status: number, details: GameListEntryMetadata) : Promise<ActionResult<UpdateResponse>> {
+export async function UpdateGameListEntry(gameID: number, details: GameListEntryMetadata) : Promise<ActionResult<UpdateResponse>> {
     const mutation = 
     `
-    mutation ($gameID: ID!, $status: Int!, $details: GameListEntryMetadata!) {
-        updateGameListEntry(gameId: $gameID, status: $status, details: $details) {
+    mutation($gameID: Int!, $details: GameListDetails!){
+        updateGameListEntry(
+            gameId: $gameID,
+            details: $details
+        ) {
             message,
-            detail,
-            gameEntry {
-                status,
-                score
+            entry {
+                id
             }
         }
     }
@@ -106,7 +105,6 @@ export async function UpdateeGameListEntry(gameID: number, status: number, detai
 
     const variables = {
         'gameID': gameID,
-        'status': status,
         'details': details
     }
 
@@ -124,6 +122,43 @@ export async function UpdateeGameListEntry(gameID: number, status: number, detai
     }
 }
 
+interface DeleteListResponse {
+    deleteGameListEntry : {
+        message: string,
+    }
+}
+export async function DeleteGameListEntry(gameID: number) : Promise<ActionResult<DeleteListResponse>> {
+    const mutation = 
+    `
+    mutation($gameID: Int!){
+        deleteGameListEntry(
+            gameId: $gameID,
+        ) {
+            message,
+            entry {
+            id
+            }
+        }
+    }
+    `
+
+    const variables = { 'gameID': gameID }
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<DeleteListResponse>>(mutation, variables);
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+// Game Review
 interface CreateGameReviewResponse {
     createGameReview: {
         message: string,

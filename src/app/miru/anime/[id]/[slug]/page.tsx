@@ -13,13 +13,14 @@ import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
 import '@/styles/pages/miru/_anime-details.scss';
 
-import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./(api)/animeDetailQueries"
+import { GetAnime, GetAnimeCharacters, GetAnimeEpisodes, GetAnimeFranchise } from "./query"
 import MetaData from "./(main)/metaData";
 import OverviewTab from "./(tabs)/overviewTab";
 import CharactersTab from "./(tabs)/charactersTab";
 import TabWrapper from "./(tabs)/animeTabWrapper";
 import EpisodesTab from "./(tabs)/episodesTab";
 import { SetBackground } from "@/components/ui/setBackground";
+import { string } from "zod";
 
 export default async function Page(
     props: {
@@ -28,28 +29,37 @@ export default async function Page(
 ) {
 
     const { id, slug } = await props.params
-    const charactersPromise = GetAnimeCharacters(id);
-    const franchisePromise = GetAnimeFranchise(id);
-    const episodesPromise = GetAnimeEpisodes(id)
     const anime = await GetAnime(id);
-
     if (!anime) notFound();
 
+    const charactersPromise = GetAnimeCharacters(id);
+    let franchisePromise = null
+    if (anime.franchise) {
+        franchisePromise = GetAnimeFranchise(anime.franchise.id);
+    }
+    const episodesPromise = GetAnimeEpisodes(id)
+    
     return (
         <div id="page-anime-details" className="page-content media-detail">
-            <SetBackground bgUrl={anime.bgUrl ? anime.bgUrl : '/wallpaper/miru-default.jpg'} />
+            <SetBackground bgUrl={anime.bgImageUrl ? anime.bgImageUrl : '/wallpaper/miru-default.jpg'} />
             <Hero anime={anime}/>
             <div id="main-content">
                 <MetaData anime={anime} franchisePromise={franchisePromise} />
                 <div>
                     <div id="ranks-franchise">
+                        <div id="summary">
+                            <Header text="Summary" />
+                            <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
+                        </div>
                         <Ranks anime={anime} />
-                        <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
-                            <AnimeFranchise franchisePromise={franchisePromise} />
-                        </Suspense>
                     </div>
                     <TabWrapper>
-                        <OverviewTab anime={anime} charactersPromise={charactersPromise} episodesPromise={episodesPromise} />
+                        <OverviewTab 
+                            anime={anime} 
+                            charactersPromise={charactersPromise} 
+                            episodesPromise={episodesPromise} 
+                            franchisePromise={franchisePromise}
+                        />
                         <Suspense fallback={<CharacterCardSkeleton />} >
                             <CharactersTab charactersPromise={charactersPromise} />
                         </Suspense>
@@ -78,7 +88,7 @@ function Ranks({anime}:{anime:Anime}) {
                 </div>
                 <div className="rank card">
                    <img src="/icons/anilist-logo.svg" alt="Anilist logo" />
-                   <p>Score: {anime.anilistdata.rankScore ? anime.anilistdata.rankScore : 'N/A'} | Popularity: {anime.anilistdata.rankPopular ? anime.anilistdata.rankPopular : 'N/A'}</p>
+                   <p>Score: {anime.anilistData.rankScore ? anime.anilistData.rankScore : 'N/A'} | Popularity: {anime.anilistData.rankPopular ? anime.anilistData.rankPopular : 'N/A'}</p>
                 </div>
                 <div className="rank card">
                     <img src="/icons/mal-logo.svg" alt="Myanimelist logo" />
@@ -101,7 +111,7 @@ function Hero(
             <SetBreadcrumbs breadcrumbs={['Miru', 'Anime', `${anime.title}`]} />
             <div id="hero" className="border-radius-md card">
                 <div className="mask"></div>
-                <img id="hero-image" src={anime.bannerImgUrl ? anime.bannerImgUrl : `/storage/miru/${anime.id}/cover.jpg`} alt={anime.title} />
+                <img id="hero-image" src={anime.bannerImageUrl ? anime.bannerImageUrl : `/storage/miru/${anime.id}/cover.jpg`} alt={anime.title} />
                 <div id="titles">
                     <p className="clr-miru-base txt-xxl">{anime.title}</p>
                     <p className="clr-txt-fadded">{anime.titleNative}</p>
@@ -110,24 +120,3 @@ function Hero(
         </React.Fragment>
     )
 }
-
-function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
-    return (
-        <div id="franchise">
-            <Header text="Franchise"/>
-            {
-                franchise ?
-                    <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} title={franchise.name} alt={franchise.name} />
-                        <div className="mask"></div>
-                        <p>{franchise.name}</p>
-                    </div>
-                :
-                    <p>No Franchise found</p>
-            }
-        </div>
-    )
-}
-

@@ -8,8 +8,6 @@ interface Rankings {
 export interface Anime extends Media {
     titleNative: string,
     titleJa: string,
-    bannerImgUrl: string,
-    coverImgUrl: string,
     bgUrl: string,
     season: string,
     status: string,
@@ -25,7 +23,7 @@ export interface Anime extends Media {
     airingStartDate: string,
     airingEndDate: string,
     malData: Rankings,
-    anilistdata: Rankings
+    anilistData: Rankings
 }
 
 export interface AnimeEpisode {
@@ -33,12 +31,19 @@ export interface AnimeEpisode {
     number: number,
     title: string,
     description: string,
-    coverImgUrl: string
+    coverImageUrl: string
 }
 
 export interface AnimeListEntry {
     anime: Anime,
+    status: number,
     score: number,
     startWatchDate: string,
     endWatchDate: string
+}
+
+export interface AnimeFilterInput {
+    status: number,
+    type: number,
+    title: string
 }

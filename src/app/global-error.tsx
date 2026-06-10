@@ -36,7 +36,6 @@ export default function GlobalError() {
                 if (isUp) {
                     setApiHasError('ok')
                     await delay(5000)
-                    window.location.href = '/'
                     return; 
                 } else {
                     attempts -= 1;

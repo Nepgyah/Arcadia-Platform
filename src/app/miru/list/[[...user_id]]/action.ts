@@ -5,65 +5,70 @@ import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
 import { ActionResult, GraphqlResponse } from "@/types/api";
 
 interface APIResponse {
-    getAnimeList: {
-        username: string,
-        watching: AnimeListEntry[],
-        completed: AnimeListEntry[],
-        planTo: AnimeListEntry[],
-        onHold: AnimeListEntry[]
+    miru: {
+        userAnimeList: {
+            user: string,
+            watching: AnimeListEntry[],
+            completed: AnimeListEntry[],
+            planTo: AnimeListEntry[],
+            onHold: AnimeListEntry[]
+        }
     }
 }
 
-export async function FetchAnimeListAction(userID: number) : Promise<ActionResult<APIResponse>> {
+export async function FetchAnimeListAction(profileID: number) : Promise<ActionResult<APIResponse>> {
     const query = `
-    query ($userId: ID!) {
-        getAnimeList(userId: $userId) {
-            username,
-            watching {
-                anime {
-                    id,
-                    slug,
-                    title
+    query($profileID: Int!) {
+        miru {
+            userAnimeList(profileId: $profileID) {
+                user,
+                watching {
+                    anime {
+                        id,
+                        slug,
+                        title
+                    },
+                    score,
+                    startWatchDate,
+                    endWatchDate
                 },
-                score,
-                startWatchDate,
-                endWatchDate
-            },
-            completed {
-                anime {
-                    id,
-                    slug,
-                    title
+                completed {
+                    anime {
+                        id,
+                        slug,
+                        title
+                    },
+                    score,
+                    startWatchDate,
+                    endWatchDate
                 },
-                score,
-                startWatchDate,
-                endWatchDate
-            },
-            planTo {
-                anime {
-                    id,
-                    slug,
-                    title
+                onHold {
+                    anime {
+                        id,
+                        slug,
+                        title
+                    },
+                    score,
+                    startWatchDate,
+                    endWatchDate
                 },
-                score,
-                startWatchDate,
-                endWatchDate
-            },
-            onHold {
-                anime {
-                    id,
-                    slug,
-                    title
-                },
-                score,
-                startWatchDate,
-                endWatchDate
+                planTo {
+                    anime {
+                        id,
+                        slug,
+                        title
+                    },
+                    score,
+                    startWatchDate,
+                    endWatchDate
+                }
             }
         }
     }
     `
 
-    const variables = { 'userId' : userID};
+    const variables = { 'profileID' : profileID};
+
     try {
         const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables);
         return {

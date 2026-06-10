@@ -3,7 +3,7 @@
 import Header from "@/components/ui/headers/header";
 import { useEffect, useState } from "react";
 
-import { Button, ButtonGroup, createListCollection, Field, IconButton, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
+import { Button, ButtonGroup, createListCollection, Field, IconButton, Input, NativeSelect, Pagination, Portal, Select } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import '@/styles/pages/miru/_search.scss';
@@ -11,25 +11,31 @@ import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import React from "react";
 import { FetchAnimeSearchAction } from "./actions";
 import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
-import { PaginationResults } from "@/types/pagination";
+import { PaginationResults, SortInput } from "@/types/pagination";
 import DetailMediaCard from "@/components/shared/mediaCards/detailedCard/detailedMediaCard";
 import DetailMediaCardSkeleton from "@/components/shared/mediaCards/detailedCard/detailedMediaCardSkeleton";
+import { AnimeFilterInput } from "@/types/miru";
+import { PaginationInput } from "@/types/api";
 
+const DEFAULT_PER_PAGE = 2
 export default function Page() {
 
     const [loading, setLoading] = useState(true)
 
-    const [animes, setAnime] = useState<any[]>([]);
-    const [mediaType, setMediaType] = useState(-1)
-    const [mediaStatus, setMediaStatus] = useState(-1)
-    const [mediaTitle, setMediaTitle] = useState("")
-
-    const [sortCategory, setSortCategory] = useState("")
-    const [sortDirection, setSortDirection] = useState<string>('desc')
-
-    const [perPage, setPerPage] = useState<number>(15)
-    const [currentPage, setCurrentPage] = useState<number>(1)
-    const [totalCount, setTotalCount] = useState<number>(0)
+    const [animes, setAnimes] = useState<any[]>([]);
+    const [filterInput, setFilterInput] = useState<AnimeFilterInput>({
+        type: -1,
+        status: -1,
+        title: ""
+    })
+    const [sortInput, setSortInput] = useState<SortInput>({
+        direction: "desc",
+        category: ""
+    })
+    const [paginationInput, setPaginationInput] = useState<PaginationInput>({
+        perPage: DEFAULT_PER_PAGE,
+        targetPage: 1
+    })
 
     const [paginationResults, setPaginationResults] = useState<PaginationResults>()
 
@@ -37,58 +43,89 @@ export default function Page() {
         SearchAnime(1)
     }, [])
 
-    async function SearchAnime(currentPage: number) {
-        const result = await FetchAnimeSearchAction(
-            mediaType,
-            mediaStatus,
-            mediaTitle,
-            sortCategory,
-            sortDirection,
-            {
-                perPage: perPage,
-                currentPage: currentPage
-            }
-        )
+    async function SearchAnime(targetPage: number) {
+        const updatedPagination: PaginationInput = {
+            perPage: paginationInput.perPage,
+            targetPage: targetPage
+        }
+        const result = await FetchAnimeSearchAction(filterInput, sortInput, updatedPagination)
 
         if (!result.success) {
             CreateErrorToaster(result.error)
         } else {
             setLoading(false);
-            setAnime(result.data.searchAnime.animes)
-            setPaginationResults(result.data.searchAnime.paginationResults)
+            setAnimes(result.data.miru.animes.results)
+            setPaginationResults(result.data.miru.animes.pagination)
         }
     }
 
     const handlePageChange = (direction: 'prev' | 'next') => {
-        if (direction === 'next') {
-            SearchAnime(currentPage + 1)
-            setCurrentPage((prev) => prev + 1)
-        } else {
-            setCurrentPage((prev) => prev + -1)
-            SearchAnime(currentPage - 1)
-        }
+        const newPage = direction === 'next' ? paginationInput.targetPage + 1 : paginationInput.targetPage - 1;
+        setPaginationInput((prevState) => ({
+            ...prevState,
+            targetPage: newPage
+        }))
+        SearchAnime(newPage);
     }
 
     const handleChangeFilter = (target: 'type' | 'status' | 'title', value: any) => {
         switch(target) {
             case 'type':
-                setMediaType(value)
+                setFilterInput((prevInput) => ({
+                    ...prevInput,
+                    type: value
+                }))
                 break;
             case 'status':
-                setMediaStatus(value)
+                setFilterInput((prevInput) => ({
+                    ...prevInput,
+                    status: value
+                }))
                 break;
             case 'title':
-                setMediaTitle(value)
+                setFilterInput((prevInput) => ({
+                    ...prevInput,
+                    title: value
+                }))
                 break;
         }
     }
 
-    const handleReset = () => {
-        setMediaType(-1)
-        setMediaStatus(-1)
-        setMediaTitle("")
-        setSortCategory("")
-        setSortDirection("asc")
+    const handleReset = async () => {
+        setFilterInput({
+            type: -1,
+            status: -1,
+            title: ""
+        })
+        setSortInput({
+            direction: "asc",
+            category: ""
+        })
+        setPaginationInput({
+            perPage: DEFAULT_PER_PAGE,
+            targetPage: 1
+        })
+        const result = await FetchAnimeSearchAction(
+            {
+            type: -1,
+            status: -1,
+            title: ""
+        },
+        {
+            direction: "asc",
+            category: ""
+        }, {
+            perPage: DEFAULT_PER_PAGE,
+            targetPage: 1
+        })
+
+        if (!result.success) {
+            CreateErrorToaster(result.error)
+        } else {
+            setLoading(false);
+            setAnimes(result.data.miru.animes.results)
+            setPaginationResults(result.data.miru.animes.pagination)
+        }
     }
 
     return (
@@ -100,7 +137,7 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Type</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={mediaType} onChange={(e) => handleChangeFilter('type', Number(e.target.value))}>
+                            <NativeSelect.Field value={filterInput.type} onChange={(e) => handleChangeFilter('type', Number(e.target.value))}>
                                 <option value={-1} disabled>Select Type</option>
                                 <option value={0}>Tv</option>
                                 <option value={1}>Movie</option>
@@ -114,7 +151,7 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Airing Status</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={mediaStatus} onChange={(e) => handleChangeFilter('status', Number(e.target.value))}>
+                            <NativeSelect.Field value={filterInput.status} onChange={(e) => handleChangeFilter('status', Number(e.target.value))}>
                                 <option value={-1} disabled>Select Status</option>
                                 <option value={0}>Not Yet Aired</option>
                                 <option value={1}>Airing</option>
@@ -122,13 +159,25 @@ export default function Page() {
                             </NativeSelect.Field>
                         </NativeSelect.Root>
                     </Field.Root>
+
+                    <Field.Root>
+                        <Field.Label>Title</Field.Label>
+                        <Input 
+                            value={filterInput.title} 
+                            onChange={(e) => handleChangeFilter('title', e.target.value)}
+                            placeholder="Uma, Fate, etc" 
+                        />
+                    </Field.Root>
                 </div>
                 <div id="sort" className="flex flex-column row-gap-md">
                     <Header text="Sort" />
                     <Field.Root>
                         <Field.Label>Category</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={sortCategory} onChange={(e) => setSortCategory(e.target.value)}>
+                            <NativeSelect.Field value={sortInput.category} onChange={(e) => setSortInput((prevInput) => ({
+                                ...prevInput,
+                                category: e.target.value
+                            }))}>
                                 <option value={""} disabled>Select Category</option>
                                 <option value={'score'}>Score</option>
                                 <option value={'users'}>Users</option>
@@ -139,8 +188,15 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Direction</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={sortDirection} onChange={(e) => setSortDirection(e.target.value)}>
-                                <option value={""} disabled>Select Direction</option>
+                            <NativeSelect.Field value={sortInput.direction} onChange={(e) => {
+                                const direction = e.target.value as 'asc' | 'desc';
+
+                                setSortInput((prevInput) => ({
+                                    ...prevInput,
+                                    direction,
+                                }));
+                            }}>
+                                <option value={''} disabled>Select Direction</option>
                                 <option value={'asc'}>Ascending</option>
                                 <option value={'desc'}>Descending</option>
                             </NativeSelect.Field>
@@ -152,7 +208,10 @@ export default function Page() {
                     <Field.Root>
                         <Field.Label>Per Page</Field.Label>
                         <NativeSelect.Root>
-                            <NativeSelect.Field value={perPage} onChange={(e) => setPerPage(Number(e.target.value))}>
+                            <NativeSelect.Field value={paginationInput.perPage} onChange={(e) => setPaginationInput((prevInput) => ({
+                                ...prevInput,
+                                perPage: Number(e.target.value)
+                            }))}>
                                 <option value={9}>9</option>
                                 <option value={15}>15</option>
                                 <option value={21}>21</option>
@@ -162,7 +221,7 @@ export default function Page() {
                 </div>
                 <Button
                     className="btn-primary" 
-                    onClick={() => SearchAnime(currentPage)}
+                    onClick={() => SearchAnime(1)}
                 >
                     Search
                 </Button>
@@ -205,7 +264,7 @@ export default function Page() {
                                         summary={anime.summary}
                                         users={anime.users}
                                         score={anime.score}
-                                        src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
+                                        src={anime.coverImageUrl ? anime.coverImageUrl : `/storage/miru/${anime.id}/cover.jpg`}
                                         franchise={anime.franchise}
                                     />
                                 ))

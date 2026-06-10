@@ -18,7 +18,7 @@ import CharactersTab from "./(tabs)/characters";
 import DLCTab from "./(tabs)/dlc";
 import Overviewtab from "./(tabs)/overview";
 import ReviewTab from "./(tabs)/reviews";
-import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./queries";
+import { FetchCharacters, FetchDLC, FetchFranchise, FetchGame, FetchReviews } from "./query";
 import Image from "next/image";
 import { SetBackground } from "@/components/ui/setBackground";
 
@@ -29,24 +29,26 @@ export default async function Page(
 ) {
 
     const { id, slug } = await props.params;
-    const franchisePromise = FetchFranchise(id)
-    const characterPromise = FetchCharacters(id)
-    const dlcPromise = FetchDLC(id)
-    const reviews = FetchReviews(id)
     const game = await FetchGame(id);
     if (!game) notFound();
-
+    const franchisePromise = FetchFranchise(Number(game.franchise.id))
+    const characterPromise = FetchCharacters(Number(id))
+    const dlcPromise = FetchDLC(Number(id))
+    // const reviews = FetchReviews(id)
 
     return (
         <div id="page-game-details" className="page-content media-detail">
-            <SetBackground bgUrl={game.bgUrl ? game.bgUrl : '/wallpaper/asobu-default.jpg'} />
+            <SetBackground bgUrl={game.bgImageUrl ? game.bgImageUrl : '/wallpaper/asobu-default.jpg'} />
             <Hero game={game}/>
             <div id="main-content">
                 <Metadata game={game} franchisePromise={franchisePromise} />
                 <div>
                     <div id="ranks-franchise" className="two-column">
                         <Ranks game={game} />
-                        <GameFranchise franchisePromise={franchisePromise} />
+                        <div id="summary">
+                            <Header text="Summary" />
+                            <div id="summary-text" dangerouslySetInnerHTML={{ __html: game.summary }}></div>
+                        </div>
                     </div>
                     <TabWrapper>
                         <Overviewtab game={game} franchisePromise={franchisePromise} characterPromise={characterPromise}/>
@@ -56,9 +58,9 @@ export default async function Page(
                         <Suspense fallback={<CharacterCardSkeleton />} >
                             <DLCTab dlcPromise={dlcPromise} gameID={id}/>
                         </Suspense>
-                        <Suspense fallback={<CharacterCardSkeleton />}>
+                        {/* <Suspense fallback={<CharacterCardSkeleton />}>
                             <ReviewTab reviewPromise={reviews} />
-                        </Suspense>
+                        </Suspense> */}
                     </TabWrapper>
                 </div>
             </div>
@@ -72,7 +74,7 @@ function Hero({game}:{game: AsobuGame}) {
             <SetBreadcrumbs breadcrumbs={['Asobu', 'Game', `${game.title}`]} />
             <div id="hero" className="border-radius-md card">
                 <div className="mask"></div>
-                <img id="hero-image" src={`/storage/asobu/${game.id}/banner.jpg`} alt={game.title} />
+                <img id="hero-image" src={game.bannerImageUrl} alt={game.title} />
                 <div id="titles">
                     <p className="clr-asobu-base txt-xxl">{game.title}</p>
                 </div>
@@ -102,26 +104,6 @@ function Ranks({game}:{game:AsobuGame}) {
                     TDB
                 </div>
             </div>
-        </div>
-    )
-}
-
-function GameFranchise({franchisePromise}:{franchisePromise : Promise<Franchise>}) {
-    const franchise = use(franchisePromise)
-
-    return (
-        <div id="franchise">
-            <Header text="Franchise"/>
-            {
-                franchise ?
-                    <div className="card">
-                        <img src={`/storage/franchise/${franchise.id}.jpg`} alt={franchise.name} />
-                        <div className="mask"></div>
-                        <p>{franchise.name}</p>
-                    </div>
-                :
-                    <p>No Franchise found</p>
-            }
         </div>
     )
 }

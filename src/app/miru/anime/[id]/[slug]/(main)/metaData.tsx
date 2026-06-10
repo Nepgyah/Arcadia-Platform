@@ -15,7 +15,7 @@ export default function MetaData(
         franchisePromise
     } : { 
         anime: Anime
-        franchisePromise: Promise<Franchise>
+        franchisePromise: Promise<Franchise> | null
     }
 ) {
     return (
@@ -24,7 +24,9 @@ export default function MetaData(
             <div>
                 <Header text="Socials" />
                 <Suspense fallback={<SocialsSkeleton />}>
-                    <SocialMedia franchisePromise={franchisePromise}/>
+                    {
+                        franchisePromise && <SocialMedia franchisePromise={franchisePromise}/>
+                    }
                 </Suspense>
             </div>
             <div>

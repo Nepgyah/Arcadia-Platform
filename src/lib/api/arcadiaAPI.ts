@@ -47,7 +47,6 @@ export class ArcadiaAPI {
         if (access_token) {
             headers['authorization'] = `Bearer ${access_token}`
         }
-
         try {
             const response = await fetch(
                 api_endpoint,
