@@ -122,6 +122,43 @@ export async function UpdateGameListEntry(gameID: number, details: GameListEntry
     }
 }
 
+interface DeleteListResponse {
+    deleteGameListEntry : {
+        message: string,
+    }
+}
+export async function DeleteGameListEntry(gameID: number) : Promise<ActionResult<DeleteListResponse>> {
+    const mutation = 
+    `
+    mutation($gameID: Int!){
+        deleteGameListEntry(
+            gameId: $gameID,
+        ) {
+            message,
+            entry {
+            id
+            }
+        }
+    }
+    `
+
+    const variables = { 'gameID': gameID }
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<DeleteListResponse>>(mutation, variables);
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+// Game Review
 interface CreateGameReviewResponse {
     createGameReview: {
         message: string,
