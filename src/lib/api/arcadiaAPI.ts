@@ -70,16 +70,7 @@ export class ArcadiaAPI {
 
     GraphQL = cache(async <T>(query: any, variables = {}): Promise<T> => {
         const api_endpoint = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
-        const cookieStore = await cookies()
-        const access_token = cookieStore.get('access_token')?.value
-
-        const headers: Record<string, string> = {
-            "Content-Type": "application/json"
-        }
-
-        if (access_token) {
-            headers['authorization'] = `Bearer ${access_token}`
-        }
+        const headers = await this.setHeader()
 
         try {
             const response = await fetch(
@@ -107,6 +98,21 @@ export class ArcadiaAPI {
             throw Error(error.message)
         }
     })
+
+    private async setHeader() {
+        const cookieStore = await cookies()
+        const access_token = cookieStore.get('access_token')?.value
+
+        const headers: Record<string, string> = {
+            "Content-Type": "application/json"
+        }
+
+        if (access_token) {
+            headers['authorization'] = `Bearer ${access_token}`
+        }
+
+        return headers
+    }
 }
 
 export const arcadiaAPI = new ArcadiaAPI()

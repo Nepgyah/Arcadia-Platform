@@ -3,21 +3,10 @@ Introducing the Arcadia Platform. The web app that helps users view and track an
 <br><br>
 Visit Arcadia: https://arcadia-platform.vercel.app
 
-## Latest Release - Alpha 2.0 - 5/12/2026
-- **Dev**
-    - Add eslint
-    - Add github actions
-    
-- **General**
-    - Add toaster helper functions
-    - Add login required component
-    - Organize folder structure
-    - Organize import order for files
+## Latest Release - Alpha 2.1 - 6/xx/2026
 
-- **Asobu**
-    - Add gamelist page
-    - Add create/update gamelist entry on game detail page
-    - Add reviews tab on game detail page
+- **General**
+    - Update graph queries to reflect api changes
     
 ## Why I Started Arcadia
 See [API docs](https://github.com/Nepgyah/Arcadia-API?tab=readme-ov-file#why-i-started-arcadia) for information
