@@ -6,7 +6,8 @@ export interface Franchise {
     id: number,
     name: string,
     slug: string,
-    socials: Socials
+    socials: Socials,
+    coverImage: string
 }
 
 export interface Media {
@@ -18,9 +19,27 @@ export interface Media {
     summary: string,
     created_at: string,
     updated_at: string,
-    franchise: Franchise
+    franchise: Franchise,
+    coverImageUrl: string,
+    bannerImageUrl: string,
+    bgImageUrl: string,
+    cast: MediaCast[]
 }
 
+export interface MediaCast {
+    character: {
+        id: number,
+        coverImageUrl: string,
+        fullName: string
+    },
+    voiceActor: {
+        id: number,
+        fullName: string,
+        slug: string,
+        coverImageUrl: string
+    },
+    role: string
+}
 export interface MediaReview {
     id: number,
     text: string,

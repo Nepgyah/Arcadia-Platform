@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 import { useUserStore } from "@/app/store/userStore";
-import { Button, Field, NativeSelect } from "@chakra-ui/react";
+import { Button, CloseButton, Dialog, Field, NativeSelect, Portal } from "@chakra-ui/react";
 import Header from "@/components/ui/headers/header";
-import { CreateErrorToaster } from "@/lib/helper/toasterHelpers";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import { toaster } from "@/components/ui/toaster";
 import SelectScore from "@/components/ui/selectScore";
 import ReviewDialog from "@/components/shared/reviewDialog";
@@ -13,7 +13,7 @@ import MediaReviewContextWrapper from "@/contexts/hasReviewContext";
 import { GameListEntry, GameListEntryMetadataSchema } from "@/types/asobu";
 import { MediaReview } from "@/types/base";
 
-import { CreateGameListEntry, CreateGameReview, DeleteGameReview, FetchUserGameListEntry, UpdateeGameListEntry, UpdateGameReview } from "./actions";
+import { CreateGameListEntry, CreateGameReview, DeleteGameListEntry, DeleteGameReview, FetchUserGameListEntry, UpdateGameListEntry, UpdateGameReview } from "./actions";
 
 export default function GameListInput({gameID} : {gameID: number}) {
     const user = useUserStore((state) => state.user);
@@ -24,23 +24,18 @@ export default function GameListInput({gameID} : {gameID: number}) {
     const [isEntryFound, setIsEntryFound] = useState<boolean>(false);
     const [review, setReview] = useState<MediaReview | null>(null)
     const [hasReview, setHasReview] = useState<boolean>(false)
-    const [isOpen, setIsOpen] = useState(false)
+    const [isDeleteListDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     useEffect(() => {
         const fetchEntry = async (gameID: number) => {
             const result = await FetchUserGameListEntry(gameID);
 
             if (result.success) {
-                if (result.data.gameListEntry) {
+                if (result.data.asobu.userGameListEntry) {
                     setIsEntryFound(true)
-                    setEntry(result.data.gameListEntry)
-                    setStatus(result.data.gameListEntry.status)
-                    setScore(result.data.gameListEntry.score)
-                }
-
-                if (result.data.userGameReview) {
-                    setHasReview(true)
-                    setReview(result.data.userGameReview)
+                    setEntry(result.data.asobu.userGameListEntry)
+                    setStatus(result.data.asobu.userGameListEntry.status)
+                    setScore(result.data.asobu.userGameListEntry.score)
                 }
             } else {
                 CreateErrorToaster(result.error)
@@ -48,16 +43,16 @@ export default function GameListInput({gameID} : {gameID: number}) {
         }
 
         if (user && gameID) {
-            fetchEntry(gameID)
+            fetchEntry(Number(gameID))
         }
     }, [user, gameID])
 
     const formatDetails = () => {
         try {
             let details = GameListEntryMetadataSchema.parse({
+                status: status,
                 score: score,
                 note: null,
-                review: null,
                 startPlayDate: null,
                 endPlayDate: null
             })
@@ -78,7 +73,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
         } else {
             const formattedDetails = formatDetails()
             if (formattedDetails) {
-                const result = await CreateGameListEntry(gameID, status, formattedDetails)
+                const result = await CreateGameListEntry(Number(gameID), formattedDetails)
 
                 if (result.success) {
                     toaster.create({
@@ -105,7 +100,7 @@ export default function GameListInput({gameID} : {gameID: number}) {
         } else {
             const formattedDetails = formatDetails()
             if (formattedDetails) {
-                const result = await UpdateeGameListEntry(gameID, status, formattedDetails)
+                const result = await UpdateGameListEntry(Number(gameID), formattedDetails)
 
                 if (result.success) {
                     toaster.create({
@@ -119,25 +114,29 @@ export default function GameListInput({gameID} : {gameID: number}) {
             }
         }
     }
+    
+    const handleDeleteEntry = async () => {
+        const result = await DeleteGameListEntry(Number(gameID))
+
+        if (result.success) {
+            CreateSuccessToaster("Entry deleted.")
+            setIsEntryFound(false)
+            setStatus(-1)
+            setScore(-1)
+            setIsDeleteDialogOpen(false)
+        } else {
+            CreateErrorToaster(result.error)
+        }
+    }
 
     return (
         <MediaReviewContextWrapper hasReview={hasReview} setHasReview={setHasReview}>
+            <DeleteListModal 
+                isOpen={isDeleteListDialogOpen}
+                setIsOpen={setIsDeleteDialogOpen}
+                handleDelete={handleDeleteEntry}
+            />
             <div id="game-list-input">
-                <ReviewDialog 
-                    key={review?.id}
-                    review={review}
-                    app="asobu"
-                    dialogState={{
-                        isOpen: isOpen,
-                        setIsOpen: setIsOpen,
-                    }} 
-                    serverActions={{
-                        create: CreateGameReview,
-                        update: UpdateGameReview,
-                        delete: DeleteGameReview
-                    }}
-                    mediaID={gameID}
-                />
                 <Header text="Entry" />
                 {
                     !user ? 
@@ -171,15 +170,10 @@ export default function GameListInput({gameID} : {gameID: number}) {
                                         Update
                                     </Button>
                                     <Button 
-                                        onClick={() => setIsOpen(true)}
+                                        onClick={() => setIsDeleteDialogOpen(true)}
                                         variant={'ghost'}
                                     >
-                                        {
-                                            hasReview ?
-                                                'Update Review'
-                                            :
-                                                'Add Review'
-                                        }
+                                        Delete
                                     </Button>
                                 </>
                             :
@@ -198,5 +192,43 @@ export default function GameListInput({gameID} : {gameID: number}) {
                 }
             </div>
         </MediaReviewContextWrapper>
+    )
+}
+
+function DeleteListModal(
+    {
+        isOpen,
+        setIsOpen,
+        handleDelete
+    } : {
+        isOpen: boolean,
+        setIsOpen: (open: boolean) => void,
+        handleDelete: () => void
+}) {
+    return (
+        <Dialog.Root lazyMount open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
+            <Portal>
+                <Dialog.Backdrop />
+                <Dialog.Positioner>
+                <Dialog.Content>
+                    <Dialog.Header>
+                    <Dialog.Title>Confirmation</Dialog.Title>
+                    </Dialog.Header>
+                    <Dialog.Body>
+                        <p>This action cannot be undone.</p>
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                    <Dialog.ActionTrigger asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </Dialog.ActionTrigger>
+                    <Button onClick={() => handleDelete()}>Delete</Button>
+                    </Dialog.Footer>
+                    <Dialog.CloseTrigger asChild>
+                    <CloseButton size="sm" />
+                    </Dialog.CloseTrigger>
+                </Dialog.Content>
+                </Dialog.Positioner>
+            </Portal>
+        </Dialog.Root>
     )
 }

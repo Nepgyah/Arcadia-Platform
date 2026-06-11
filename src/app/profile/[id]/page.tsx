@@ -18,7 +18,6 @@ export default async function Page(
 ) {
     const { id, username } = await params
     const user = await FetchUser(id)
-
     if (!user) notFound();
     
     return (
@@ -47,19 +46,19 @@ export default async function Page(
                                     <StatCard
                                         icon={Tv}
                                         label="Anime Watched"
-                                        value={user.listData.anime}
+                                        value={user.animeListCount}
                                     />
                                 </Tooltip>
                             </Link>
                             <StatCard
                                 icon={Book}
                                 label="Manga Read"
-                                value={user.listData.manga}
+                                value={0}
                             />
                             <StatCard
                                 icon={Gamepad2}
                                 label="Games Played"
-                                value={user.listData.games}
+                                value={0}
                             />
                             <StatCard
                                 icon={Ticket}
@@ -78,15 +77,17 @@ async function FetchUser(userId: string) {
     const query =
     `
     query {
-        User(userId: ${userId}){
-            id,
-            username,
-            picturePreset,
-            listData
+        account {
+            profile {
+                id,
+                picturePreset,
+                username,
+                animeListCount
+            }
         }
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<{ data: { User: User}}>(query)
-    return response.data.User
+    const response = await arcadiaAPI.GraphQL<any>(query)
+    return response.data.account.profile
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import '@/styles/pages/_global-error.scss';
+import Link from 'next/link';
 import { useEffect, useState } from "react";
 
 export default function GlobalError() {
@@ -79,6 +80,9 @@ export default function GlobalError() {
                                     <p>The api has responded with a ok status!</p>
                                     <p>You will be redirected soon to the Arcadia platform.</p>
                                     <p>Thank you for your patients and enjoy Arcadia - The D2X Team</p>
+                                    <button onClick={() => window.location.reload()}>
+                                        Enter Arcadia
+                                    </button>
                                 </>
                         }
                     </div>

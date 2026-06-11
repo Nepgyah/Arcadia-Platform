@@ -1,9 +1,9 @@
 'use server';
 
-import { Anime } from "@/types/miru";
+import { ActionResult, GraphqlResponse, PaginationInput } from "@/types/api";
+import { Anime, AnimeFilterInput } from "@/types/miru";
+import { PaginationResults, SortInput } from "@/types/pagination";
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
-import { ActionResult, GraphqlResponse } from "@/types/api";
-import { PaginationResults } from "@/types/pagination";
 
 interface APIResponse {
     miru: {
@@ -14,31 +14,34 @@ interface APIResponse {
     }
 }
 
-export async function FetchPopularAnimeAction(targetPage: number) : Promise<ActionResult<APIResponse>> {
+export async function FetchAnimeSearchAction(
+    filterInput: AnimeFilterInput,
+    sortInput: SortInput,
+    paginationInput: PaginationInput
+) : Promise<ActionResult<APIResponse>> {
     const query = 
-        `
-        query($targetPage: Int!) {
+    `
+        query (
+            $filterInput: AnimeFilterInput!,
+            $sortInput: SortInput!,
+            $paginationInput: PaginationInput!
+        ) {
             miru {
                 animes(
-                    sort: {
-                        category: "users",
-                        direction: "desc"
-                    },
-                        pagination: {
-                        perPage: 12,
-                        targetPage: $targetPage
-                    }) {
+                filters: $filterInput,
+                sort: $sortInput,
+                pagination: $paginationInput) {
                     results {
                         id,
                         title,
-                        coverImageUrl,
                         score,
                         users,
                         summary,
                         slug,
                         franchise {
                             name
-                        }
+                        },
+                        coverImageUrl
                     },
                     pagination {
                         perPage,
@@ -49,10 +52,14 @@ export async function FetchPopularAnimeAction(targetPage: number) : Promise<Acti
             }
         }
     `
+    const variables = {
+        filterInput: filterInput,
+        sortInput: sortInput,
+        paginationInput: paginationInput
+    }
 
-    const variables = { "targetPage": targetPage}
     try {
-        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables)
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables);
         return {
             success: true,
             data: response.data

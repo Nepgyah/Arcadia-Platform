@@ -80,11 +80,11 @@ function SocialMedia({franchisePromise}:{franchisePromise:Promise<Franchise>}) {
 
 function Platforms({game}:{game : AsobuGame}) {
 
-    if (game.platforms.length) {
+    if (game.release.length) {
         return (
             <div className="flex-row row-gap-md">
                 {
-                    game.platforms.map((node: any, idx: number) => (
+                    game.release.map((node: any, idx: number) => (
                         <InfoItem 
                             key={idx}
                             label={node.platform.name} 

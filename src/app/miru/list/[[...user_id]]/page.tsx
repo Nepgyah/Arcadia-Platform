@@ -41,11 +41,11 @@ export default function Page({params} : {params : Promise<{ user_id : number}> }
                     type: 'error'
                 })
             } else {
-                setWatchlist(result.data.getAnimeList.watching)
-                setCompletedList(result.data.getAnimeList.completed)
-                setPlanToList(result.data.getAnimeList.planTo)
-                setOnHoldList(result.data.getAnimeList.onHold)
-                setUserName(result.data.getAnimeList.username)
+                setWatchlist(result.data.miru.userAnimeList.watching)
+                setCompletedList(result.data.miru.userAnimeList.completed)
+                setPlanToList(result.data.miru.userAnimeList.planTo)
+                setOnHoldList(result.data.miru.userAnimeList.onHold)
+                setUserName(result.data.miru.userAnimeList.user)
                 setLoading(false)
             }
         }
@@ -53,10 +53,9 @@ export default function Page({params} : {params : Promise<{ user_id : number}> }
         if (user != undefined) {
             if (user_id) {
                 const convertedUserID = Number(user_id)
-                FetchList(convertedUserID)
+                FetchList(Number(convertedUserID))
             } else if (user) {
-                console.log('Using user object')
-                FetchList(user.id)
+                FetchList(Number(user.id))
             } else {
                 CreateErrorToaster('Cannot find user to search')
             }

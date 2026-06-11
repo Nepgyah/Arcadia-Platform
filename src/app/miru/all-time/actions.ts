@@ -6,53 +6,51 @@ import { ActionResult, GraphqlResponse } from "@/types/api";
 import { PaginationResults } from "@/types/pagination";
 
 interface APIResponse {
-    searchAnime: {
-        animes: Anime[],
-        paginationResults: PaginationResults
+    miru: {
+        animes: {
+            results: Anime[],
+            pagination: PaginationResults
+        }
     }
 }
 
 export async function FetchAllTimeAnimeAction(targetPage: number) : Promise<ActionResult<APIResponse>> {
     const query = 
         `
-        query ($targetPage: Int!){
-            searchAnime(
-                filterInput: {
-                    type: -1,
-                    status: -1,
-                    title: "",
-                },
-                sortInput: {
-                    category: "score",
-                    direction: "desc"
-                },
-                paginationInput: {
-                    perPage: 10,
-                    targetPage: $targetPage
-                }
-            ) {
-                animes {
-                    id,
-                    title,
-                    coverImgUrl,
-                    score,
-                    users,
-                    summary,
-                    slug,
-                    franchise {
-                        name
+        query($targetPage: Int!) {
+            miru {
+                animes(
+                    sort: {
+                        category: "score",
+                        direction: "desc"
+                    },
+                        pagination: {
+                        perPage: 12,
+                        targetPage: $targetPage
+                    }) {
+                    results {
+                        id,
+                        title,
+                        coverImageUrl,
+                        score,
+                        users,
+                        summary,
+                        slug,
+                        franchise {
+                            name
+                        }
+                    },
+                    pagination {
+                        perPage,
+                        totalPages,
+                        totalItems
                     }
-                },
-                paginationResults {
-                    perPage,
-                    totalPages,
-                    totalItems
                 }
             }
         }
     `
 
-    const variables = { targetPage: targetPage}
+    const variables = { "targetPage": targetPage}
     try {
         const response = await arcadiaAPI.GraphQL<GraphqlResponse<APIResponse>>(query, variables)
         return {

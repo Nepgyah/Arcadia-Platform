@@ -59,7 +59,6 @@ class D2XAPI {
                 return res.json();
             }
         } catch(error) {
-            console.log(error)
             throw 'Error occurred calling the d2x API'
         }
     }

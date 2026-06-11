@@ -54,7 +54,7 @@ export default async function Home() {
                                     id={media.id}
                                     app='miru'
                                     title={media.title}
-                                    imagePath={media.coverImgUrl ? media.coverImgUrl : `/storage/miru/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl ? media.coverImageUrl : `/storage/miru/${media.id}/cover.jpg`}
                                     href={`miru/anime/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -76,7 +76,7 @@ export default async function Home() {
                                     id={media.id}
                                     app='asobu'
                                     title={media.title}
-                                    imagePath={`/storage/asobu/${media.id}/cover.jpg`}
+                                    imagePath={media.coverImageUrl}
                                     href={`asobu/game/${media.id}/${media.slug}`}
                                 />
                             ))
@@ -110,51 +110,80 @@ async function FetchAnime() {
     const query = 
     `
     query {
-        animeByCategory(category: "score", count: 5) {
-            id,
-            title,
-            slug,
-            coverImgUrl
+        miru {
+            animes(sort: {
+                category: "score",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    coverImageUrl,
+                    score
+                }
+            }
         }
     }
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data.animeByCategory
+    return response.data.miru.animes.results
 }
 
 async function FetchGames() {
     const query = 
     `
     query {
-        gamesByCategory(category: "-score", count: 5) {
-            id,
-            title,
-            slug
+        asobu {
+            games(sort: {
+                category: "score",
+                direction: "desc"
+            },
+            pagination: {
+                perPage: 5,
+                targetPage: 1
+            }) {
+                results {
+                    id,
+                    title,
+                    slug,
+                    score,
+                    coverImageUrl
+                }
+            }
         }
     }
     `
     const response = await arcadiaAPI.GraphQL<any>(query)
-    return response.data.gamesByCategory
+    return response.data.asobu.games.results
 }
 
 interface ArcadiaStatsResponse {
-    arcadiaStats: {
-        animeCount: number,
-        gameCount: number
-    }
+    animeCount: number,
+    gameCount: number
 }
 
 async function FetchStats() {
     const query =
     `
     query {
-        arcadiaStats {
-            animeCount,
+        asobu {
             gameCount
+        },
+        miru {
+            animeCount
         }
     }
     `
 
-    const response = await arcadiaAPI.GraphQL<GraphqlResponse<ArcadiaStatsResponse>>(query)
-    return response.data.arcadiaStats
+    const response = await arcadiaAPI.GraphQL<GraphqlResponse<any>>(query)
+    let data: ArcadiaStatsResponse = {
+        animeCount: response.data.miru.animeCount,
+        gameCount: response.data.asobu.gameCount
+    }
+    return data
 }

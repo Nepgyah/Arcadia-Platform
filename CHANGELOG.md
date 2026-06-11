@@ -1,3 +1,19 @@
+## Alpha 2.0 - 5/12/2026
+- **Dev**
+    - Add eslint
+    - Add github actions
+    
+- **General**
+    - Add toaster helper functions
+    - Add login required component
+    - Organize folder structure
+    - Organize import order for files
+
+- **Asobu**
+    - Add gamelist page
+    - Add create/update gamelist entry on game detail page
+    - Add reviews tab on game detail page
+
 ## Alpha 1.2 - 4/15/2026
 - **General**
     - Add zod library

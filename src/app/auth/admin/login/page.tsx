@@ -29,7 +29,7 @@ export default function Page() {
         .catch((res) => {
             setLoading(false)
             toaster.create({
-                title: res,
+                title: "Error",
                 type: 'error'
             })
         })
@@ -42,7 +42,7 @@ export default function Page() {
             <Field.Root>
                 <Field.Label>Email</Field.Label>
                 <Input
-                    placeholder="Username"
+                    placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)} 
                 />
             </Field.Root>

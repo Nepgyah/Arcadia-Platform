@@ -7,25 +7,26 @@ import CharacterCard from "@/components/shared/characters/character-card";
 import RelationMedia from "@/components/shared/relation-media";
 import CharacterCardSkeleton from "@/components/shared/characters/characterCardSkeleton";
 import VideoCard from "@/components/shared/videoCard";
+import { Franchise } from "@/types/base";
 
 export default function OverviewTab(
     {
-        anime, charactersPromise, episodesPromise
+        anime, charactersPromise, episodesPromise, franchisePromise
     } : {
         anime: Anime,
         charactersPromise: Promise<any[]>,
-        episodesPromise: Promise<any[]>
+        episodesPromise: Promise<any[]>,
+        franchisePromise: Promise<any> | null
     }
 ) {
     return (
         <div id="overview-tab" className="flex flex-column row-gap-md">
             <div id="genres-franchise" className="two-column">
-                <div id="summary">
-                    <Header text="Summary" />
-                    <div id="summary-text" dangerouslySetInnerHTML={{ __html: anime.summary }}></div>
-                </div>
                 <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
                     <LatestEpisode episodesPromise={episodesPromise} animeID={anime.id} animeSlug={anime.slug} />
+                </Suspense>
+                <Suspense fallback={<Skeleton height="200px" width={'100%'}/>}>
+                    <AnimeFranchise franchisePromise={franchisePromise} />
                 </Suspense>
             </div>
             <div id="overview-characters">
@@ -53,14 +54,14 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
             {
                 characters.map((entry: any, idx: number) => {
                     if(idx < 6) {
-                        let lSideSrc = (entry.character.coverImgUrl) ? entry.character.coverImgUrl : `/storage/characters/${entry.character.id}.jpg`
+                        let lSideSrc = (entry.character.coverImageUrl) ? entry.character.coverImageUrl : `/storage/characters/${entry.character.id}.jpg`
                         let rSideSrc = null
     
-                        if (entry.character.voiceActor) {
-                            if (entry.character.voiceActor.coverImgUrl) {
-                                rSideSrc = entry.character.voiceActor.coverImgUrl
+                        if (entry.voiceActor) {
+                            if (entry.voiceActor.coverImageUrl) {
+                                rSideSrc = entry.voiceActor.coverImageUrl
                             } else {
-                                rSideSrc = `/storage/voice-actors/${entry.character.voiceActor.id}.jpg`
+                                rSideSrc = `/storage/voice-actors/${entry.voiceActor.id}.jpg`
                             }
                         }
                         
@@ -71,10 +72,10 @@ function Characters({charactersPromise}:{charactersPromise : Promise<any>}) {
                                 lSideNote={entry.role}
                                 lSideSrc={lSideSrc}
                                 lSideLink={null}
-                                rSideTitle={entry.character.voiceActor ? `${entry.character.voiceActor.firstName} ${entry.character.voiceActor.lastName}` : 'N/A'}
+                                rSideTitle={entry.voiceActor ? entry.voiceActor.fullName : 'N/A'}
                                 rSideNote="Japanese"
                                 rSideSrc={rSideSrc}
-                                rSideLink={entry.character.voiceActor ? `/voice-actor/${entry.character.voiceActor.id}/${entry.character.voiceActor.slug}` : null}
+                                rSideLink={entry.voiceActor ? `/voice-actor/${entry.voiceActor.id}/${entry.voiceActor.slug}` : null}
                             />
                         )
                     }
@@ -97,7 +98,7 @@ function Relationships({anime}:{anime : Anime}) {
                                 app="miru" 
                                 relation="Prequel"
                                 link={`/miru/anime/${anime.prequel.id}/${anime.prequel.slug}`}
-                                src={anime.prequel.coverImgUrl ? anime.prequel.coverImgUrl : `/storage/miru/${anime.prequel.id}/cover.jpg`}
+                                src={anime.prequel.coverImageUrl ? anime.prequel.coverImageUrl : `/storage/miru/${anime.prequel.id}/cover.jpg`}
                             />
                         :
                             <p>No Prequel Found</p>
@@ -115,7 +116,7 @@ function Relationships({anime}:{anime : Anime}) {
                                             app="miru" 
                                             relation="Sequel"
                                             link={`/miru/anime/${anime.id}/${anime.slug}`}
-                                            src={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
+                                            src={anime.coverImageUrl ? anime.coverImageUrl : `/storage/miru/${anime.id}/cover.jpg`}
                                         />
                                     ))
                                 }
@@ -148,7 +149,7 @@ function LatestEpisode({
             {
                 latestEpisode ?
                     <VideoCard 
-                        src={latestEpisode.coverImgUrl ? latestEpisode.coverImgUrl : `/storage/miru/${animeID}/episodes/${latestEpisode.number}.jpg`} 
+                        src={latestEpisode.coverImageUrl ? latestEpisode.coverImageUrl : `/storage/miru/${animeID}/episodes/${latestEpisode.number}.jpg`} 
                         href={`/miru/anime/${animeID}/${animeSlug}/watch/${latestEpisode.number}`}
                         title={`Ep: ${latestEpisode.number} - ${latestEpisode.title}`} 
                         subText=''                            
@@ -157,5 +158,27 @@ function LatestEpisode({
                     <p>Episodes not found</p>
             }
         </div>  
+    )
+}
+
+function AnimeFranchise({franchisePromise}:{franchisePromise : Promise<Franchise> | null}) {
+    let franchise = null
+    if(franchisePromise) {
+        franchise = use(franchisePromise)
+    }
+    return (
+        <div id="franchise">
+            <Header text="Franchise"/>
+            {
+                franchise ?
+                    <div className="card">
+                        <img src={franchise.coverImage ? franchise.coverImage : ''} alt="" />
+                        <div className="mask"></div>
+                        <p>{franchise.name}</p>
+                    </div>
+                :
+                    <p>No Franchise found</p>
+            }
+        </div>
     )
 }

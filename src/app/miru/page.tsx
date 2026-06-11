@@ -51,7 +51,7 @@ function AnimeList({animePromise}:{animePromise: Promise<any>}) {
                         key={idx} app="miru" 
                         title={anime.title} 
                         id={anime.id} 
-                        imagePath={anime.coverImgUrl ? anime.coverImgUrl : `/storage/miru/${anime.id}/cover.jpg`}
+                        imagePath={anime.coverImageUrl ? anime.coverImageUrl : `/storage/miru/${anime.id}/cover.jpg`}
                         href={`miru/anime/${anime.id}/${anime.slug}`}
                     />
                 )) 

@@ -9,7 +9,7 @@ export default function CharacterCard(
         rSideTitle, rSideNote, rSideLink, rSideSrc,
     } : {
         lSideTitle: string, lSideNote: string, lSideLink: string | null, lSideSrc: string,
-        rSideTitle: string, rSideNote: string, rSideLink: string | null, rSideSrc: string
+        rSideTitle: string, rSideNote: string, rSideLink: string | null, rSideSrc: string | null
 }) {
 
     const [sideSelected, setSideSelected] = useState<'left' | 'right' | null>(null)
@@ -32,7 +32,7 @@ export default function CharacterCard(
                                 <p className="hover-underline" onMouseEnter={() => setSideSelected('right')} onMouseLeave={() => setSideSelected(null)}>{rSideTitle}</p>
                             </Link>
                         :
-                            <p className="hover-underline">{rSideTitle}</p>
+                            <p>{rSideTitle}</p>
                     }
                     <p>{rSideNote}</p>
                 </div>
@@ -43,11 +43,11 @@ export default function CharacterCard(
                     <Link className="clickable" prefetch={false} href={rSideLink}>
                         <div className="voice-actor-picture" onMouseEnter={() => setSideSelected('right')} onMouseLeave={() => setSideSelected(null)}>
                             <div className={`mask ${sideSelected == 'left' && 'selected'}`}></div>
-                            <img src={rSideSrc} alt=""/>
+                            <img src={rSideSrc ? rSideSrc : "/person-not-found.jpg"} alt=""/>
                         </div>
                     </Link>
                 :
-                    <img className="voice-actor-picture" src={rSideSrc} alt=""/>
+                    <img className="voice-actor-picture" src={rSideSrc ? rSideSrc : "/person-not-found.jpg"} alt=""/>
             }
         </div>
     )

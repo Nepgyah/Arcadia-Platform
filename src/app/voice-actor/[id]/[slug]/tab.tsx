@@ -1,7 +1,7 @@
 'use client';
 
 import TabButton from "@/components/ui/tabButton";
-import { Info, LayersPlus, Star, Tv, Users } from "lucide-react";
+import { Info, Tv, Gamepad2 } from "lucide-react";
 import React, { Children, useState } from "react";
 
 export default function TabWrapper({children}:{children: React.ReactNode}) {
@@ -11,10 +11,8 @@ export default function TabWrapper({children}:{children: React.ReactNode}) {
     return (
         <div>
             <div id="tab-container">
-                <TabButton label="Overview" value="0" currentValue={tab} icon={Info} setTabFunc={setTab}/>
-                <TabButton label="Characters" value="1" currentValue={tab} icon={Users} setTabFunc={setTab}/>
-                <TabButton label="DLC" value="2" currentValue={tab} icon={LayersPlus} setTabFunc={setTab}/>
-                {/* <TabButton label="Reviews" value="3" currentValue={tab} icon={Star} setTabFunc={setTab}/> */}
+                <TabButton label="Anime Roles" value="0" currentValue={tab} icon={Tv} setTabFunc={setTab}/>
+                <TabButton label="Game Roles" value="1" currentValue={tab} icon={Gamepad2} setTabFunc={setTab}/>
             </div>
             {Children.map(children, (child, idx) => (
                 <div hidden={tab !== `${idx}`}>

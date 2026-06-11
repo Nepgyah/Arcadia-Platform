@@ -30,7 +30,7 @@ export interface RESTResponse<T> {
     data: T
 }
 
-export interface Pagination {
+export interface PaginationInput {
     perPage: number,
-    currentPage: number
+    targetPage: number
 }
