@@ -7,13 +7,15 @@ interface CSRFResponse {
 }
 
 interface RefreshResponse {
-    access_token : {
-        value: string,
-        expiry: string
-    },
-    refresh_token: {
-        value: string,
-        expiry: string
+    data: {
+        access : {
+            value: string,
+            expiry: string
+        },
+        refresh: {
+            value: string,
+            expiry: string
+        }
     }
 }
 
@@ -47,23 +49,23 @@ async function RefreshToken(request: NextRequest, response: NextResponse) {
 
     if (!access_token && refresh_token) {
         try {
-            const refreshResponse = await arcadiaAPI.POST<RefreshResponse>('auth/refresh/', {refresh_token: refresh_token.value});
+            const refreshResponse = await arcadiaAPI.POST<RefreshResponse>('accounts/tokens/refresh/', {refresh: refresh_token.value});
             response.cookies.set({
                 name: 'access_token',
-                value: refreshResponse.access_token.value,
-                expires: new Date(refreshResponse.access_token.expiry)
+                value: refreshResponse.data.access.value,
+                expires: new Date(refreshResponse.data.access.expiry)
             })
     
             response.cookies.set({
                 name: 'refresh_token',
-                value: refreshResponse.refresh_token.value,
-                expires: new Date(refreshResponse.refresh_token.expiry)
+                value: refreshResponse.data.refresh.value,
+                expires: new Date(refreshResponse.data.refresh.expiry)
             })
     
-            request.cookies.set('access_token', refreshResponse.access_token.value)
-            request.cookies.set('refresh_token', refreshResponse.refresh_token.value)
+            request.cookies.set('access_token', refreshResponse.data.access.value)
+            request.cookies.set('refresh_token', refreshResponse.data.refresh.value)
         } catch {
-            console.log('Proxy error in refreshign tokens')
+            console.log('Proxy error on refreshing tokens')
             return NextResponse.rewrite(new URL('/service-unavailable', request.url))
         }
     }
