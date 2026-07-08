@@ -47,25 +47,23 @@ export class ArcadiaAPI {
         if (access_token) {
             headers['authorization'] = `Bearer ${access_token}`
         }
-        try {
-            const response = await fetch(
-                api_endpoint,
-                {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(body)
-                }
-            )
-            
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                throw 'Error occured within the Arcadia API'
+
+        const response = await fetch(
+            api_endpoint,
+            {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body)
             }
-        } catch {
-            throw 'Error occured attempting to call Arcadia REST POST endpoint'
+        )
+        
+        const data = await response.json()
+        if (!response.ok) {
+            console.log('THROWING', data.detail)
+            throw new Error(data.detail)
         }
+
+        return data;
     }
 
     GraphQL = cache(async <T>(query: any, variables = {}): Promise<T> => {

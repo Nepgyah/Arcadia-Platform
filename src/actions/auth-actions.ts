@@ -1,5 +1,6 @@
 'use server';
 import { arcadiaAPI } from '@/lib/api/arcadiaAPI';
+import { ActionResult, GraphqlResponse } from '@/types/api';
 import { cookies } from 'next/headers'
 
 interface LoginAsAdminResponse {
@@ -16,33 +17,49 @@ interface LoginAsAdminResponse {
     message: string
 }
 
-export async function LoginAsAdmin(email: string, password: string) : Promise<any> {
-    try {
-        const response = await arcadiaAPI.POST<LoginAsAdminResponse>(
-            'accounts/admin/login/',
-            {
-                email: email,
-                password: password
+export async function LoginAsAdmin(email: string, password: string) : Promise<ActionResult<any>> {
+    const query = `
+    mutation($email: String!, $password: String!){
+        loginAsAdmin(email: $email, password: $password) {
+            access {
+                value,
+                expiry
+            },
+            refresh {
+                value,
+                expiry
             }
-        )
+        }
+    }
+    `
 
+    const variables = {
+        'email': email,
+        'password': password
+    }
+
+    try {
+        const response = await arcadiaAPI.GraphQL<GraphqlResponse<any>>(query, variables)
         const cookieStore = await cookies()
-        console.log(response)
         cookieStore.set({
             name: 'access_token',
-            value: response.data.access.value,
-            expires: new Date(response.data.access.expiry)
+            value: response.data.loginAsAdmin.access.value,
+            expires: new Date(response.data.loginAsAdmin.access.expiry)
         })
-
+    
         cookieStore.set({
             name: 'refresh_token',
-            value: response.data.refresh.value,
-            expires: new Date(response.data.refresh.expiry)
+            value: response.data.loginAsAdmin.refresh.value,
+            expires: new Date(response.data.loginAsAdmin.refresh.expiry)
         })
-
-        return response.message
-    } catch(e: any) {
-        console.log(e)
-        throw "Invalid credentials"
+        return {
+            success: true,
+            data: null
+        }
+    } catch(error: any) {
+        return {
+            success: false,
+            error: error.message
+        }
     }
 }

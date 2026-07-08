@@ -7,6 +7,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import SetBreadcrumbs from "@/components/ui/breadcrumbs/setBreadcrumbs";
 import { LoginAsAdmin } from "@/actions/auth-actions";
+import { CreateErrorToaster, CreateSuccessToaster } from "@/lib/helper/toasterHelpers";
 import "@/styles/pages/auth/_admin-login.scss";
 
 export default function Page() {
@@ -16,23 +17,17 @@ export default function Page() {
 
     const handleLogin =  async () => {
         setLoading(true)
-        LoginAsAdmin(email, password)
-        .then((res) => {
-            toaster.create({
-                title: res,
-                type: 'success'
-            })
+        const result = await LoginAsAdmin(email, password)
+
+        if (result.success) {
+            CreateSuccessToaster('Logging In')
             setTimeout(() => {
                 window.location.href = '/'
             }, 3000)
-        })
-        .catch((res) => {
+        } else {
             setLoading(false)
-            toaster.create({
-                title: "Error",
-                type: 'error'
-            })
-        })
+            CreateErrorToaster(result.error)
+        }
     }
 
     return (
