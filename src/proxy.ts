@@ -31,7 +31,7 @@ async function GetCSRFToken(request: NextRequest, response: NextResponse) {
     const csrfToken = request.cookies.get('csrfToken');
     if (!csrfToken) {
         try {
-            const apiResponse = await arcadiaAPI.GET<CSRFResponse>('util/csrf/');
+            const apiResponse = await arcadiaAPI.GET<CSRFResponse>('csrf/');
             response.cookies.set({
                 name: 'csrfToken',
                 value: apiResponse.token
