@@ -8,6 +8,9 @@ import { Franchise } from "@/types/base";
 import { Anime } from "@/types/miru";
 
 import AnimeListInput from "../animeListInput";
+import { Button } from "@chakra-ui/react";
+import ReviewDialog from "@/components/shared/review/reviewDialog";
+import MediaActions from "./animeActions";
 
 export default function MetaData(
     { 
@@ -20,7 +23,13 @@ export default function MetaData(
 ) {
     return (
         <div id="metadata-column">
-            <AnimeListInput anime={anime} />
+            <div>
+                <Header text="Actions" />
+                <div className="flex flex-column row-gap-sm">
+                    <MediaActions animeID={anime.id} />
+                </div>
+            </div>
+            {/* <AnimeListInput anime={anime} /> */}
             <div>
                 <Header text="Socials" />
                 <Suspense fallback={<SocialsSkeleton />}>
