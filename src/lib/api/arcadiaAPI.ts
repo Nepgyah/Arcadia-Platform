@@ -1,4 +1,4 @@
-import { APIResult } from "@/types/api";
+import { APIMetadata, MutationResponse } from "@/types/api";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -70,7 +70,7 @@ export class ArcadiaAPI {
     async GraphMutation<T>(
         operation: any,
         variables: Record<string, any> = {}
-    ) : Promise<APIResult<T>> {
+    ) : Promise<MutationResponse<T>> {
         const API_ENDPOINT = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
         const headers = await this.setHeader()
         try {
@@ -86,18 +86,23 @@ export class ArcadiaAPI {
                 }
             )
 
-            const data = await response.json()
-            if(data.errors && data.errors.length > 0) {
-                console.log('ERROR DATA: ', data)
+            const graphqlresponse = await response.json()
+
+            if(graphqlresponse.errors && graphqlresponse.errors.length > 0) {
+                console.log('ERROR: ', graphqlresponse)
                 return {
                     success: false,
-                    error: data.errors[0].message
+                    message: graphqlresponse.errors[0].message
                 }
             }
-            console.log('SUCCESS DATA: ', data)
+
+            const payload = Object.values(graphqlresponse.data)[0] as T & Partial<APIMetadata>
+
             return {
                 success: true,
-                result: data.data
+                message: payload.message ?? "Action success",
+                detail: payload.detail ?? "API_MUTATION_SUCCESS",
+                data: payload
             }
         } catch(error: any) {
             // Misc errors not from api end, this causes server error page

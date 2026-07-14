@@ -36,27 +36,20 @@ export interface PaginationInput {
 }
 
 // NEW API
-export interface APIResponseMetadata {
+export interface APIMetadata {
     message: string,
-    detail: string
+    detail?: string
 }
 
-export type APIResult<T> = | {
-        success: true,
-        result: T
-    } | {
-        success: false,
-        error: string,
-    }
+export interface MutationSuccess<T> extends APIMetadata {
+    success: true,
+    data: T
+}
+
+export interface MutationError extends APIMetadata {
+    success: false
+}
+
 export type MutationResponse<T> = 
-    | { 
-        success: true, 
-        message: string,
-        detail?: string,
-        data?: T,
-    } | 
-    { 
-        success: false, 
-        message: string,
-        detail?: string,
-    }
+    | MutationSuccess<T>
+    | MutationError

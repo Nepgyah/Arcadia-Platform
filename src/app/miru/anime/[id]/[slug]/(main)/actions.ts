@@ -1,11 +1,11 @@
 'use server';
 
 import { arcadiaAPI } from "@/lib/api/arcadiaAPI";
-import { APIResponseMetadata, APIResult, MutationResponse } from "@/types/api";
+import { APIMetadata, MutationResponse } from "@/types/api";
 import { MediaReview, MediaReviewInput } from "@/types/base";
 
 interface CreateAnimeReviewResponse {
-    createAnimeReview: APIResponseMetadata & {
+    createAnimeReview: {
         review: MediaReview
     }
 }
@@ -14,6 +14,9 @@ export async function CreateAnimeReivew(animeID: number, details: MediaReviewInp
     const mutation = `
     mutation($animeID: Int!, $details: MediaReviewInput!) {
         createAnimeReview(animeId: $animeID, details: $details) {
+            review {
+                text
+            },
             message,
             detail
         }
@@ -25,16 +28,5 @@ export async function CreateAnimeReivew(animeID: number, details: MediaReviewInp
         'details': details
     }
 
-    const response = await arcadiaAPI.GraphMutation<CreateAnimeReviewResponse>(mutation, variables)
-    if (response.success) {
-        return {
-            success: true,
-            message: response.result.createAnimeReview.message,
-        }
-    } else {
-        return {
-            success: false,
-            message: response.error
-        }
-    }
+    return await arcadiaAPI.GraphMutation<CreateAnimeReviewResponse>(mutation, variables)
 }
