@@ -1,3 +1,4 @@
+import { APIResult } from "@/types/api";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -64,6 +65,44 @@ export class ArcadiaAPI {
         }
 
         return data;
+    }
+
+    async GraphMutation<T>(
+        operation: any,
+        variables: Record<string, any> = {}
+    ) : Promise<APIResult<T>> {
+        const API_ENDPOINT = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
+        const headers = await this.setHeader()
+        try {
+            const response = await fetch(
+                API_ENDPOINT,
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        query: operation,
+                        variables
+                    })
+                }
+            )
+
+            const data = await response.json()
+            if(data.errors && data.errors.length > 0) {
+                console.log('ERROR DATA: ', data)
+                return {
+                    success: false,
+                    error: data.errors[0].message
+                }
+            }
+            console.log('SUCCESS DATA: ', data)
+            return {
+                success: true,
+                result: data.data
+            }
+        } catch(error: any) {
+            // Misc errors not from api end, this causes server error page
+            throw Error(error)
+        }
     }
 
     GraphQL = cache(async <T>(query: any, variables = {}): Promise<T> => {

@@ -1,9 +1,11 @@
 'use client';
 
 import * as z from 'zod';
-import { ActionResult, MessagedActionResult } from "@/types/api";
-import { App, MediaReview } from '@/types/base';
+import { ActionResult, APIResult, MessagedActionResult, MutationResponse } from "@/types/api";
+import { App, MediaReview, MediaReviewInput } from '@/types/base';
 import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
+import { useState } from 'react';
+import { CreateErrorToaster, CreateSuccessToaster } from '@/lib/helper/toasterHelpers';
 
 interface DialogProps {
     isOpen: boolean,
@@ -11,9 +13,9 @@ interface DialogProps {
 }
 
 interface ServerActionSet {
-    create: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
-    update: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
-    delete: (mediaID: number) => Promise<MessagedActionResult<any>>
+    create: (mediaID: number, details: MediaReviewInput) => Promise<MutationResponse<any>>,
+    // update: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
+    // delete: (mediaID: number) => Promise<MessagedActionResult<any>>
 }
 
 const ReviewText = z.object({
@@ -25,20 +27,33 @@ export default function ReviewDialog(
         review,
         app,
         dialogState,
-        // serverActions,
+        serverActions,
         mediaID
     } : {
         review: MediaReview | null,
         app: App,
         dialogState: DialogProps,
-        // serverActions: ServerActionSet,
+        serverActions: ServerActionSet,
         mediaID: number
     }
 ) {
 
+    const [loading, setIsLoading] = useState<boolean>(false);
+    const [details, setDetails] = useState<MediaReviewInput>({score: -1, text: ''})
+    
+    const handleCreate = async () => {
+        setIsLoading(true)    
+        const response = await serverActions.create(mediaID, details)
+        if (response.success) {
+            CreateSuccessToaster(response.message)
+        } else {
+            CreateErrorToaster(response.message)
+        }
+    }
+
     return (
         <Dialog.Root>
-            <Dialog.Trigger>
+            <Dialog.Trigger asChild>
                 <Button>Review</Button>
             </Dialog.Trigger>
             <Portal>
@@ -55,8 +70,13 @@ export default function ReviewDialog(
                                     placeholder="Absolute Cinema / Aquired Taste / etc" 
                                     resize={'vertical'}
                                     minH={'10lh'}
-                                    // value={inputReview}
-                                    // onChange={(e) => setInputReview(e.target.value)}
+                                    value={details.text}
+                                    onChange={(e) =>
+                                        setDetails((prev) => ({
+                                            ...prev,
+                                            text: e.target.value,
+                                        }))
+                                    }
                                 />
                                 <Field.HelperText>Minimum 25, Maximum 2000 characters</Field.HelperText>
                             </Field.Root>
@@ -66,7 +86,7 @@ export default function ReviewDialog(
                                     <Button variant="outline">Close</Button>
                                 </Dialog.ActionTrigger>
                                 {
-                                    <Button className="btn-primary">
+                                    <Button className="btn-primary" onClick={handleCreate}>
                                         Create Review
                                     </Button>
                                     // !hasReview ?

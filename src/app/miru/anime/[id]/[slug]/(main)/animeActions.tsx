@@ -2,6 +2,7 @@
 
 import ReviewDialog from "@/components/shared/review/reviewDialog";
 import { useState } from "react";
+import { CreateAnimeReivew } from "./actions";
 
 export default function MediaActions({animeID}:{animeID: number}) {
 
@@ -15,6 +16,9 @@ export default function MediaActions({animeID}:{animeID: number}) {
             dialogState={{
                 isOpen: reviewOpen, 
                 setIsOpen: setReviewOpen
+            }}
+            serverActions={{
+                create: CreateAnimeReivew
             }}
         />
     )
