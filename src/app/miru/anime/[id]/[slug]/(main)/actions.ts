@@ -21,7 +21,6 @@ export async function GetAnimeReview(animeID: number) : Promise<GETResponse<GetA
             }
         }
     `
-    console.log('READING')
     const variables = { 'animeID': Number(animeID) }
     return await arcadiaAPI.GraphQuery<GetAnimeReviewResponse>(query, variables)
 }
@@ -51,4 +50,30 @@ export async function CreateAnimeReivew(animeID: number, details: MediaReviewInp
     }
 
     return await arcadiaAPI.GraphMutation<CreateAnimeReviewResponse>(mutation, variables)
+}
+
+interface UpdateAnimeReviewResponse {
+    updateAnimeReview: {
+        review: MediaReview
+    }
+}
+export async function UpdateAnimeReview(animeID: number, details: MediaReviewInput) : Promise<POSTResponse<UpdateAnimeReviewResponse>> {
+    const mutation = `
+    mutation($animeID: Int!, $details: MediaReviewInput!) {
+        updateAnimeReview(animeId: $animeID, details: $details) {
+            review {
+                text
+            },
+            message,
+            detail
+        }
+    }
+    `
+
+    const variables = {
+        'animeID': Number(animeID),
+        'details': details
+    }
+
+    return await arcadiaAPI.GraphMutation<UpdateAnimeReviewResponse>(mutation, variables)
 }

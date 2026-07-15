@@ -3,9 +3,10 @@
 import ReviewDialog from "@/components/shared/review/reviewDialog";
 import { useUserStore } from "@/app/store/userStore";
 import { useEffect, useState } from "react";
-import { CreateAnimeReivew, GetAnimeReview } from "./actions";
+import { CreateAnimeReivew, GetAnimeReview, UpdateAnimeReview } from "./actions";
 import { MediaReview } from "@/types/base";
 import MediaReviewContextWrapper, { MediaReviewContext } from "@/contexts/hasReviewContext";
+import { Button } from "@chakra-ui/react";
 
 export default function MediaActions({animeID}:{animeID: number}) {
 
@@ -31,7 +32,10 @@ export default function MediaActions({animeID}:{animeID: number}) {
     return (
         <MediaReviewContextWrapper hasReview={hasReview} setHasReview={setHasReview}>
             <ReviewDialog
-                review={null}
+                reviewProps={{
+                    review: review,
+                    setReview: setReview
+                }}
                 app={'miru'}
                 mediaID={animeID}
                 dialogState={{
@@ -39,9 +43,16 @@ export default function MediaActions({animeID}:{animeID: number}) {
                     setIsOpen: setReviewOpen
                 }}
                 serverActions={{
-                    create: CreateAnimeReivew
+                    create: CreateAnimeReivew,
+                    update: UpdateAnimeReview
                 }}
-            />
+            >
+                <Button className="btn-primary">
+                    {
+                        hasReview ? "Edit Review" : "Write a Review"
+                    }
+                </Button>
+            </ReviewDialog>
         </MediaReviewContextWrapper>
     )
 }

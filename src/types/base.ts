@@ -43,6 +43,7 @@ export interface MediaCast {
 export interface MediaReview {
     id: number,
     text: string,
+    score: number,
     media: Media,
     user: User,
     updatedAt: string

@@ -13,9 +13,14 @@ interface DialogProps {
     setIsOpen: (open: boolean) => void
 }
 
+interface ReviewProps {
+    review: MediaReview | null,
+    setReview: (review: MediaReview) => void
+}
+
 interface ServerActionSet {
     create: (mediaID: number, details: MediaReviewInput) => Promise<POSTResponse<any>>,
-    // update: (mediaID: number, text: string) => Promise<MutationResponse<any>>,
+    update: (mediaID: number, details: MediaReviewInput) => Promise<POSTResponse<any>>,
     // delete: (mediaID: number) => Promise<MutationResponse<any>>
 }
 
@@ -25,27 +30,48 @@ const ReviewText = z.object({
 
 export default function ReviewDialog(
     {
-        review,
+        reviewProps,
         app,
         dialogState,
         serverActions,
-        mediaID
+        mediaID,
+        children
     } : {
-        review: MediaReview | null,
+        reviewProps: ReviewProps,
         app: App,
         dialogState: DialogProps,
         serverActions: ServerActionSet,
-        mediaID: number
+        mediaID: number,
+        children: React.ReactNode
     }
 ) {
     const context = useContext(MediaReviewContext)
     if (!context) {
         throw new Error("ReviewDialog must be used within a MediaReviewContextWrapper");
     }
+
     const {hasReview, setHasReview} = context;
     const [loading, setIsLoading] = useState<boolean>(false);
-    const [details, setDetails] = useState<MediaReviewInput>({score: -1, text: ''})
+    const [details, setDetails] = useState<MediaReviewInput>({
+        score: -1,
+        text: "",
+    })
     
+    useEffect(() => {
+        if (reviewProps.review) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setDetails({
+                score: reviewProps.review.score,
+                text: reviewProps.review.text,
+            });
+        }
+    }, [reviewProps.review]);
+
+    const updateStates = () => {
+        setIsLoading(false)
+        dialogState.setIsOpen(false)
+    }
+
     const handleCreate = async () => {
         setIsLoading(true)    
         const response = await serverActions.create(mediaID, details)
@@ -54,6 +80,18 @@ export default function ReviewDialog(
         } else {
             CreateErrorToaster(response.message)
         }
+        updateStates()
+    }
+
+    const handleUpdate = async () => {
+        setIsLoading(true)
+        const response = await serverActions.update(mediaID, details)
+        if (response.success) {
+            CreateSuccessToaster(response.message)
+        } else {
+            CreateErrorToaster(response.message)
+        }
+        updateStates()
     }
 
     return (
@@ -64,7 +102,7 @@ export default function ReviewDialog(
             placement={'center'}
         >
             <Dialog.Trigger asChild>
-                <Button>Review</Button>
+                {children}
             </Dialog.Trigger>
             <Portal>
                 <Dialog.Backdrop>
@@ -102,7 +140,7 @@ export default function ReviewDialog(
                                         </Button>
                                     :
                                     <>
-                                        <Button className="btn-primary">Update</Button>
+                                        <Button className="btn-primary" onClick={handleUpdate}>Update</Button>
                                         <Button variant={'ghost'}>Delete</Button>
                                     </>
                                 }
