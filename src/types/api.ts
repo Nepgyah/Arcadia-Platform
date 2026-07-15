@@ -41,15 +41,24 @@ export interface APIMetadata {
     detail?: string
 }
 
-export interface MutationSuccess<T> extends APIMetadata {
+export interface POSTSuccess<T> extends APIMetadata {
     success: true,
     data: T
 }
 
-export interface MutationError extends APIMetadata {
+export interface POSTError extends APIMetadata {
     success: false
 }
 
-export type MutationResponse<T> = 
-    | MutationSuccess<T>
-    | MutationError
+export type POSTResponse<T> = 
+    | POSTSuccess<T>
+    | POSTError
+
+export type GETResponse<T> = 
+    | {
+        success: true,
+        data: T
+    } | {
+        success: false,
+        message: string
+    }

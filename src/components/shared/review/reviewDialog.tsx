@@ -1,11 +1,12 @@
 'use client';
 
 import * as z from 'zod';
-import { MutationResponse } from "@/types/api";
+import { POSTResponse } from "@/types/api";
 import { App, MediaReview, MediaReviewInput } from '@/types/base';
 import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CreateErrorToaster, CreateSuccessToaster } from '@/lib/helper/toasterHelpers';
+import MediaReviewContextWrapper, { MediaReviewContext } from '@/contexts/hasReviewContext';
 
 interface DialogProps {
     isOpen: boolean,
@@ -13,9 +14,9 @@ interface DialogProps {
 }
 
 interface ServerActionSet {
-    create: (mediaID: number, details: MediaReviewInput) => Promise<MutationResponse<any>>,
-    // update: (mediaID: number, text: string) => Promise<MessagedActionResult<any>>,
-    // delete: (mediaID: number) => Promise<MessagedActionResult<any>>
+    create: (mediaID: number, details: MediaReviewInput) => Promise<POSTResponse<any>>,
+    // update: (mediaID: number, text: string) => Promise<MutationResponse<any>>,
+    // delete: (mediaID: number) => Promise<MutationResponse<any>>
 }
 
 const ReviewText = z.object({
@@ -37,7 +38,11 @@ export default function ReviewDialog(
         mediaID: number
     }
 ) {
-
+    const context = useContext(MediaReviewContext)
+    if (!context) {
+        throw new Error("ReviewDialog must be used within a MediaReviewContextWrapper");
+    }
+    const {hasReview, setHasReview} = context;
     const [loading, setIsLoading] = useState<boolean>(false);
     const [details, setDetails] = useState<MediaReviewInput>({score: -1, text: ''})
     
@@ -52,7 +57,12 @@ export default function ReviewDialog(
     }
 
     return (
-        <Dialog.Root>
+        <Dialog.Root
+            open={dialogState.isOpen}
+            onOpenChange={(e) => dialogState.setIsOpen(e.open)} 
+            size={'lg'}
+            placement={'center'}
+        >
             <Dialog.Trigger asChild>
                 <Button>Review</Button>
             </Dialog.Trigger>
@@ -86,16 +96,15 @@ export default function ReviewDialog(
                                     <Button variant="outline">Close</Button>
                                 </Dialog.ActionTrigger>
                                 {
-                                    <Button className="btn-primary" onClick={handleCreate}>
-                                        Create Review
-                                    </Button>
-                                    // !hasReview ?
-                                    // <Button loading={isLoading} onClick={handleCreateReview} className="btn-primary">Create</Button>
-                                    // :
-                                    // <>
-                                    //     <Button loading={isLoading} onClick={handleUpdateReview} className="btn-primary">Update</Button>
-                                    //     <Button loading={isLoading} onClick={handleDeleteReview} variant={'ghost'}>Delete</Button>
-                                    // </>
+                                    !hasReview ?
+                                        <Button className="btn-primary" onClick={handleCreate}>
+                                            Create Review
+                                        </Button>
+                                    :
+                                    <>
+                                        <Button className="btn-primary">Update</Button>
+                                        <Button variant={'ghost'}>Delete</Button>
+                                    </>
                                 }
                                 </Dialog.Footer>
                             <Dialog.CloseTrigger asChild>

@@ -1,4 +1,4 @@
-import { APIMetadata, MutationResponse } from "@/types/api";
+import { APIMetadata, GETResponse, POSTResponse } from "@/types/api";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -68,41 +68,78 @@ export class ArcadiaAPI {
     }
 
     async GraphMutation<T>(
-        operation: any,
+        mutation: any,
         variables: Record<string, any> = {}
-    ) : Promise<MutationResponse<T>> {
+    ) : Promise<POSTResponse<T>> {
         const API_ENDPOINT = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
         const headers = await this.setHeader()
         try {
-            const response = await fetch(
+            const apiResponse = await fetch(
                 API_ENDPOINT,
                 {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({
-                        query: operation,
+                        query: mutation,
                         variables
                     })
                 }
             )
 
-            const graphqlresponse = await response.json()
+            const data = await apiResponse.json()
 
-            if(graphqlresponse.errors && graphqlresponse.errors.length > 0) {
-                console.log('ERROR: ', graphqlresponse)
+            if(data.errors && data.errors.length > 0) {
                 return {
                     success: false,
-                    message: graphqlresponse.errors[0].message
+                    message: data.errors[0].message
                 }
             }
 
-            const payload = Object.values(graphqlresponse.data)[0] as T & Partial<APIMetadata>
+            const payload = Object.values(data.data)[0] as T & Partial<APIMetadata>
 
             return {
                 success: true,
                 message: payload.message ?? "Action success",
                 detail: payload.detail ?? "API_MUTATION_SUCCESS",
                 data: payload
+            }
+        } catch(error: any) {
+            // Misc errors not from api end, this causes server error page
+            throw Error(error)
+        }
+    }
+
+    async GraphQuery<T>(
+        query: any,
+        variables: Record<string, any> = {}
+    ) : Promise<GETResponse<T>> {
+        const API_ENDPOINT = `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`;
+        const headers = await this.setHeader()
+        try {
+            const apiResponse = await fetch(
+                API_ENDPOINT,
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        query,
+                        variables
+                    })
+                }
+            )
+
+            const data = await apiResponse.json()
+
+            if(data.errors && data.errors.length > 0) {
+                return {
+                    success: false,
+                    message: data.errors[0].message
+                }
+            }
+
+            return {
+                success: true,
+                data: data.data
             }
         } catch(error: any) {
             // Misc errors not from api end, this causes server error page
