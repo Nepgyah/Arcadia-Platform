@@ -60,3 +60,8 @@ export interface Socials {
     twitter: Social,
     website: Social
 }
+
+export interface MediaReviewInput {
+    text: string,
+    score: number
+}

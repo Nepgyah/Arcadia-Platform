@@ -118,11 +118,12 @@ export default function ReviewDialog(
           open={dialogState.isOpen} 
           onOpenChange={(e) => dialogState.setIsOpen(e.open)} 
           size={'lg'}
+          placement={'center'}
         >
             <Portal>
               <Dialog.Backdrop />
               <Dialog.Positioner>
-                <Dialog.Content id={`${app}-theme`}>
+                <Dialog.Content id={`${app}-theme`} className='arc-dialog'>
                   <Dialog.Header>
                     <Dialog.Title>Game Review</Dialog.Title>
                   </Dialog.Header>
