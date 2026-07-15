@@ -15,17 +15,21 @@ interface DialogProps {
 
 interface ReviewProps {
     review: MediaReview | null,
-    setReview: (review: MediaReview) => void
+    setReview: (review: MediaReview | null) => void
 }
 
 interface ServerActionSet {
     create: (mediaID: number, details: MediaReviewInput) => Promise<POSTResponse<any>>,
     update: (mediaID: number, details: MediaReviewInput) => Promise<POSTResponse<any>>,
-    // delete: (mediaID: number) => Promise<MutationResponse<any>>
+    delete: (mediaID: number) => Promise<POSTResponse<any>>
 }
 
 const ReviewText = z.object({
-  text: z.string().min(25, 'Minimum 25 letters for a review').max(2000, 'Maximum 2000 letters for a review')
+  text: z.string().min(24, 'Minimum 24 letters for a review').max(2000, 'Maximum 2000 letters for a review')
+})
+
+const ReviewScore = z.object({
+    score: z.number().min(1, 'Invalid score option').max(10, 'Invalid score option')
 })
 
 export default function ReviewDialog(
@@ -61,12 +65,34 @@ export default function ReviewDialog(
         if (reviewProps.review) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setDetails({
-                score: reviewProps.review.score,
+                score: reviewProps.review.score ? reviewProps.review.score : -1,
                 text: reviewProps.review.text,
             });
         }
     }, [reviewProps.review]);
-
+    
+    const checkDetails = () : Boolean => {
+        const textResult = ReviewText.safeParse({
+            text: details.text
+        })
+        if (!textResult.success) {
+            CreateErrorToaster(textResult.error.issues[0].message)
+            setIsLoading(false)
+            return false
+        }
+        if (details.score != -1) {
+            const scoreResult = ReviewScore.safeParse({
+                score: details.score
+            })
+            if (!scoreResult.success) {
+                CreateErrorToaster(scoreResult.error.issues[0].message)
+                setIsLoading(false)
+                return false
+            }
+        }
+        return true
+    }
+    
     const updateStates = () => {
         setIsLoading(false)
         dialogState.setIsOpen(false)
@@ -74,23 +100,42 @@ export default function ReviewDialog(
 
     const handleCreate = async () => {
         setIsLoading(true)    
-        const response = await serverActions.create(mediaID, details)
-        if (response.success) {
-            CreateSuccessToaster(response.message)
-        } else {
-            CreateErrorToaster(response.message)
+        if (checkDetails()) {
+            const response = await serverActions.create(mediaID, details)
+            if (response.success) {
+                CreateSuccessToaster(response.message)
+                setHasReview(true)
+                reviewProps.setReview(response.data.review)
+            } else {
+                CreateErrorToaster(response.message)
+            }
+            updateStates()
         }
-        updateStates()
     }
 
     const handleUpdate = async () => {
         setIsLoading(true)
-        const response = await serverActions.update(mediaID, details)
+        if (checkDetails()) {
+            const response = await serverActions.update(mediaID, details)
+            if (response.success) {
+                CreateSuccessToaster(response.message)
+            } else {
+                CreateErrorToaster(response.message)
+            }
+            updateStates()
+        }
+    }
+
+    const handleDelete = async () => {
+        setIsLoading(true)
+        const response = await serverActions.delete(mediaID)
         if (response.success) {
             CreateSuccessToaster(response.message)
         } else {
             CreateErrorToaster(response.message)
         }
+        setHasReview(false)
+        reviewProps.setReview(null)
         updateStates()
     }
 
@@ -141,7 +186,7 @@ export default function ReviewDialog(
                                     :
                                     <>
                                         <Button className="btn-primary" onClick={handleUpdate}>Update</Button>
-                                        <Button variant={'ghost'}>Delete</Button>
+                                        <Button variant={'ghost'} onClick={handleDelete}>Delete</Button>
                                     </>
                                 }
                                 </Dialog.Footer>

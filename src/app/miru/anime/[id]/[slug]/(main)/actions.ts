@@ -31,7 +31,6 @@ interface CreateAnimeReviewResponse {
     }
 }
 export async function CreateAnimeReivew(animeID: number, details: MediaReviewInput) : Promise<POSTResponse<CreateAnimeReviewResponse>> {
-    console.log('ACTION', animeID, details)
     const mutation = `
     mutation($animeID: Int!, $details: MediaReviewInput!) {
         createAnimeReview(animeId: $animeID, details: $details) {
@@ -76,4 +75,22 @@ export async function UpdateAnimeReview(animeID: number, details: MediaReviewInp
     }
 
     return await arcadiaAPI.GraphMutation<UpdateAnimeReviewResponse>(mutation, variables)
+}
+
+interface DeleteAnimeReviewResponse {
+    deleteAnimeReview: {}
+}
+export async function DeleteAnimeReview(animeID: number) : Promise<POSTResponse<DeleteAnimeReviewResponse>> {
+    const mutation = `
+    mutation($animeID: Int!) {
+        deleteAnimeReview(animeId: $animeID) {
+            message,
+            detail
+        }
+    }
+    `
+
+    const variables = { 'animeID': Number(animeID) }
+
+    return await arcadiaAPI.GraphMutation<DeleteAnimeReviewResponse>(mutation, variables)
 }

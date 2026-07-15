@@ -3,7 +3,7 @@
 import ReviewDialog from "@/components/shared/review/reviewDialog";
 import { useUserStore } from "@/app/store/userStore";
 import { useEffect, useState } from "react";
-import { CreateAnimeReivew, GetAnimeReview, UpdateAnimeReview } from "./actions";
+import { CreateAnimeReivew, DeleteAnimeReview, GetAnimeReview, UpdateAnimeReview } from "./actions";
 import { MediaReview } from "@/types/base";
 import MediaReviewContextWrapper, { MediaReviewContext } from "@/contexts/hasReviewContext";
 import { Button } from "@chakra-ui/react";
@@ -44,7 +44,8 @@ export default function MediaActions({animeID}:{animeID: number}) {
                 }}
                 serverActions={{
                     create: CreateAnimeReivew,
-                    update: UpdateAnimeReview
+                    update: UpdateAnimeReview,
+                    delete: DeleteAnimeReview
                 }}
             >
                 <Button className="btn-primary">
