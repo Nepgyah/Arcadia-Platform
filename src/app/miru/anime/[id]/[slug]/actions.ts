@@ -16,9 +16,9 @@ export async function FetchAnimeListEntryAction(animeID: number) : Promise<Actio
     query ($animeID: Int!) {
         miru {
             animeEntry(animeId: $animeID) {
+                currentEpisode,
                 status,
-                score,
-                currentEpisode
+                note
             }
         }
     }

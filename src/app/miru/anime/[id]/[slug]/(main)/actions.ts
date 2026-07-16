@@ -94,3 +94,11 @@ export async function DeleteAnimeReview(animeID: number) : Promise<POSTResponse<
 
     return await arcadiaAPI.GraphMutation<DeleteAnimeReviewResponse>(mutation, variables)
 }
+
+// interface GetAnimeListResponse {
+
+// }
+
+// export async function GetAnimeList(animeID: number) : Promise<POSTResponse<GetAnimeListResponse>> {
+    
+// }

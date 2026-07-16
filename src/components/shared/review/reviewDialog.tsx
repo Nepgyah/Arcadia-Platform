@@ -1,13 +1,12 @@
 'use client';
 
+import { useContext, useEffect, useState } from 'react';
 import * as z from 'zod';
 import { POSTResponse } from "@/types/api";
 import { App, MediaReview, MediaReviewInput } from '@/types/base';
 import { Button, CloseButton, Dialog, Field, NativeSelect, Portal, Textarea } from '@chakra-ui/react';
-import { useContext, useEffect, useState } from 'react';
 import { CreateErrorToaster, CreateSuccessToaster } from '@/lib/helper/toasterHelpers';
-import MediaReviewContextWrapper, { MediaReviewContext } from '@/contexts/hasReviewContext';
-import SelectScore from '@/components/ui/selectScore';
+import { MediaReviewContext } from '@/contexts/hasReviewContext';
 
 interface DialogProps {
     isOpen: boolean,
@@ -171,7 +170,8 @@ export default function ReviewDialog(
                                             text: e.target.value,
                                         }))
                                     }
-                                />
+                                    />
+                                <Field.HelperText>Minimum 25, Maximum 2000 characters</Field.HelperText>
                                 <Field.Root>
                                     <Field.Label>Score</Field.Label>
                                     <NativeSelect.Root>
@@ -193,7 +193,6 @@ export default function ReviewDialog(
                                         </NativeSelect.Field>
                                     </NativeSelect.Root>
                                 </Field.Root>
-                                <Field.HelperText>Minimum 25, Maximum 2000 characters</Field.HelperText>
                             </Field.Root>
                             </Dialog.Body>
                             <Dialog.Footer>
