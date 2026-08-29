@@ -28,7 +28,6 @@ export async function FetchAnimeListAction(profileID: number) : Promise<ActionRe
                         slug,
                         title
                     },
-                    score,
                     startWatchDate,
                     endWatchDate
                 },
@@ -38,7 +37,6 @@ export async function FetchAnimeListAction(profileID: number) : Promise<ActionRe
                         slug,
                         title
                     },
-                    score,
                     startWatchDate,
                     endWatchDate
                 },
@@ -48,7 +46,6 @@ export async function FetchAnimeListAction(profileID: number) : Promise<ActionRe
                         slug,
                         title
                     },
-                    score,
                     startWatchDate,
                     endWatchDate
                 },
@@ -58,7 +55,6 @@ export async function FetchAnimeListAction(profileID: number) : Promise<ActionRe
                         slug,
                         title
                     },
-                    score,
                     startWatchDate,
                     endWatchDate
                 }
