@@ -3,6 +3,8 @@ import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/toaster";
 import UIWrapper from "@/components/wrapper/uiWrapper";
 
+import '@/styles/_main.scss';
+
 export const metadata: Metadata = {
     title: 'Arcadia',
     description: 'Welcome to Arcadia.',

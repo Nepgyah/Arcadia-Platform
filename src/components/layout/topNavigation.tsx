@@ -1,3 +1,5 @@
+import '@/styles/layout/navigation/_top-navigation.scss'
+
 export default function TopNavigation() {
 
     return (
