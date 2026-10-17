@@ -44,6 +44,28 @@ class baseAPI {
 
         return data
     }
+
+    async GRAPHQL<T>(query: string, variables: Record<string, unknown> = {}) : Promise<T> {
+        const url = `${this.rootURL}/graphql/`;
+        const headers = await this.setupHeader();
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                query,
+                variables
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.errors && data.errors.length > 0) {
+            throw new Error(data.errors[0].message);
+        }
+
+        return data.data as T;
+    }
 }
 
 export const arcadiaAPI = new baseAPI(`${process.env.ARCADIA_URL}`) 
