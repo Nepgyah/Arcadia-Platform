@@ -1,0 +1,31 @@
+@use '../utils/variables' as *;
+
+#main-layout {
+    display: grid;
+    grid-template-columns: $navbar-width minmax(0, 1fr);
+    height: 100dvh;
+    overflow: hidden;
+
+    #inner-layout {
+        display: grid;
+        grid-template-rows: $navbar-height minmax(0, 1fr);
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+
+        #content {
+            background-color: $surface-base;
+            padding: 2rem;
+            min-width: 0;
+            min-height: 0;
+            overflow-y: auto;
+
+            #content-wrapper {
+                background-color: green;
+                max-width: 1200px;
+                min-height: 900px;
+                margin-inline: auto;
+            }
+        }
+    }
+}

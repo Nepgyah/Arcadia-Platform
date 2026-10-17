@@ -1,0 +1,117 @@
+
+@use "sass:color";
+
+$navbar-height: 90px;
+$navbar-width: 120px;
+
+$brand-indigo: #505477;
+$brand-indigo-dark: #3F3E56;
+
+$brand-sakura: #FFC2C2;
+$brand-rose: #C54B61;
+$brand-plum: #3D1F34;
+$brand-lavender: #A9ACD1;
+
+$neutral-50: #FFF6E1;
+$neutral-100: #E6E6EA;
+$neutral-200: #B9BAC4;
+$neutral-300: #858692;
+$neutral-400: #5B5C68;
+$neutral-500: #414147;
+$neutral-600: #303137;
+$neutral-700: #2C2D33;
+$neutral-800: #23242A;
+$neutral-900: #1C1D21;
+$neutral-950: #1C1D1F;
+
+$surface-canvas: $neutral-950;
+$surface-base: $neutral-800;
+$surface-elevated: $neutral-700;
+$surface-card: $neutral-900;
+$surface-overlay: #272830;
+
+$text-primary: #FFFFFF;
+$text-warm: $neutral-50;
+$text-muted: $neutral-200;
+$text-subtle: $neutral-300;
+$text-inverse: #3E3E42;
+
+$text-faded: rgba(#BBBBBB, 0.5);
+
+$border-subtle: $neutral-600;
+$border-default: $neutral-500;
+$border-strong: $neutral-400;
+
+$interactive-link: #8CB8F0;
+$interactive-focus: $brand-sakura;
+$interactive-selected: $brand-indigo;
+$interactive-hover: $brand-indigo-dark;
+
+$status-success: #4FAD83;
+$status-warning: #E9B85B;
+$status-error: #E56B75;
+$status-info: #78A9E8;
+
+$accent-gold: #E8BD68;
+$accent-blue: $interactive-link;
+$accent-purple: $brand-lavender;
+
+:root {
+  // Brand
+  --arc-brand-indigo: #{$brand-indigo};
+  --arc-brand-indigo-dark: #{$brand-indigo-dark};
+  --arc-brand-sakura: #{$brand-sakura};
+  --arc-brand-rose: #{$brand-rose};
+  --arc-brand-plum: #{$brand-plum};
+  --arc-brand-lavender: #{$brand-lavender};
+
+  // Neutral
+  --arc-neutral-50: #{$neutral-50};
+  --arc-neutral-100: #{$neutral-100};
+  --arc-neutral-200: #{$neutral-200};
+  --arc-neutral-300: #{$neutral-300};
+  --arc-neutral-400: #{$neutral-400};
+  --arc-neutral-500: #{$neutral-500};
+  --arc-neutral-600: #{$neutral-600};
+  --arc-neutral-700: #{$neutral-700};
+  --arc-neutral-800: #{$neutral-800};
+  --arc-neutral-900: #{$neutral-900};
+  --arc-neutral-950: #{$neutral-950};
+
+  // Surfaces
+  --arc-surface-canvas: #{$surface-canvas};
+  --arc-surface-base: #{$surface-base};
+  --arc-surface-elevated: #{$surface-elevated};
+  --arc-surface-card: #{$surface-card};
+  --arc-surface-overlay: #{$surface-overlay};
+
+  // Text
+  --arc-text-primary: #{$text-primary};
+  --arc-text-warm: #{$text-warm};
+  --arc-text-muted: #{$text-muted};
+  --arc-text-subtle: #{$text-subtle};
+  --arc-text-inverse: #{$text-inverse};
+  --arc-text-faded: #{$text-faded};
+
+  // Borders
+  --arc-border-subtle: #{$border-subtle};
+  --arc-border-default: #{$border-default};
+  --arc-border-strong: #{$border-strong};
+
+  // Interactive
+  --arc-interactive-link: #{$interactive-link};
+  --arc-interactive-focus: #{$interactive-focus};
+  --arc-interactive-selected: #{$interactive-selected};
+  --arc-interactive-hover: #{$interactive-hover};
+
+  // Status
+  --arc-status-success: #{$status-success};
+  --arc-status-warning: #{$status-warning};
+  --arc-status-error: #{$status-error};
+  --arc-status-info: #{$status-info};
+
+  // Data & media
+  --arc-accent-gold: #{$accent-gold};
+  --arc-accent-blue: #{$accent-blue};
+  --arc-accent-purple: #{$accent-purple};
+}

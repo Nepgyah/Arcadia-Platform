@@ -1,0 +1,7 @@
+@use '../../utils/variables' as *;
+
+#side-navigation {
+    display: grid;
+    grid-template-rows: $navbar-height 2fr 1fr;
+    background-color: $surface-canvas;
+}
