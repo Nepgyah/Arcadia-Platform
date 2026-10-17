@@ -2,12 +2,19 @@ import { cookies } from "next/headers";
 
 type fetchType = 'GET' | 'POST' | 'DELETE' | 'PUT';
 
-class baseAPI {
-    rootURL: string;
+export interface APIResponse {
+    message: string
+}
 
-    constructor(rootURL: string) {
-        this.rootURL = rootURL
+class baseAPI {
+    restURL: string;
+    graphqlURL: string;
+
+    constructor(restURL: string, graphURL: string) {
+        this.restURL = restURL,
+        this.graphqlURL = graphURL
     }
+
     async setupHeader() {
         const cookieStore = await cookies();
         const access_token = cookieStore.get('access_token')?.value
@@ -22,8 +29,8 @@ class baseAPI {
         return headers
     }
 
-    async FETCH<T>(endpoint: string, fetchType: fetchType, body: unknown) : Promise<T> {
-        const url = `${this.rootURL}${endpoint}`;
+    async FETCH<T>(endpoint: string, fetchType: fetchType, body?: unknown) : Promise<T & APIResponse> {
+        const url = `${this.restURL}${endpoint}`;
         const headers = await this.setupHeader()
 
         const response = await fetch(
@@ -42,11 +49,11 @@ class baseAPI {
             throw new Error(apiErrorMessage)
         }
 
-        return data
+        return data as T & APIResponse
     }
 
     async GRAPHQL<T>(query: string, variables: Record<string, unknown> = {}) : Promise<T> {
-        const url = `${this.rootURL}/graphql/`;
+        const url = `${this.graphqlURL}/graphql/`;
         const headers = await this.setupHeader();
 
         const response = await fetch(url, {
@@ -68,4 +75,4 @@ class baseAPI {
     }
 }
 
-export const arcadiaAPI = new baseAPI(`${process.env.ARCADIA_URL}`) 
+export const arcadiaAPI = new baseAPI(`${process.env.NEXT_PUBLIC_ARCADIA_API_URL}`, `${process.env.NEXT_PUBLIC_ARCADIA_GRAPH_URL}`) 

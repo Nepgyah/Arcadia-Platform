@@ -1,16 +1,11 @@
-'use client';
-
 import { CreateErrorToaster, CreateSuccessToaster } from "../toasterCreator";
-
-interface ActionResponse {
-    message: string
-}
+import { APIResponse } from "./baseAPI";
 
 // Helper funtion centralize handling server actions and raise proper toast notifications
-export default async function ActionHandler<T extends ActionResponse>(
+export default async function ActionHandler<T extends APIResponse>(
     action: () => Promise<T>,
     showSuccessMessage: boolean = false
-) {
+) : Promise<T | null> {
     try {
         const response = await action();
 
@@ -23,5 +18,7 @@ export default async function ActionHandler<T extends ActionResponse>(
         CreateErrorToaster(
             error instanceof Error ? error.message : String(error)
         );
+
+        return null
     }
 }

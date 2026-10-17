@@ -1,10 +1,13 @@
-import { Button } from "@chakra-ui/react";
+import { Suspense } from "react";
+import HomeContent from "./homeContent";
 
 export default async function Page() {
 
   return (
     <div id="page-home">
-      <Button colorPalette={'arcadia'} variant={'solid'}>Hello</Button>
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeContent />
+      </Suspense>
     </div>
   )
 }
