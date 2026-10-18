@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/toaster";
-import UIWrapper from "@/components/wrapper/uiWrapper";
+import LayoutWrapper from "@/components/wrapper/layoutWrapper";
 
 import '@/styles/_main.scss';
 
@@ -23,9 +23,9 @@ export default function RootLayout({
       <body>
         <Provider>
           <Toaster />
-          <UIWrapper>
+          <LayoutWrapper>
             {children}
-          </UIWrapper>
+          </LayoutWrapper>
         </Provider>
       </body>
     </html>

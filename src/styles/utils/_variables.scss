@@ -1,8 +1,10 @@
 
 @use "sass:color";
 
-$navbar-height: 90px;
-$navbar-width: 120px;
+$navbar-height: 80px;
+$navbar-width: 160px;
+
+$box-shadow: 0px 4px 4px rgba(#000000, .25);
 
 $brand-indigo: #505477;
 $brand-indigo-dark: #3F3E56;
@@ -55,6 +57,10 @@ $status-info: #78A9E8;
 $accent-gold: #E8BD68;
 $accent-blue: $interactive-link;
 $accent-purple: $brand-lavender;
+
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 12px;
 
 :root {
   // Brand
