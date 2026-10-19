@@ -30,6 +30,7 @@ export default function SideNavigation({urlSet}:{urlSet: URLItem[]}) {
             <footer id='profile-access'>
                 <Avatar.Root>
                     <Avatar.Fallback />
+                    <Avatar.Image src={'/profile-pictures/default.jpg'} />
                 </Avatar.Root>
                 <p id='profile-access__username'>Username</p>
                 <Button>

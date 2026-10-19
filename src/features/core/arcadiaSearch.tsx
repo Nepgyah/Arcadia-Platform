@@ -3,7 +3,7 @@
 import { Input, InputGroup } from "@chakra-ui/react";
 import { Search } from "lucide-react";
 
-export default function ArcadiaSearch() {
+export default function SearchArcadia() {
 
     return (
         <div id='search-arcadia'>
