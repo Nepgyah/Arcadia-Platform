@@ -4,9 +4,9 @@ export interface Media {
     users: number,
     franchise: unknown,
     summary: string,
-    cover_image_url: string,
-    banner_image_url: string,
-    bg_image_url: string,
+    coverImageUrl: string,
+    bannerImageUrl: string,
+    bgImageUrl: string,
     updated_at: string,
     created_at: string,
     slug: string

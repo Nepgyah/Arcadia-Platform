@@ -11,10 +11,10 @@ export default async function Page() {
   return (
     <div id="page-home">
       <Suspense fallback={<div>Loading...</div>}>
-        <MediaRow actionPromise={animeListPromise} />
+        <MediaRow actionPromise={animeListPromise} app="miru" />
       </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
-        <MediaRow actionPromise={gameListPromise} />
+        <MediaRow actionPromise={gameListPromise} app="asobu" />
       </Suspense>
     </div>
   )
