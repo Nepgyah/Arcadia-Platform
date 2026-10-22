@@ -2,6 +2,7 @@
 
 import { arcadiaAPI } from "@/lib/api/baseAPI";
 import { Media } from "@/types/media";
+import DelayAwait from "@/utils/delayAwait";
 
 interface AnimeListResponse {
     miru: {
@@ -49,6 +50,7 @@ interface GameListResponse {
 }
 
 export async function fetchGamesAction() {
+    await DelayAwait(30000)
     const query = 
     `
         query {

@@ -4,15 +4,25 @@
 
     &__image {
         height: 240px;
+        border-radius: $radius-md;
+        overflow: hidden;
+        box-shadow: $box-shadow;
+        transition: transform .2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
 
         img {
             object-fit: cover;
             height: inherit;
         }
+
     }
 
     &__title {
-        font-size: $font-size-md;
+        margin-top: .5rem;
+        font-size: $font-size-sm;
         color: $text-primary;
         
     }
