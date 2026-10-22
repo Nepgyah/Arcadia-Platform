@@ -1,8 +1,10 @@
 
 @use "sass:color";
 
-$navbar-height: 90px;
-$navbar-width: 120px;
+$navbar-height: 80px;
+$navbar-width: 160px;
+
+$box-shadow: 0px 4px 4px rgba(#000000, .25);
 
 $brand-indigo: #505477;
 $brand-indigo-dark: #3F3E56;
@@ -55,6 +57,17 @@ $status-info: #78A9E8;
 $accent-gold: #E8BD68;
 $accent-blue: $interactive-link;
 $accent-purple: $brand-lavender;
+
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 12px;
+
+$font-size-xs:   0.75rem;   // 12px
+$font-size-sm:   0.875rem;  // 14px
+$font-size-md:   1rem;      // 16px (body)
+$font-size-lg:   1.125rem;  // 18px
+$font-size-xl:   1.25rem;   // 20px
+$font-size-2xl:  1.5rem;    // 24px
 
 :root {
   // Brand

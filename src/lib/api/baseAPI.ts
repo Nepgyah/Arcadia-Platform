@@ -56,7 +56,9 @@ class baseAPI {
         const url = `${this.graphqlURL}/graphql/`;
         const headers = await this.setupHeader();
 
-        const response = await fetch(url, {
+        const response = await fetch(
+            `${this.graphqlURL}`, 
+        {
             method: 'POST',
             headers,
             body: JSON.stringify({

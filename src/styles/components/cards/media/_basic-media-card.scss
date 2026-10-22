@@ -1,0 +1,19 @@
+@use '../../../utils/variables' as *;
+
+.basic-media-card {
+
+    &__image {
+        height: 240px;
+
+        img {
+            object-fit: cover;
+            height: inherit;
+        }
+    }
+
+    &__title {
+        font-size: $font-size-md;
+        color: $text-primary;
+        
+    }
+}

@@ -1,6 +1,6 @@
 @use '../utils/variables' as *;
 
-#main-layout {
+#desktop-layout {
     display: grid;
     grid-template-columns: $navbar-width minmax(0, 1fr);
     height: 100dvh;
@@ -13,7 +13,7 @@
         min-height: 0;
         overflow: hidden;
 
-        #content {
+        #page-content {
             background-color: $surface-base;
             padding: 2rem;
             min-width: 0;
@@ -21,11 +21,20 @@
             overflow-y: auto;
 
             #content-wrapper {
-                background-color: green;
                 max-width: 1200px;
                 min-height: 900px;
                 margin-inline: auto;
             }
         }
+    }
+}
+
+#mobile-layout {
+    display: grid;
+    grid-template-rows: $navbar-height minmax(0, 1fr);
+
+    #page-content {
+        background-color: $surface-base;
+        padding: 1rem;
     }
 }

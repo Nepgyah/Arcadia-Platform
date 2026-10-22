@@ -2,6 +2,47 @@
 
 #side-navigation {
     display: grid;
-    grid-template-rows: $navbar-height 2fr 1fr;
+    grid-template-rows: $navbar-height 1fr;
     background-color: $surface-canvas;
+    border-right: 1px solid $border-default;
+
+    #logo {
+        padding: .5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__content {
+        border-top: 1px solid $border-default;
+        padding: .5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #nav-links {
+        display: flex;
+        flex-direction: column;
+        row-gap: .5rem;
+        
+        a {
+            justify-content: start;
+        }
+    }
+
+    #profile-access {
+        padding: .5rem;
+        background-color: $brand-indigo;
+        border-radius: $radius-md;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: .5rem;
+
+        &__username {
+            color: $text-primary;
+        }
+    }
 }
