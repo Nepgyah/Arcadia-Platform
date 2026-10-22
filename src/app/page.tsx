@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import MediaRow from "./(homepage)/mediaRow";
 import { fetchAnimesAction, fetchGamesAction } from "./actions";
 import BasicMediaCardLoading from "@/components/cards/media/basicMediaCard/loading";
+import SectionHeader from "@/components/layout/sectionHeader";
 
 export default async function Page() {
 
@@ -10,12 +11,18 @@ export default async function Page() {
   const gameListPromise = fetchGamesAction()
   
   return (
-    <div id="page-home">
+    <div id="page-home" className="page-content">
       <Suspense fallback={<MediaRowLoading />}>
-        <MediaRow actionPromise={animeListPromise} app="miru" />
+        <div id="animes">
+          <SectionHeader title="Miru Animes" link={{ href: '/asobu/', text: 'See More'}} />
+          <MediaRow actionPromise={animeListPromise} app="miru" />
+        </div>
       </Suspense>
       <Suspense fallback={<MediaRowLoading />}>
-        <MediaRow actionPromise={gameListPromise} app="asobu" />
+        <div id="animes">
+          <SectionHeader title="Asobu Games" link={{ href: '/asobu/', text: 'See More'}} />
+          <MediaRow actionPromise={gameListPromise} app="asobu" />
+        </div>
       </Suspense>
     </div>
   )

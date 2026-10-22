@@ -50,7 +50,6 @@ interface GameListResponse {
 }
 
 export async function fetchGamesAction() {
-    await DelayAwait(30000)
     const query = 
     `
         query {
