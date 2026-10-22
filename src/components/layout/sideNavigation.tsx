@@ -2,7 +2,7 @@ import '@/styles/layout/navigation/_side-navigation.scss'
 import { URLItem } from '@/types/misc'
 import Link from 'next/link'
 import LinkButton from '../ui/button/linkButton'
-import { Avatar, Button } from '@chakra-ui/react'
+import { Avatar, Button, CloseButton, Drawer, Portal } from '@chakra-ui/react'
 import { UserCog } from 'lucide-react'
 
 export default function SideNavigation({urlSet}:{urlSet: URLItem[]}) {

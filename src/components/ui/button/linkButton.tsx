@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function LinkButton(
     {
-        label, href, Icon
+        label, href, Icon,
     } : {
         label: string,
         href: string,

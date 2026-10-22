@@ -5,9 +5,12 @@ import SideNavigation from "../layout/sideNavigation";
 import TopNavigation from "../layout/topNavigation";
 import { MainURL } from "@/lib/data/urls";
 import { URLItem } from "@/types/misc";
-import { Theme } from "@chakra-ui/react";
+import { Theme, useBreakpointValue, useMediaQuery } from "@chakra-ui/react";
+import MobileNavigation from "../layout/mobileNavigation";
 
 export default function LayoutWrapper({children}:{children:React.ReactNode}) {
+
+    const [isMobile] = useMediaQuery(["(max-width: 899px)"]);
     const pathname = usePathname()
 
     const getURLs = () : URLItem[] => {
@@ -19,17 +22,28 @@ export default function LayoutWrapper({children}:{children:React.ReactNode}) {
 
     return (
         <Theme colorPalette={'arcadia'}>
-            <div id="main-layout">
-                <SideNavigation urlSet={currentURLs} />
-                <div id="inner-layout">
-                    <TopNavigation />
+            {
+                isMobile ?
+                <div id="mobile-layout">
+                    <MobileNavigation urlSet={currentURLs} />
                     <div id="page-content">
-                        <div id="content-wrapper">
-                            {children}
+                        {children}
+                    </div>
+                </div>
+                :
+
+                <div id="desktop-layout">
+                    <SideNavigation urlSet={currentURLs} />
+                    <div id="inner-layout">
+                        <TopNavigation />
+                        <div id="page-content">
+                            <div id="content-wrapper">
+                                {children}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </Theme>
     )
 }
