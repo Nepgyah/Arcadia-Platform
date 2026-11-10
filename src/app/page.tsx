@@ -19,7 +19,7 @@ export default async function Page() {
       <Suspense fallback={<MediaRowLoading />}>
         <div id="animes">
           <SectionHeader appType="miru" title="Miru Animes" link={{ href: '/asobu/', text: 'See More'}} />
-          <MediaRow actionPromise={animeListPromise} app="miru" />
+          <MediaRow actionPromise={animeListPromise} app="miru"/>
         </div>
       </Suspense>
       <Suspense fallback={<MediaRowLoading />}>

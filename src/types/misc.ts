@@ -5,5 +5,3 @@ export interface URLItem {
     href: string,
     icon: LucideIcon
 }
-
-export type App = 'miru' | 'asobu' | 'yomu';

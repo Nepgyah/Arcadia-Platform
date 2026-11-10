@@ -5,17 +5,13 @@
     &__image {
         height: 180px;
         overflow: hidden;
-        transition: transform .2s ease-in-out;
-        
-        &:hover {
-            transform: scale(1.05);
-        }
         
         img {
             border-radius: $radius-md;
             box-shadow: $box-shadow;
             object-fit: cover;
             height: inherit;
+            width: 100%;
         }
 
     }

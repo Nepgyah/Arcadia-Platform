@@ -1,7 +1,14 @@
 @use './variables' as *;
 
 .on-hover {
+    &--grow {
+        transition: transform .2s ease-in-out;
 
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    
     &--cursor {
         &:hover {
             cursor: pointer;

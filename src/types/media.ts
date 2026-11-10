@@ -1,4 +1,5 @@
 export interface Media {
+    id: number,
     title: string,
     score: number,
     users: number,
