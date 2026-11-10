@@ -1,0 +1,7 @@
+@use '../utils/variables' as *;
+
+.arc-card {
+    border-radius: $radius-md;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+}

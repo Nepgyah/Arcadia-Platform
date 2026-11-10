@@ -1,12 +1,16 @@
 @forward './base';
 @forward './layout/main-layout';
 @forward './utils/util';
-@forward './layout/grid';
+@forward './layout/spacing';
 @use './utils/variables' as *;
 
 html {
     font-size: 18px;
     body {
-        
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2rem;
+        }
     }
 }

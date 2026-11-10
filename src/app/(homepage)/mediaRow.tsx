@@ -7,7 +7,7 @@ export default function MediaRow({actionPromise, app}:{actionPromise: Promise<Me
     const mediaList = use(actionPromise)
 
     return (
-        <div className="media-row grid grid--5 grid--gap-md">
+        <div className="media-row gap-md">
             {
                 mediaList.map((media: Media, idx: number) => (
                     <BasicMediaCard 

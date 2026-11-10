@@ -17,9 +17,9 @@ export const MainURL: URLItem[] = [
         href: '/asobu',
         icon: GamepadIcon
     },
-    {
-        label: 'Yomu',
-        href: '/yomu',
-        icon: BookBookmark
-    },
+    // {
+    //     label: 'Yomu',
+    //     href: '/yomu',
+    //     icon: BookBookmark
+    // },
 ]

@@ -2,6 +2,7 @@
 
 import { arcadiaAPI } from "@/lib/api/baseAPI";
 import { Media } from "@/types/media";
+import DelayAwait from "@/utils/delayAwait";
 
 interface AnimeListResponse {
     miru: {
