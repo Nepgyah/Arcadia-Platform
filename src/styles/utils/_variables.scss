@@ -14,6 +14,11 @@ $brand-rose: #C54B61;
 $brand-plum: #3D1F34;
 $brand-lavender: #A9ACD1;
 
+$miru-primary: #61CF93;
+
+$asobu-primary: #EE473D;
+
+
 $neutral-50: #FFF6E1;
 $neutral-100: #E6E6EA;
 $neutral-200: #B9BAC4;
@@ -67,7 +72,7 @@ $font-size-sm:   0.875rem;  // 14px
 $font-size-md:   1rem;      // 16px (body)
 $font-size-lg:   1.125rem;  // 18px
 $font-size-xl:   1.25rem;   // 20px
-$font-size-2xl:  1.5rem;    // 24px
+$font-size-2xl:  3rem;    // 24px
 
 :root {
   // Brand
@@ -77,6 +82,9 @@ $font-size-2xl:  1.5rem;    // 24px
   --arc-brand-rose: #{$brand-rose};
   --arc-brand-plum: #{$brand-plum};
   --arc-brand-lavender: #{$brand-lavender};
+
+   --arc-miru-primary: #{$miru-primary};
+  --arc-asobu-primary: #{$asobu-primary};
 
   // Neutral
   --arc-neutral-50: #{$neutral-50};

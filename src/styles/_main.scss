@@ -1,7 +1,7 @@
 @forward './base';
 @forward './layout/main-layout';
 @forward './utils/util';
-@forward './layout/grid';
+@forward './layout/spacing';
 @use './utils/variables' as *;
 
 html {

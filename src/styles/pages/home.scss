@@ -1,0 +1,63 @@
+@use '../utils/variables' as *;
+
+#page-home {
+    
+    #greeting-image {
+        p {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            color: $text-primary;
+            z-index: 3;
+            font-size: $font-size-2xl;
+        }
+
+        .mask {
+            opacity: .25;
+        }
+
+        img {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .media-row {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 320px) {
+    #page-home {
+        .media-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+@media screen and (min-width: 476px) {
+    #page-home {
+        .media-row {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #page-home {
+        .media-row {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #page-home {
+        .media-row {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+}

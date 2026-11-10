@@ -1,19 +1,19 @@
 @use '../../../utils/variables' as *;
 
 .basic-media-card {
-
+    
     &__image {
-        height: 240px;
-        border-radius: $radius-md;
+        height: 180px;
         overflow: hidden;
-        box-shadow: $box-shadow;
         transition: transform .2s ease-in-out;
-
+        
         &:hover {
             transform: scale(1.05);
         }
-
+        
         img {
+            border-radius: $radius-md;
+            box-shadow: $box-shadow;
             object-fit: cover;
             height: inherit;
         }
@@ -25,5 +25,23 @@
         font-size: $font-size-sm;
         color: $text-primary;
         
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .basic-media-card {
+
+        &__image {
+            height: 240px;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .basic-media-card {
+
+        &__image {
+            height: 320px;
+        }
     }
 }
