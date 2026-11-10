@@ -1,10 +1,15 @@
-export default function Layout(
+import { GetAnimeAction } from "./action"
+
+export default async function Layout(
     {
-        children
+        children, params
     } : {
-        children: React.ReactNode
+        children: React.ReactNode,
+        params: Promise<{id: string, slug: string}>
     }
 ) {
+    const { id, slug } = await params
+    GetAnimeAction(Number(id))
 
     return (
         <div>
