@@ -1,0 +1,27 @@
+@use '../../utils/variables' as *;
+
+#layout-anime-details {
+
+    #header {
+        height: 250px;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .mask {
+            // opacity: 25%;
+        }
+        p {
+            color: $miru-primary;
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            z-index: 3;
+            font-weight: bold;
+            font-size: $font-size-2xl;
+        }
+    }
+}

@@ -15,7 +15,8 @@ export async function GetAnimeAction(animeID: number) {
                     title,
                     status,
                     slug,
-                    bgImageUrl
+                    bgImageUrl,
+                    bannerImageUrl
                 }
             }
         }
