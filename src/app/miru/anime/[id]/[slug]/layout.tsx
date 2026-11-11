@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation"
 import { GetAnimeAction } from "./action"
 
-import "@/styles/pages/miru/detail.scss"
+import "@/styles/layout/_media-details.scss";
+import "@/styles/pages/miru/detail.scss";
 
 export default async function Layout(
     {
@@ -21,13 +22,28 @@ export default async function Layout(
     const anime = result.miru.anime
 
     return (
-        <div id="layout-anime-details">
+        <div id="layout-anime-details" className="media-details">
             <div id="header" className="has-mask arc-card">
                 <img src={anime?.bannerImageUrl} />
                 <div className="mask mask--gradient"></div>
                 <p id="anime-title">{anime?.title}</p>
             </div>
-            {children}
+
+            <div id="media-layout">
+
+                <div id="media-sidebar">
+                    meta data
+                </div>
+                <div id="media-content">
+                    <div id="media-tabs">
+                        tabs
+                    </div>
+                    <div id="media-children">
+                        {children}
+
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
