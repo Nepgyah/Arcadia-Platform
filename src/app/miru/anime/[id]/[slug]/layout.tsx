@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation"
 import { GetAnimeAction } from "./action"
 
 export default async function Layout(
@@ -9,10 +10,14 @@ export default async function Layout(
     }
 ) {
     const { id, slug } = await params
-    GetAnimeAction(Number(id))
+    const result = await GetAnimeAction(Number(id))
 
+    if (!result) {
+        notFound()
+    }
+    
     return (
-        <div>
+        <div id="layout-anime-details">
             {children}
         </div>
     )

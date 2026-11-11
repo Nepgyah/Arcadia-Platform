@@ -1,6 +1,11 @@
 import { arcadiaAPI } from "@/lib/api/baseAPI";
 import { Media } from "@/types/media";
 
+interface GetAnimeResponse {
+    miru: {
+        anime: Media | null
+    }
+}
 export async function GetAnimeAction(animeID: number) {
     const query = `
         query ($animeID: Int!) {
@@ -17,6 +22,6 @@ export async function GetAnimeAction(animeID: number) {
     `
     const variables = { animeID: animeID }
 
-    const response = await arcadiaAPI.GRAPHQL<Media>(query, variables)
-    console.log(response)
+    const response = await arcadiaAPI.GRAPHQL<GetAnimeResponse>(query, variables)
+    return response
 }
