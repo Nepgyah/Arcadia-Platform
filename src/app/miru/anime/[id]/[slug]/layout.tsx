@@ -3,6 +3,8 @@ import { GetAnimeAction } from "./action"
 
 import "@/styles/layout/_media-details.scss";
 import "@/styles/pages/miru/detail.scss";
+import IconTabButton, { IconTabButtonProps } from "@/components/ui/button/iconTabButton";
+import { Info, Users } from "lucide-react";
 
 export default async function Layout(
     {
@@ -36,7 +38,17 @@ export default async function Layout(
                 </div>
                 <div id="media-content">
                     <div id="media-tabs">
-                        tabs
+                        {
+                            animeDetailLinks.map((link: Omit<IconTabButtonProps, 'app'>, idx: number) => (
+                                <IconTabButton 
+                                    key={link.label}
+                                    app="miru"
+                                    label={link.label}
+                                    href={`/miru/anime/${anime?.id}/${anime?.slug}/${link.href}`}
+                                    Icon={link.Icon}
+                                />
+                            ))
+                        }
                     </div>
                     <div id="media-children">
                         {children}
@@ -47,3 +59,16 @@ export default async function Layout(
         </div>
     )
 }
+
+const animeDetailLinks: Omit<IconTabButtonProps, 'app'>[] = [
+    {
+        label: 'Overview',
+        href: 'overview/',
+        Icon: Info
+    },
+    {
+        label: 'Users',
+        href: 'characters/',
+        Icon: Users
+    }
+]
