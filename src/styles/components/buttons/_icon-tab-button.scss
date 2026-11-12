@@ -1,0 +1,65 @@
+@use '../../utils/variables' as *;
+
+.icon-tab-button {
+    position: relative;
+
+    &--miru {
+
+        &:hover { 
+            .icon-tab-button__label {
+                color: $miru-primary;
+            }
+        }
+
+        .icon-tab-button__icon {
+            background-color: $miru-primary;
+        }
+    }
+
+    &--active {
+
+    }
+
+    &--inactive {
+        .icon-tab-button__label {
+            color: $text-faded;
+        }
+    }
+
+    &:hover {
+        .icon-tab-button__icon {
+            transform: scale(1.05);
+        }
+    }
+
+    &__icon {
+        border-radius: $radius-md;
+        position: relative;
+        margin: auto;
+        z-index: 2;
+        width: fit-content;
+        padding: .25rem;
+
+        transition: transform .15s ease-in;
+        svg {
+            height: 64px;
+            width: 64px;
+            color: white;
+        }
+    }
+
+    &__label {
+        border-radius: $radius-md;
+        position: relative;
+        z-index: 1;
+        margin: -32px auto 0;
+        padding: 2rem 1rem 1rem;
+        background-color: $surface-canvas;
+        color: $text-primary;
+        text-align: center;
+        font-size: $font-size-xl;
+        font-weight: bold;
+
+        transition: color .15s ease-in;
+    }
+}

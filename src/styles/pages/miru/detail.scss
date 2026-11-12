@@ -7,4 +7,17 @@
             color: $miru-primary;
         }
     }
+
+    #media-layout {
+        #media-content {
+            #media-tabs {
+                display: flex;
+                column-gap: 2rem;
+
+                .icon-tab-button {
+                    width: 200px;
+                }
+            }
+        }
+    }
 }

@@ -4,7 +4,7 @@ import { GetAnimeAction } from "./action"
 import "@/styles/layout/_media-details.scss";
 import "@/styles/pages/miru/detail.scss";
 import IconTabButton, { IconTabButtonProps } from "@/components/ui/button/iconTabButton";
-import { Info, Users } from "lucide-react";
+import { BarChart3, Info, Users } from "lucide-react";
 
 export default async function Layout(
     {
@@ -45,7 +45,7 @@ export default async function Layout(
                                     app="miru"
                                     label={link.label}
                                     href={`/miru/anime/${anime?.id}/${anime?.slug}/${link.href}`}
-                                    Icon={link.Icon}
+                                    icon={link.icon}
                                 />
                             ))
                         }
@@ -63,12 +63,17 @@ export default async function Layout(
 const animeDetailLinks: Omit<IconTabButtonProps, 'app'>[] = [
     {
         label: 'Overview',
-        href: 'overview/',
-        Icon: Info
+        href: '',
+        icon: <Info />
     },
     {
-        label: 'Users',
-        href: 'characters/',
-        Icon: Users
+        label: 'Characters',
+        href: 'characters',
+        icon: <Users />
+    },
+    {
+        label: 'Stats',
+        href: 'stats',
+        icon: <BarChart3 />
     }
 ]
