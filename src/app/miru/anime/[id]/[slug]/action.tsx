@@ -3,7 +3,7 @@ import { Media } from "@/types/media";
 
 interface GetAnimeResponse {
     miru: {
-        anime: Media | null
+        anime: Media
     }
 }
 export async function GetAnimeAction(animeID: number) {
@@ -16,13 +16,14 @@ export async function GetAnimeAction(animeID: number) {
                     status,
                     slug,
                     bgImageUrl,
-                    bannerImageUrl
+                    bannerImageUrl,
+                    franchise { id },
                 }
             }
         }
     `
     const variables = { animeID: animeID }
 
-    const response = await arcadiaAPI.GRAPHQL<GetAnimeResponse>(query, variables)
+    const response = await arcadiaAPI.GRAPHQL<GetAnimeResponse | null>(query, variables)
     return response
 }

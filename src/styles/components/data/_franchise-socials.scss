@@ -1,0 +1,97 @@
+@use '../../utils/variables' as *;
+
+$social-colors: (
+    website: $brand-rose,
+    reddit: #FF4500,
+    twitter: #1DA1F2,
+    youtube: #FF0000,
+    instagram: #E4405F
+);
+
+.socials-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    a {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+.sns-entry {
+    overflow: hidden;
+    border-radius: $radius-sm;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: .5rem;
+
+    background-color: $surface-card;
+
+    @each $platform, $color in $social-colors {
+        &--#{$platform} {
+            .sns-entry__icon {
+                background-color: $color;
+            }
+
+            &:hover {
+                .sns-entry__handle span {
+                    color: $color;
+
+                    &::after {
+                        background-color: $color;
+                    }
+                }
+            }
+        }
+    }
+
+    &:hover {
+        .sns-entry__handle {
+            span {
+                &::after {
+                    transform: scaleX(1);
+                    transform-origin: bottom left;
+                }
+            }
+        }
+    }
+
+    &__icon {
+        padding: .5rem;
+        height: 48px;
+        width: 48px;
+    }
+
+    &__handle {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        overflow: hidden;
+
+        span {
+            font-size: $font-size-sm;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+
+            transition: color .25s ease-out;
+            &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                transform: scaleX(0);
+                transform-origin: bottom right;
+                transition: transform 0.25s ease-out;
+            }
+        }
+    }
+}

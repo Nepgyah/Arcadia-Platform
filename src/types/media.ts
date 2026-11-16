@@ -1,9 +1,11 @@
+import { Franchise } from "./base";
+
 export interface Media {
     id: number,
     title: string,
     score: number,
     users: number,
-    franchise: unknown,
+    franchise: Franchise | null,
     summary: string,
     coverImageUrl: string,
     bannerImageUrl: string,

@@ -5,6 +5,8 @@ import "@/styles/layout/_media-details.scss";
 import "@/styles/pages/miru/detail.scss";
 import IconTabButton, { IconTabButtonProps } from "@/components/ui/button/iconTabButton";
 import { BarChart3, Info, Users } from "lucide-react";
+import GetFranchiseAction from "@/actions/franchise/getFranchiseAction";
+import {FranchiseSocials} from "@/components/data/franchiseSocials";
 
 export default async function Layout(
     {
@@ -23,6 +25,11 @@ export default async function Layout(
     
     const anime = result.miru.anime
 
+    let franchisePromise = null
+    if (anime.franchise) {
+        franchisePromise = GetFranchiseAction(anime.franchise.id)
+    }
+
     return (
         <div id="layout-anime-details" className="media-details">
             <div id="header" className="has-mask arc-card">
@@ -34,7 +41,7 @@ export default async function Layout(
             <div id="media-layout">
 
                 <div id="media-sidebar">
-                    meta data
+                    <FranchiseSocials franchisePromise={franchisePromise} />
                 </div>
                 <div id="media-content">
                     <div id="media-tabs">
