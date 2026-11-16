@@ -7,6 +7,7 @@ import IconTabButton, { IconTabButtonProps } from "@/components/ui/button/iconTa
 import { BarChart3, Info, Users } from "lucide-react";
 import GetFranchiseAction from "@/actions/franchise/getFranchiseAction";
 import {FranchiseSocials} from "@/components/data/franchiseSocials";
+import SectionHeader from "@/components/layout/sectionHeader";
 
 export default async function Layout(
     {
@@ -37,11 +38,32 @@ export default async function Layout(
                 <div className="mask mask--gradient"></div>
                 <p id="anime-title">{anime?.title}</p>
             </div>
-
+            <div id="sub-header">
+                <div id="summary">
+                    summary
+                </div>
+                <div id="stats">
+                    stats
+                </div>
+            </div>
             <div id="media-layout">
 
                 <div id="media-sidebar">
-                    <FranchiseSocials franchisePromise={franchisePromise} />
+                    <div id="franchise-socials">
+                        <SectionHeader title="Socials" />
+                        <FranchiseSocials franchisePromise={franchisePromise} />
+                    </div>
+                    <div id="misc-information">
+                        <SectionHeader title="Metadata" />
+
+                    </div>
+                    <div id="production">
+                        <SectionHeader title="Production" />
+
+                    </div>
+                    <div id="studios">
+                        <SectionHeader title="Studios" />
+                    </div>
                 </div>
                 <div id="media-content">
                     <div id="media-tabs">

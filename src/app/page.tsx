@@ -18,13 +18,13 @@ export default async function Page() {
       <GreetingBackground />
       <Suspense fallback={<MediaRowLoading />}>
         <div id="animes">
-          <SectionHeader appType="miru" title="Miru Animes" link={{ href: '/asobu/', text: 'See More'}} />
+          <SectionHeader title="Miru Animes" link={{ href: '/asobu/', text: 'See More'}} />
           <MediaRow actionPromise={animeListPromise} app="miru"/>
         </div>
       </Suspense>
       <Suspense fallback={<MediaRowLoading />}>
           <div id="games">
-            <SectionHeader appType="asobu" title="Asobu Games" link={{ href: '/asobu/', text: 'See More'}} />
+            <SectionHeader title="Asobu Games" link={{ href: '/asobu/', text: 'See More'}} />
             <MediaRow actionPromise={gameListPromise} app="asobu" />
           </div>
       </Suspense>

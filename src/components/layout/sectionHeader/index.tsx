@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react"
 import Link from "next/link"
 
 import '@/styles/components/_section-header.scss';
-import { AppType } from "@/types/arcadia";
 
 interface props {
     title: string,
@@ -10,16 +9,14 @@ interface props {
         href: string,
         text: string
     },
-    appType?: AppType
 }
 export default function SectionHeader({
     title,
     link,
-    appType = 'arcadia'
 }: props) {
 
     return (
-        <div className={`section-header ${link && 'section-header--has-link'} section-header--${appType}`}>
+        <div className={`section-header ${link && 'section-header--has-link'}`}>
             <div className="section-header__box"></div>
             <div className="section-header__content">
                 <p className="section-header__title">{title}</p>

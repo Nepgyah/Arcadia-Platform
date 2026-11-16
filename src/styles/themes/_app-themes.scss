@@ -1,0 +1,18 @@
+@use '../utils/variables' as *;
+
+$app-colors: (
+    miru: $miru-primary,
+    asobu: $asobu-primary
+);
+
+@each $app, $color in $app-colors {
+    ##{$app}-layout {
+        .section-header {
+            border-color: $color;
+
+            &__box {
+                background-color: $color;
+            }
+        }
+    }
+}
