@@ -14,5 +14,11 @@ $app-colors: (
                 background-color: $color;
             }
         }
+        
+        .mc-card {
+            &__name {
+                color: $color;
+            }
+        }
     }
 }

@@ -23,7 +23,6 @@ export default async function Layout(
     if (!result) {
         notFound()
     }
-    
     const anime = result.miru.anime
 
     let franchisePromise = null

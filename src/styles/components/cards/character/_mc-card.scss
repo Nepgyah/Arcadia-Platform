@@ -1,0 +1,62 @@
+@use '../../../utils/variables' as *;
+
+.mc-card {
+    width: 250px;
+    height: 350px;
+
+    &__image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .mask {
+        background: $gradient-mask-black;
+    }
+
+    &__text {
+        padding: 1rem;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        z-index: 3;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__character {
+        padding-bottom: .5rem;
+        margin-bottom: .5rem;
+        border-bottom: 1px solid white;
+    }
+
+    &__name {
+        color: white;
+        font-weight: bold;
+        font-size: $font-size-lg;
+    }
+
+    &__nickname {
+        font-style: italic;
+        color: rgba(white, $alpha: .6);
+    }
+
+    &__voice-actor {
+        display: flex;
+        column-gap: .5rem;
+        align-items: center;
+
+        .voice-actor-text {
+            &__role {
+                font-size: $font-size-xs;
+                color: $text-faded;
+            }
+
+            &__name {
+                font-size: $font-size-xs;
+                color: white;
+            }
+        }
+    }
+}

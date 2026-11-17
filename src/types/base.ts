@@ -12,3 +12,28 @@ export interface Franchise {
     coverImage: string,
     socials: Social[]
 }
+
+export interface Character {
+    id: number,
+    coverImageUrl: string,
+    firstName: string,
+    lastName: string,
+    fullName: string
+    nicknames: string[],
+    slug: string
+}
+
+export interface MediaCharacter {
+    character: Character,
+    role: unknown,
+    voiceActor: VoiceActor
+}
+
+export interface VoiceActor {
+    id: string,
+    slug: string,
+    coverImageUrl: string,
+    firstName: string,
+    lastName: string,
+    fullName: string
+}

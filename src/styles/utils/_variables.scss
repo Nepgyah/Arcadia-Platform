@@ -63,6 +63,11 @@ $accent-gold: #E8BD68;
 $accent-blue: $interactive-link;
 $accent-purple: $brand-lavender;
 
+$gradient-mask-black: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, .9) 80%
+  );
 $radius-sm: 4px;
 $radius-md: 6px;
 $radius-lg: 12px;
