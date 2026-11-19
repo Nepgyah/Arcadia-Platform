@@ -9,10 +9,10 @@ interface Props {
 import "@/styles/components/cards/character/_mc-card.scss";
 import { Avatar } from "@chakra-ui/react";
 import { Cake, Heart } from "lucide-react";
+import { Tooltip } from "@/components/ui/tooltip";
 
 export default function MainCharacterCard(props: Props) {
 
-    // TODO: USE DESIGN 5, moving quote to right side
     return (
         <div className="mc-card arc-card">
             <div className="mc-card__avatar">
@@ -43,7 +43,7 @@ export default function MainCharacterCard(props: Props) {
                         </div>
                     </div>
                     <div className="mc-card__quote">
-                        <p>&quot;I&apos;m going to win this for the folks back home... But first, sustenance.&quot;</p>
+                        <p>{props.character.quote && `"${props.character.quote}"`}</p>
                     </div>
                 </div>
                 <div className="mc-card__voice-actors">
@@ -53,7 +53,9 @@ export default function MainCharacterCard(props: Props) {
                         </Avatar.Root>
                         <div className="mc-card-voice-actor__text">
                             <p>JP</p>
-                            <p>{props.voiceActor.fullName}</p>
+                            <Tooltip showArrow content={props.voiceActor.fullName}>
+                                <p>{props.voiceActor.fullName}</p>
+                            </Tooltip>
                         </div>
                     </div>
                     <div className="mc-card-voice-actor">
@@ -62,7 +64,9 @@ export default function MainCharacterCard(props: Props) {
                         </Avatar.Root>
                         <div className="mc-card-voice-actor__text">
                             <p>JP</p>
-                            <p>{props.voiceActor.fullName}</p>
+                            <Tooltip showArrow content={props.voiceActor.fullName}>
+                                <p>{props.voiceActor.fullName}</p>
+                            </Tooltip>
                         </div>
                     </div>
                 </div>

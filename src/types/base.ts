@@ -20,7 +20,8 @@ export interface Character {
     lastName: string,
     fullName: string
     nicknames: string[],
-    slug: string
+    slug: string,
+    quote: string
 }
 
 export interface MediaCharacter {

@@ -50,7 +50,8 @@ export async function GetAnimeCharactersAction(animeID: number) : Promise<MediaC
                             lastName,
                             fullName,
                             nicknames,
-                            coverImageUrl
+                            coverImageUrl,
+                            quote
                         },
                         role,
                         voiceActor {
