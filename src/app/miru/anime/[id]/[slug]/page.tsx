@@ -12,14 +12,14 @@ export default async function Page(
 ) {
     const { id, slug } = await params
     const characters = await GetAnimeCharactersAction(Number(id))
-    console.log("CHARS: ", characters)
+
     return (
         <div id="page-anime-detail">
             <div id="main-characters">
                 <SectionHeader title="Main Characters" />
                 <div className="container">
                     {
-                        characters.filter((node) => node.role == 'Main').map((node: MediaCharacter) => (
+                        characters.filter((node) => node.role == 'Main').map((node: MediaCharacter, idx: number) => (
                             <MainCharacterCard 
                                 key={node.character.fullName}
                                 character={node.character}

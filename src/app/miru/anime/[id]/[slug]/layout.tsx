@@ -39,10 +39,10 @@ export default async function Layout(
             </div>
             <div id="sub-header">
                 <div id="summary">
-                    summary
+                    TODO: ADD SUMMARY SECTION
                 </div>
                 <div id="stats">
-                    stats
+                    TODO: ADD STATS SECTION TAKE FROM MIRU STATS TABLE
                 </div>
             </div>
             <div id="media-layout">

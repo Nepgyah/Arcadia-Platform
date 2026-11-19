@@ -8,29 +8,62 @@ interface Props {
 
 import "@/styles/components/cards/character/_mc-card.scss";
 import { Avatar } from "@chakra-ui/react";
+import { Cake, Heart } from "lucide-react";
 
 export default function MainCharacterCard(props: Props) {
 
+    // TODO: USE DESIGN 5, moving quote to right side
     return (
-        <div className="mc-card has-mask arc-card">
-            <img className="mc-card__image" src={props.character.coverImageUrl} alt={props.character.fullName} />
-            <div className="mask"></div>
+        <div className="mc-card arc-card">
+            <div className="mc-card__avatar">
+                <img src={props.character.coverImageUrl} alt="" />
+            </div>
             <div className="mc-card__text">
-                <div className="mc-card__character">
-                    {
-                        props.character.nicknames.length > 0 &&
-                        <p className="mc-card__nickname">{props.character.nicknames[0]}</p>
-                    }
-                    <p className="mc-card__name">{props.character.fullName}</p>
+                <div className="mc-card__top-half">
+                    <div className="mc-card__meta">
+                        <div className="mc-card-names">
+                            <p className="mc-card-names__full-name">{props.character.fullName}</p>
+                            <p className="mc-card-names__nickname">{props.character.nicknames[0] ? props.character.nicknames[0] : "\u00A0"}</p>
+                        </div>
+                        <div className="mc-card-details">
+                            <div className="mc-card-detail">
+                                <Cake/>
+                                <div className="mc-card-detail__text">
+                                    <p>Birthday</p>
+                                    <p>TBA</p>
+                                </div>
+                            </div>
+                            <div className="mc-card-detail">
+                                <Heart/>
+                                <div className="mc-card-detail__text">
+                                    <p>Favorites</p>
+                                    <p>TBA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mc-card__quote">
+                        <p>&quot;I&apos;m going to win this for the folks back home... But first, sustenance.&quot;</p>
+                    </div>
                 </div>
-                <div className="mc-card__voice-actor">
-                    <Avatar.Root>
-                        <Avatar.Image src={props.voiceActor.coverImageUrl} />
-                    </Avatar.Root>
-                    <div className="voice-actor-text">
-                        <p className="voice-actor-text__role">VA (JP)</p>
-                        <p className="voice-actor-text__name">{props.voiceActor.fullName}</p>
-
+                <div className="mc-card__voice-actors">
+                    <div className="mc-card-voice-actor">
+                        <Avatar.Root size={'xs'}>
+                            <Avatar.Image src={props.voiceActor.coverImageUrl} />
+                        </Avatar.Root>
+                        <div className="mc-card-voice-actor__text">
+                            <p>JP</p>
+                            <p>{props.voiceActor.fullName}</p>
+                        </div>
+                    </div>
+                    <div className="mc-card-voice-actor">
+                        <Avatar.Root size={'xs'}>
+                            <Avatar.Image src={props.voiceActor.coverImageUrl} />
+                        </Avatar.Root>
+                        <div className="mc-card-voice-actor__text">
+                            <p>JP</p>
+                            <p>{props.voiceActor.fullName}</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,6 +37,14 @@
 
         }
     }
+
+    #main-characters {
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+    }
     #media-layout {
         margin-top: 1rem;
         display: grid;

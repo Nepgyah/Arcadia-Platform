@@ -16,8 +16,15 @@ $app-colors: (
         }
         
         .mc-card {
-            &__name {
-                color: $color;
+            .mc-card-names {
+                &__full-name {
+                    color: $color;
+                }
+            }
+            .mc-card-detail {
+                svg {
+                    color: $color;
+                }
             }
         }
     }
