@@ -27,7 +27,8 @@ export interface Character {
 export interface MediaCharacter {
     character: Character,
     role: unknown,
-    voiceActor: VoiceActor
+    jaVoiceActor: VoiceActor,
+    enVoiceActor: VoiceActor
 }
 
 export interface VoiceActor {

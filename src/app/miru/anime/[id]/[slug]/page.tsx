@@ -24,7 +24,8 @@ export default async function Page(
                                 key={node.character.fullName}
                                 character={node.character}
                                 role={String(node.role)}
-                                voiceActor={node.voiceActor}
+                                jaVoiceActor={node.jaVoiceActor}
+                                enVoiceActor={node.enVoiceActor}
                             />
                         ))
                     }

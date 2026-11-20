@@ -1,17 +1,12 @@
-import { Character, VoiceActor } from "@/types/base"
+import { Character, MediaCharacter, VoiceActor } from "@/types/base"
 
-interface Props {
-    character: Character,
-    role: string,
-    voiceActor: VoiceActor
-}
 
 import "@/styles/components/cards/character/_mc-card.scss";
 import { Avatar } from "@chakra-ui/react";
 import { Cake, Heart } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
 
-export default function MainCharacterCard(props: Props) {
+export default function MainCharacterCard(props: MediaCharacter) {
 
     return (
         <div className="mc-card arc-card">
@@ -49,23 +44,23 @@ export default function MainCharacterCard(props: Props) {
                 <div className="mc-card__voice-actors">
                     <div className="mc-card-voice-actor">
                         <Avatar.Root size={'xs'}>
-                            <Avatar.Image src={props.voiceActor.coverImageUrl} />
+                            <Avatar.Image src={props.jaVoiceActor.coverImageUrl} />
                         </Avatar.Root>
                         <div className="mc-card-voice-actor__text">
                             <p>JP</p>
-                            <Tooltip showArrow content={props.voiceActor.fullName}>
-                                <p>{props.voiceActor.fullName}</p>
+                            <Tooltip showArrow content={props.jaVoiceActor.fullName}>
+                                <p>{props.jaVoiceActor.fullName}</p>
                             </Tooltip>
                         </div>
                     </div>
                     <div className="mc-card-voice-actor">
                         <Avatar.Root size={'xs'}>
-                            <Avatar.Image src={props.voiceActor.coverImageUrl} />
+                            <Avatar.Image src={props.enVoiceActor.coverImageUrl} />
                         </Avatar.Root>
                         <div className="mc-card-voice-actor__text">
-                            <p>JP</p>
-                            <Tooltip showArrow content={props.voiceActor.fullName}>
-                                <p>{props.voiceActor.fullName}</p>
+                            <p>EN</p>
+                            <Tooltip showArrow content={props.enVoiceActor.fullName}>
+                                <p>{props.enVoiceActor.fullName}</p>
                             </Tooltip>
                         </div>
                     </div>

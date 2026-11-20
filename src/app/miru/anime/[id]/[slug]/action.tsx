@@ -54,7 +54,13 @@ export async function GetAnimeCharactersAction(animeID: number) : Promise<MediaC
                             quote
                         },
                         role,
-                        voiceActor {
+                        enVoiceActor {
+                            id,
+                            slug,
+                            coverImageUrl,
+                            fullName
+                        },
+                        jaVoiceActor {
                             id,
                             slug,
                             coverImageUrl,
