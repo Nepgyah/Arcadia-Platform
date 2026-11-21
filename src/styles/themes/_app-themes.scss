@@ -27,5 +27,12 @@ $app-colors: (
                 }
             }
         }
+
+        .stat-card {
+
+            &__value {
+                color: $color;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ import { BarChart3, Info, Users } from "lucide-react";
 import GetFranchiseAction from "@/actions/franchise/getFranchiseAction";
 import {FranchiseSocials} from "@/components/data/franchiseSocials";
 import SectionHeader from "@/components/layout/sectionHeader";
+import StatCard from "@/components/cards/statCard";
 
 export default async function Layout(
     {
@@ -39,10 +40,30 @@ export default async function Layout(
             </div>
             <div id="sub-header">
                 <div id="summary">
-                    TODO: ADD SUMMARY SECTION
+                    TODO 1: ADD SUMMARY SECTION
                 </div>
                 <div id="stats">
-                    TODO: ADD STATS SECTION TAKE FROM MIRU STATS TABLE
+                    <StatCard 
+                        label="Arcadia Rankings"
+                        value={`Users: ${anime.users}\nRating: ${anime.rating}`}
+                        icon={<Users />}
+                        opacity={.25}
+                        notes="Last Updated: TBD"
+                    />
+                    <StatCard 
+                        label="Anilist Rankings"
+                        value={`Score: ${anime.anilistData.rankScore}\nPopularity: ${anime.anilistData.rankPopular}`}
+                        icon={<img src={'/assets/partner-logos/anilist-logo.svg'} />}
+                        opacity={.5}
+                        notes="Last Updated: TBD"
+                    />
+                    <StatCard 
+                        label="MAL Rankings"
+                        value={`Score: ${anime.malData.rankScore}\nPopularity: ${anime.malData.rankPopular}`}
+                        icon={<img src={'/assets/partner-logos/mal-logo.svg'} />}
+                        opacity={.5}
+                        notes="Last Updated: TBD"
+                    />
                 </div>
             </div>
             <div id="media-layout">

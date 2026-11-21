@@ -1,0 +1,38 @@
+@use '../../utils/variables' as *;
+
+.stat-card {
+    background-color: $surface-card;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+
+    &__label {
+        color: white;
+        font-size: $font-size-sm;
+        margin-bottom: 1.5rem;
+    }
+
+    &__value {
+        font-size: $font-size-xl;
+        font-weight: bold;
+    }
+
+    &__notes {
+        margin-top: .5rem;
+        color: $text-muted;
+        font-size: $font-size-xs;
+    }
+    &__icon {
+        height: 90px;
+        width: 90px;
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+
+        svg {
+            color: white;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

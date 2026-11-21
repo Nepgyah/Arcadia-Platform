@@ -1,10 +1,11 @@
 import { arcadiaAPI } from "@/lib/api/baseAPI";
 import { Character, MediaCharacter } from "@/types/base";
 import { Media } from "@/types/media";
+import { Anime } from "@/types/miru";
 
 interface GetAnimeResponse {
     miru: {
-        anime: Media
+        anime: Anime
     }
 }
 export async function GetAnimeAction(animeID: number) {
@@ -19,6 +20,16 @@ export async function GetAnimeAction(animeID: number) {
                     bgImageUrl,
                     bannerImageUrl,
                     franchise { id },
+                    anilistData {
+                        rankScore,
+                        rankPopular
+                    },
+                    malData {
+                        rankScore,
+                        rankPopular,
+                    },
+                    users,
+                    rating,
                 }
             }
         }
