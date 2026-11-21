@@ -1,9 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">
+  <a href="#">Project Arcadia (Frontend)</a>
+</h1>
 
-## Getting Started
+<p align="center">
+ <a href="#about">About</a> •
+ <a href="#features">Features</a> •
+ <a href="#how-it-works">How it works</a> • 
+ <a href="#tech-stack">Tech Stack</a> •  
+ <a href="#author">Author</a> • 
+ <a href="#user-content-license">License</a>
+</p>
 
-First, run the development server:
+## About
+Welcome to the Arcadia platform! A multi app connects your otaku worlds together. Switch between exploring, managing and interacting with anime, games, manga, music and more with the click of a single button.
 
+## Features
+
+## how-it-works
+
+## Installation
+After downloading the repository, install the prequisites
+```bash
+npm install
+```
+
+Setup the following env values
+```bash
+NEXT_PUBLIC_ARCADIA_API_URL = 'http://127.0.0.1:8000/api/'
+NEXT_PUBLIC_ARCADIA_GRAPH_URL = 'http://127.0.0.1:8000/graphql/'
+```
+
+Run the development server
 ```bash
 npm run dev
 # or
@@ -13,24 +40,3 @@ pnpm dev
 # or
 bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
