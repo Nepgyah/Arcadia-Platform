@@ -33,7 +33,7 @@ export default async function Layout(
     }
 
     return (
-        <div id="layout-anime-details" className="media-details">
+        <div id="layout-anime-details" className="media-details page-spacing">
             <div id="header" className="has-mask arc-card">
                 <img src={anime?.bannerImageUrl} />
                 <div className="mask mask--gradient"></div>

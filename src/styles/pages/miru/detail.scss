@@ -16,6 +16,19 @@
         }
     }
 
+    #media-summary {
+        .section-card {
+            &__body {
+                padding: 0;
+                padding-bottom: 1rem;
+            }
+            &__body-scroll {
+                color: $text-primary;
+                padding: 1rem;
+                font-size: $font-size-sm;
+            }
+        }
+    }
     #media-layout {
         #media-content {
             #media-tabs {

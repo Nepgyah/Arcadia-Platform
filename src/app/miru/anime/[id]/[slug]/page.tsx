@@ -22,7 +22,7 @@ export default async function Page(
     const anime = result.miru.anime
 
     return (
-        <div id="page-anime-detail">
+        <div id="page-anime-detail" className="page-spacing">
             <div id="summary-latest">
                 <div id="media-summary">
                     <SectionCard
@@ -31,7 +31,7 @@ export default async function Page(
                         icon={Quote}
                         height={200}
                     >
-                        <p>{anime.summary}</p>
+                        <p dangerouslySetInnerHTML={{ __html: anime.summary}}></p>
                     </SectionCard>
                 </div>
             </div>

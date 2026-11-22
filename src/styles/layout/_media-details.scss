@@ -24,7 +24,6 @@
     }
 
     #sub-header {
-        margin: 1rem 0;
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 1rem;
@@ -70,7 +69,6 @@
     }
 
     #media-layout {
-        margin-top: 1rem;
         display: grid;
         grid-template-columns: 200px 1fr;
         column-gap: 1rem;

@@ -5,3 +5,9 @@
 .gap-md {
     gap: 1rem;
 }
+
+.page-spacing {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
