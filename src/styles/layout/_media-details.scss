@@ -47,6 +47,28 @@
             gap: 1rem;
         }
     }
+
+    #summary-latest {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        #media-summary {
+            // .section-card__body {
+            //     padding: 1rem;
+            //     max-height: 200px;
+            //     overflow-y: auto;
+            //     box-sizing: border-box;
+
+            //     p {
+            //         height: 200px;
+            //         font-size: $font-size-sm;
+            //         color: white;
+            //     }
+
+            // }
+        }
+    }
+
     #media-layout {
         margin-top: 1rem;
         display: grid;

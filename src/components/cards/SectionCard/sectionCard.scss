@@ -1,0 +1,56 @@
+@use '@/styles/utils/variables' as *;
+
+.section-card {
+    background-color: $surface-card;
+
+    &__header {
+        padding: 1rem;
+        border-bottom: 1px solid $border-default;
+        display: flex;
+        column-gap: .5rem;
+
+        &--has-background {
+
+        }
+    }
+
+    &__heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__title {
+        font-size: $font-size-xl;
+        font-weight: bold;
+    }
+
+    &__description {
+        font-size: $font-size-sm;
+        color: $text-faded;
+    }
+
+    &__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $brand-sakura;
+        color: white;
+        width: 64px;
+        height: 64px;
+        border-radius: $radius-sm;
+    }
+
+    &__body {
+        box-sizing: border-box;
+        padding: 1rem;
+
+        display: grid;
+        grid-template-rows: minmax(0, 1fr);
+
+        &-scroll {
+            min-height: 0;
+            overflow-y: auto;
+        }
+    }
+}

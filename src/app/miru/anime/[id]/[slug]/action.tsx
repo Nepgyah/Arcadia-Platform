@@ -15,6 +15,7 @@ export async function GetAnimeAction(animeID: number) {
                 anime(pk: $animeID) {
                     id,
                     title,
+                    summary,
                     status,
                     slug,
                     bgImageUrl,
