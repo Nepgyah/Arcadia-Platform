@@ -11,7 +11,7 @@ export default function MainCharacterCard(props: MediaCharacter) {
     return (
         <div className="mc-card arc-card">
             <div className="mc-card__avatar">
-                <img src={props.character.coverImageUrl} alt="" />
+                <img src={props.character?.coverImageUrl} alt="" />
             </div>
             <div className="mc-card__text">
                 <div className="mc-card__top-half">
@@ -42,29 +42,29 @@ export default function MainCharacterCard(props: MediaCharacter) {
                     </div>
                 </div>
                 <div className="mc-card__voice-actors">
-                    <div className="mc-card-voice-actor">
-                        <Avatar.Root size={'xs'}>
-                            <Avatar.Image src={props.jaVoiceActor.coverImageUrl} />
-                        </Avatar.Root>
-                        <div className="mc-card-voice-actor__text">
-                            <p>JP</p>
-                            <Tooltip showArrow content={props.jaVoiceActor.fullName}>
-                                <p>{props.jaVoiceActor.fullName}</p>
-                            </Tooltip>
-                        </div>
-                    </div>
-                    <div className="mc-card-voice-actor">
-                        <Avatar.Root size={'xs'}>
-                            <Avatar.Image src={props.enVoiceActor.coverImageUrl} />
-                        </Avatar.Root>
-                        <div className="mc-card-voice-actor__text">
-                            <p>EN</p>
-                            <Tooltip showArrow content={props.enVoiceActor.fullName}>
-                                <p>{props.enVoiceActor.fullName}</p>
-                            </Tooltip>
-                        </div>
-                    </div>
+                    {
+                        props.jaVoiceActor && <VoiceActorContent voiceActor={props.jaVoiceActor} lang="JP" />
+                    }
+                     {
+                        props.enVoiceActor && <VoiceActorContent voiceActor={props.enVoiceActor} lang="EN" />
+                    }
                 </div>
+            </div>
+        </div>
+    )
+}
+
+function VoiceActorContent({voiceActor, lang}:{voiceActor: VoiceActor, lang: string}) {
+    return (
+        <div className="mc-card-voice-actor">
+            <Avatar.Root size={'xs'}>
+                <Avatar.Image src={voiceActor.coverImageUrl} />
+            </Avatar.Root>
+            <div className="mc-card-voice-actor__text">
+                <p>{lang}</p>
+                <Tooltip showArrow content={voiceActor.fullName}>
+                    <p>{voiceActor.fullName}</p>
+                </Tooltip>
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import { use } from "react";
 import '@/styles/components/data/_franchise-socials.scss'
 import Link from "next/link";
 import { Tooltip } from "../ui/tooltip";
+import { SNSIcon } from "../ui/SNSIcon";
 
 export function FranchiseSocials(
     {
@@ -34,7 +35,7 @@ function SocialList({socials}:{socials: Social[]}) {
                     <a href={social.url} target="_blank">
                         <div className={`sns-entry sns-entry--${platform} box-shadow on-hover on-hover--cursor on-hover--grow`}>
                             <div className="sns-entry__icon">
-                                <GetSocialIcon platform={platform as SocialMediaType}  />
+                                <SNSIcon platform={platform as SocialMediaType}  />
                             </div>
                             <div className="sns-entry__handle">
                                 <span>{social.handle}</span>
@@ -48,23 +49,6 @@ function SocialList({socials}:{socials: Social[]}) {
     )
 }
 
-function GetSocialIcon({platform}:{platform: SocialMediaType}) {
-
-    switch(platform) {
-        case 'reddit': 
-            return <img src='/assets/sns/reddit.png' alt="" />
-        case 'twitter': 
-            return <img src='/assets/sns/twitter.png' alt="" />
-        case 'website': 
-            return <img src='/assets/sns/website.png' alt="" />
-        case 'youtube': 
-            return <img src='/assets/sns/youtube.png' alt="" />
-        case 'instagram': 
-            return <img src='/assets/sns/instagram.png' alt="" />
-        default:
-            return <p>hi</p>
-    }
-}
 
 function NoSocials() {
     return (

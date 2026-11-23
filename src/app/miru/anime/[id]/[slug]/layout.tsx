@@ -10,6 +10,7 @@ import {FranchiseSocials} from "@/components/data/franchiseSocials";
 import SectionHeader from "@/components/layout/sectionHeader";
 import StatCard from "@/components/cards/statCard";
 import SectionCard from "@/components/cards/SectionCard/SectionCard";
+import FranchiseCard from "@/components/cards/FranchiseCard/FranchiseCard";
 
 export default async function Layout(
     {
@@ -41,6 +42,7 @@ export default async function Layout(
             </div>
             <div id="sub-header">
                 <div id="franchise">
+                    <FranchiseCard franchisePromise={franchisePromise} />
                 </div>
                 <div id="stats">
                     <StatCard 
@@ -59,7 +61,7 @@ export default async function Layout(
                     />
                     <StatCard 
                         label="MAL Rankings"
-                        value={`Score: ${anime.malData.rankScore}\nPopularity: ${anime.malData.rankPopular}`}
+                        value={`Score: ${anime.malData?.rankScore}\nPopularity: ${anime.malData?.rankPopular}`}
                         icon={<img src={'/assets/partner-logos/mal-logo.svg'} />}
                         opacity={.5}
                         notes="Last Updated: TBD"
@@ -69,10 +71,6 @@ export default async function Layout(
             <div id="media-layout">
 
                 <div id="media-sidebar">
-                    <div id="franchise-socials">
-                        <SectionHeader title="Socials" />
-                        <FranchiseSocials franchisePromise={franchisePromise} />
-                    </div>
                     <div id="misc-information">
                         <SectionHeader title="Metadata" />
 
