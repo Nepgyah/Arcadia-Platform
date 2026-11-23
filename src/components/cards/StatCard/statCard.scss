@@ -1,15 +1,17 @@
-@use '../../utils/variables' as *;
+@use '@/styles/utils/variables' as *;
 
 .stat-card {
     background-color: $surface-card;
     padding: 1rem;
     position: relative;
     overflow: hidden;
-
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     &__label {
         color: white;
         font-size: $font-size-sm;
-        margin-bottom: 1.5rem;
     }
 
     &__value {

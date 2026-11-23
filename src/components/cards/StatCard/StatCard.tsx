@@ -6,16 +6,18 @@ interface props {
     notes?: string
 }
 
-import '@/styles/components/cards/_stat-card.scss';
+import './statCard.scss';
 
 export default function StatCard(props: props) {
 
     return (
         <div className="arc-card stat-card">
             <p className="stat-card__label">{props.label}</p>
-            <p className="stat-card__value" style={{ whiteSpace: 'pre-line' }}>{props.value}</p>
+            <div className='stat-card__content'>
+                <p className="stat-card__value" style={{ whiteSpace: 'pre-line' }}>{props.value}</p>
+                <p className='stat-card__notes'>{props.notes}</p>
+            </div>
             <div className='stat-card__icon' style={{ opacity: props.opacity}}>{props.icon}</div>
-            <p className='stat-card__notes'>{props.notes}</p>
         </div>
     )
 }

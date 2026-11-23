@@ -8,7 +8,7 @@ import { BarChart3, Info, Quote, Users } from "lucide-react";
 import GetFranchiseAction from "@/actions/franchise/getFranchiseAction";
 import {FranchiseSocials} from "@/components/data/franchiseSocials";
 import SectionHeader from "@/components/layout/sectionHeader";
-import StatCard from "@/components/cards/statCard";
+import StatCard from "@/components/cards/StatCard/StatCard";
 import SectionCard from "@/components/cards/SectionCard/SectionCard";
 import FranchiseCard from "@/components/cards/FranchiseCard/FranchiseCard";
 
@@ -54,14 +54,14 @@ export default async function Layout(
                     />
                     <StatCard 
                         label="Anilist Rankings"
-                        value={`Score: ${anime.anilistData.rankScore}\nPopularity: ${anime.anilistData.rankPopular}`}
+                        value={anime.anilistData ? `Score: ${anime.anilistData.rankScore}\nPopularity: ${anime.anilistData.rankPopular}`: 'No rank found'}
                         icon={<img src={'/assets/partner-logos/anilist-logo.svg'} />}
                         opacity={.5}
                         notes="Last Updated: TBD"
                     />
                     <StatCard 
                         label="MAL Rankings"
-                        value={`Score: ${anime.malData?.rankScore}\nPopularity: ${anime.malData?.rankPopular}`}
+                        value={anime.malData ? `Score: ${anime.malData?.rankScore}\nPopularity: ${anime.malData?.rankPopular}` : 'No rank found'}
                         icon={<img src={'/assets/partner-logos/mal-logo.svg'} />}
                         opacity={.5}
                         notes="Last Updated: TBD"
