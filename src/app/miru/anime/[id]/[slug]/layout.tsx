@@ -1,18 +1,17 @@
 import { notFound } from "next/navigation"
 import { GetAnimeAction } from "./action"
 
-import "@/styles/layout/_media-details.scss";
-import "@/styles/pages/miru/detail.scss";
 import IconTabButton, { IconTabButtonProps } from "@/components/ui/button/iconTabButton";
-import { BarChart3, Info, Quote, Users } from "lucide-react";
+import { BarChart3, Info, Users } from "lucide-react";
 import GetFranchiseAction from "@/actions/franchise/getFranchiseAction";
-import {FranchiseSocials} from "@/components/data/franchiseSocials";
 import SectionHeader from "@/components/layout/sectionHeader";
 import StatCard from "@/components/cards/StatCard/StatCard";
-import SectionCard from "@/components/cards/SectionCard/SectionCard";
 import FranchiseCard from "@/components/cards/FranchiseCard/FranchiseCard";
 import StatText from "@/components/data/StatText/StatText";
 import { Company } from "@/types/base";
+
+import "@/styles/layout/_media-details.scss";
+import "@/styles/pages/miru/detail.scss";
 
 export default async function Layout(
     {

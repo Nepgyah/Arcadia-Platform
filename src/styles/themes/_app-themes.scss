@@ -39,6 +39,10 @@ $app-colors: (
             &__title {
                 color: $color;
             }
+            
+            &__icon {
+                background-color: $color;
+            }
         }
 
         .franchise-card__name {
