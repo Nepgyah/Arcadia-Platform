@@ -15,11 +15,23 @@ export async function GetAnimeAction(animeID: number) {
                 anime(pk: $animeID) {
                     id,
                     title,
+                    titleNative,
                     summary,
                     status,
                     slug,
+                    type,
+                    season,
+                    rating,
                     bgImageUrl,
                     bannerImageUrl,
+                     producer {
+                        id,
+                        name
+                    },
+                    studio {
+                        id,
+                        name
+                    },
                     franchise { id },
                     anilistData {
                         rankScore,

@@ -1,25 +1,42 @@
 @use '../utils/variables' as *;
 
 .media-details {
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: .25rem;
+    }
     #header {
-        height: 200px;
+        height: 250px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 1rem;
 
-        img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
+        #media-banner {
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+    
+            .mask {
+                // opacity: 25%;
+            }
 
-        .mask {
-            // opacity: 25%;
-        }
-        p {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            z-index: 3;
-            font-weight: bold;
-            font-size: $font-size-2xl;
+            &__text {
+                position: absolute;
+                bottom: 1rem;
+                left: 1rem;
+                z-index: 3;
+                font-weight: bold;
+                font-size: $font-size-2xl;
+            }
+
+            &__sub-title {
+                font-size: $font-size-md;
+                color: $text-subtle;
+            }
         }
     }
 
@@ -28,9 +45,9 @@
         grid-template-columns: 1fr 2fr;
         gap: 1rem;
 
-        #franchise {
-            min-height: 225px;
-        }
+        // #franchise {
+        //     min-height: 225px;
+        // }
 
         #stats {
             display: grid;
@@ -67,21 +84,33 @@
             // }
         }
     }
-
+    
     #media-layout {
         display: grid;
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: 225px 1fr;
         column-gap: 1rem;
 
         #media-sidebar {
             display: flex;
             flex-direction: column;
             row-gap: 1rem;
+
+            #studios, #production {
+                color: $text-primary;
+            }
         }
 
         #media-content {
             
-   
+            #media-tabs {
+                display: flex;
+                justify-content: center;
+                column-gap: 2rem;
+
+                .icon-tab-button {
+                    width: 200px;
+                }
+            }
             #media-children {
                 margin-top: 1rem;
             }

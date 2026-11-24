@@ -5,7 +5,6 @@ export interface Media {
     title: string,
     score: number,
     users: number,
-    rating: number,
     franchise: Franchise | null,
     summary: string,
     coverImageUrl: string,

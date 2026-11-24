@@ -31,6 +31,12 @@ export interface MediaCharacter {
     enVoiceActor: VoiceActor
 }
 
+export interface Company {
+    id: number,
+    slug: string,
+    name: string
+}
+
 export interface VoiceActor {
     id: string,
     slug: string,

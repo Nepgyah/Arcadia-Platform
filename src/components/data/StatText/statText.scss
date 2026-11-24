@@ -1,0 +1,10 @@
+@use '@/styles/utils/variables' as *;
+
+.stat-text {
+    font-size: $font-size-sm;
+    color: $text-subtle;
+
+    span {
+        color: white;
+    }
+}

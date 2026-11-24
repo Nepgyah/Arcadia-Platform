@@ -1,6 +1,6 @@
 interface props {
     label: string,
-    value: any,
+    value: React.ReactNode,
     icon: React.ReactNode,
     opacity: number,
     notes?: string
