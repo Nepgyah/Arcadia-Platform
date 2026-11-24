@@ -7,6 +7,17 @@ $app-colors: (
 
 @each $app, $color in $app-colors {
     ##{$app}-layout {
+        * {
+            scrollbar-color: rgba($color, 0.6) transparent;
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba($color, 0.6);
+
+                &:hover {
+                    background: $color;
+                }
+            }
+        }
         .section-header {
             border-color: $color;
 

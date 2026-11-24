@@ -5,8 +5,50 @@
 @use './utils/variables' as *;
 @forward './themes/app-themes';
 
+@mixin custom-scrollbar(
+    $width: 6px,
+    $track: transparent,
+    $thumb: #454545,
+    $thumb-hover: #666666
+) {
+    &::-webkit-scrollbar {
+        width: $width;
+        height: $width;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $track;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $thumb;
+        border-radius: 10px;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: $thumb-hover;
+        }
+    }
+
+    // Firefox support
+    scrollbar-width: thin;
+    scrollbar-color: $thumb $track;
+}
+
+// Global scrollbar
+* {
+    @include custom-scrollbar(
+        10px,
+        transparent,
+        #3a3a3a,
+        #606060
+    );
+}
+
 html {
     font-size: 18px;
+    
     body {
         .page-content {
             display: flex;
