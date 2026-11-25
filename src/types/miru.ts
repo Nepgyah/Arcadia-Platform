@@ -19,5 +19,6 @@ export interface Anime extends Media {
         rankScore: number,
         rankPopular: number
     },
-
+    prequel: Anime,
+    sequels: Anime[]
 }

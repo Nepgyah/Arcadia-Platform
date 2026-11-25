@@ -43,6 +43,20 @@ export async function GetAnimeAction(animeID: number) {
                     },
                     users,
                     rating,
+                    prequel {
+                        id,
+                        slug,
+                        title,
+                        coverImageUrl,
+                        bannerImageUrl
+                    },
+                    sequels {
+                        id,
+                        slug,
+                        title,
+                        coverImageUrl,
+                        bannerImageUrl
+                    }
                 }
             }
         }

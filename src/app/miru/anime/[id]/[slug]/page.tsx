@@ -5,6 +5,8 @@ import MainCharacterCard from "@/components/cards/character/mainCharacter"
 import SectionCard from "@/components/cards/SectionCard/SectionCard"
 import { Quote } from "lucide-react"
 import { notFound } from "next/navigation"
+import RelationMediaCard from "@/components/cards/media/relationMediaCard"
+import { Anime } from "@/types/miru"
 
 export default async function Page(
     {
@@ -33,6 +35,29 @@ export default async function Page(
                     >
                         <p dangerouslySetInnerHTML={{ __html: anime.summary}}></p>
                     </SectionCard>
+                </div>
+            </div>
+            <div id="relations">
+                <SectionHeader title="Anime Flow" />
+                <div id="anime-flow-container">
+                    {
+                        anime.prequel && 
+                        <RelationMediaCard 
+                            media={anime.prequel} 
+                            relation="Prequel"
+                            link={`/miru/anime/${anime.id}/${anime.slug}`}
+                        />
+                    }
+                    {
+                        anime.sequels.map((anime: Anime) => (
+                            <RelationMediaCard 
+                                key={anime.id} 
+                                media={anime} 
+                                relation="Sequel"
+                                link={`/miru/anime/${anime.id}/${anime.slug}`}
+                            />
+                        ))
+                    }
                 </div>
             </div>
             <div id="main-characters">

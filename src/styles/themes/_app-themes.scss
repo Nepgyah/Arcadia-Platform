@@ -59,5 +59,15 @@ $app-colors: (
         .franchise-card__name {
             color: $color;
         }
+
+        .relation-media {
+            &__text {
+                p {
+                    &:first-child {
+                        color: $color;
+                    }
+                }
+            }
+        }
     }
 }
